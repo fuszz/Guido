@@ -1,0 +1,69 @@
+\documentclass[dokumentacja.tex]{subfiles}
+
+\begin{document}
+\section{Partytura}
+
+\subsection{Zależności}
+
+\paragraph*{Klasa \texttt{`Partytura'} importuje:}
+\begin{itemize}
+    \item klasę \textbf{Tonacja}
+    \item klasę \textbf{Akord}
+    \item klasę \textbf{Metrum} (jest to typ wyliczeniowy)
+\end{itemize}
+
+\subsection{Pola}
+\begin{itemize}
+    \item \texttt{\_tonacja} - przechowuje obiekt klasy Tonacja
+    \item \texttt{\_metrum} - przechowuje metrum. Jest to pole typu \texttt{Enum}
+    \item \texttt{\_liczba\_taktow} - przechowuje liczbę taktów w partyturze
+    \item \texttt{\_lista\_akordow} - przechowuje listę akordów w partyturze
+\end{itemize}
+
+\subsection{Metody}
+\begin{itemize}
+    \item Konstruktor parametryczny
+        \begin{python}
+    def __init__(self, nowa_tonacja: Tonacja, nowe_metrum: str, nowa_liczba_taktow): int
+        \end{python}
+        gdzie: \texttt{nowa\_tonacja}, \texttt{nowe\_metrum} i \texttt{nowa\_liczba\_taktow} są parametrami tworzonej partytury.
+
+    \item Akcesor metrum:
+          \begin{python}
+    def podaj_metrum(self) -> metrum.Metrum:
+          \end{python}
+
+    \item Akcesor tonacji:
+        \begin{python}
+    def podaj_tonacje(self) -> tonacja.Tonacja:
+        \end{python}
+
+    \item Akcesor liczby taktów:
+    \begin{python}
+    def podaj_liczbe_taktow(self) -> int:
+    \end{python}
+
+    \item Metoda umożliwiająca dodanie taktu do partytury:
+        \begin{python}
+    def dodaj_akord(self, nowy_akord: akord.Akord) -> None:
+        \end{python}
+        gdzie \texttt{nowy\_akord} jest obiektem klasy Akord, który zostanie dodany na koniec listy akordów partytury.
+
+    \item Metoda umożliwiająca zakończenie taktu:
+        \begin{python}
+    def zakoncz_takt(self) -> None:
+        \end{python}
+
+    \item Metoda, która sprawdza, czy liczba taktów jest poprawna:
+        \begin{python}
+    def czy_poprawna_liczba_taktow(self) -> bool:
+        \end{python}
+        Metoda ta zwraca \texttt{True}, gdy liczba taktów w tablicy akordów jest taka sama jak zadeklarowana w konstrukorze i \texttt{False} w przeciwnym wypadku.
+
+    \item Akcesor listy akordów:
+        \begin{python}
+    def podaj_liste_akordow(self) -> List[Union[akord.Akord, str]]:
+        \end{python}
+        który zwraca listę obiektów klasy \texttt{Akord} oraz liter \texttt{T}, którymi oznaczono koniec taktu w liście akordów. 
+\end{itemize}
+\end{document}

@@ -1,0 +1,86 @@
+\documentclass[dokumentacja.tex]{subfiles}
+
+\begin{document}
+\section{Dźwięk}
+
+\subsection{Zależności}
+\paragraph*{Klasa \texttt{`Dzwiek'} importuje:}
+\begin{itemize}
+    \item Klasę \texttt{'Tonacja'}
+\end{itemize}
+\paragraph*{Klasa wykorzystuje typy wyliczeniowe:}
+\begin{itemize}
+    \item \texttt{'NazwyDzwiekow'}, który służy do czuwania nad poprawnym nazewnictwem dźwięków
+    \item \texttt{`BezwzgledneKodyDzwiekow'}, używany przez metodę \texttt{Dzwiek.podaj\_swoj\_kod\_bezwzgledny()}.
+\end{itemize}
+
+\subsection{Pola}
+\begin{itemize}
+    \item \texttt{\_nazwa\_dzwieku: NazwyDzwiekow} - przechowuje wartość typu Enum "NazwyDzwiekow"
+    \item \texttt{\_oktawa\_dzwieku: bool} - przechowuje oktawę, do której dźwięk przynależy
+\end{itemize}
+
+\subsection{Metody}
+\begin{itemize}
+    \item Konstruktor parametryczny
+        \begin{python}
+     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
+        \end{python}
+        gdzie \texttt{nowa\_oktawa\_dzwieku} jest przypisywana do pola \texttt{\_oktawa\_dzwieku}, a \texttt{nowa\_nazwa\_dzwieku} służy do poprawnego wyboru odpowiedniej wartości z enum \texttt{NazwyDzwiekow}. Jeśli w Enum brak odpowiedniej wartości, konstruktor zwraca \texttt{ValueError}.
+
+    \item Akcesor nazwy dźwieku:
+          \begin{python}
+    def podaj_nazwe_dzwieku(self) -> str:
+          \end{python}
+        Zwraca wartość enuma, jest to typ \texttt{string}.  
+
+    \item Metoda zwracająca stopień dźwięku w pewnej tonacji:
+        \begin{python}
+    def podaj_swoj_stopien(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
+        \end{python}
+        gdzie \texttt{odpytywana\_tonacja} jest typu \texttt{`Tonacja'} i w zależności od niej podajemy stopień. Należy pamiętać, że dla prymy tonacji (np. dźwięk 'c' w tonacji 'C-dur') metoda zwróci 0, a dla septyma (np. dźwięk 'h' w tonacji 'C-dur') metoda zwróci 6.
+
+
+    \item Metoda zwracająca względny kod dźwięku w tonacji:
+    \begin{python}
+    def podaj_swoj_kod_wzgledny(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
+    \end{python}
+    Względny kod dźwięku jest wyliczany jako:
+        \begin{equation}
+            \textit{względny kod dźwięku} = \textit{numer oktawy} \cdot 7 + \textit{stopień dźwięku w tonacji}
+        \end{equation}
+        \clearpage
+        \item Metoda zwracająca bezwzględny kod dźwięku w tonacji: \label{punkt:bezwzglednyKodDzwieku}
+
+        \begin{python}
+        def podaj_swoj_kod_bezwzgledny(self) -> int:
+        \end{python}
+        \nopagebreak
+        Bezwzględny kod dźwięku jest niezależny od tonacji i reprezentuje pewną częstotliwość. Rekurencyjny wzór na bezwzględny kod dźwięku możemy wyrazić jako:
+        \[
+            \begin{cases}
+                \textit{x } \sharp = \textit{x} + 1 \\
+                \textit{x } \flat= \textit{x} - 1 \\
+                \textit{x} = \textit{oktawa(x)} \cdot 12 + \textit{kod(x)}
+            \end{cases}
+            \]
+            gdzie:
+            \[
+            \begin{cases}
+                \textit{kod(x)} = 0; \textit{  x} = \textit{dźwięk c} \\
+                \textit{kod(x)} = 2; \textit{  x} = \textit{dźwięk d} \\
+                \textit{kod(x)} = 4; \textit{  x} = \textit{dźwięk e} \\
+                \textit{kod(x)} = 5; \textit{  x} = \textit{dźwięk f} \\
+                \textit{kod(x)} = 7; \textit{  x} = \textit{dźwięk g} \\
+                \textit{kod(x)} = 9; \textit{  x} = \textit{dźwięk a} \\
+                \textit{kod(x)} = 11; \textit{  x} = \textit{dźwięk h} \\
+            \end{cases}
+            \]
+            oraz
+            \begin{equation}
+                \textit{oktawa(x)} \text{ jest numerem oktawy, w której dźwięk się znajduje}
+            \end{equation}
+            
+    
+\end{itemize}
+\end{document}

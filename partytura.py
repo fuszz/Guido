@@ -21,7 +21,7 @@ class Partytura:
     def podaj_metrum(self) -> metrum.Metrum:
         return self._metrum
 
-    def podaj_tonacja(self) -> tonacja.Tonacja:
+    def podaj_tonacje(self) -> tonacja.Tonacja:
         return self._tonacja
 
     def podaj_liczbe_taktow(self) -> int:

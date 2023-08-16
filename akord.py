@@ -4,8 +4,10 @@ import wartosci_nut
 import funkcje
 import przewroty
 
+
 class Akord:
-    def __init__(self, nowy_sopran: dzwiek.Dzwiek, nowy_alt: dzwiek.Dzwiek, nowy_tenor: dzwiek.Dzwiek, nowy_bas: dzwiek.Dzwiek, dlugosc: float):
+    def __init__(self, nowy_sopran: dzwiek.Dzwiek, nowy_alt: dzwiek.Dzwiek, nowy_tenor: dzwiek.Dzwiek,
+                 nowy_bas: dzwiek.Dzwiek, dlugosc: float):
         self._dlugosc: wartosci_nut.WartosciNut = wartosci_nut.WartosciNut(dlugosc)
         self._alt: dzwiek.Dzwiek = nowy_alt
         self._sopran: dzwiek.Dzwiek = nowy_sopran
@@ -15,16 +17,16 @@ class Akord:
     def podaj_dlugosc(self) -> wartosci_nut.WartosciNut:
         return self._dlugosc
 
-    def podaj_sopran(self):
+    def podaj_sopran(self) -> dzwiek.Dzwiek:
         return self._sopran
 
-    def podaj_alt(self):
+    def podaj_alt(self) -> dzwiek.Dzwiek:
         return self._alt
 
-    def podaj_tenor(self):
+    def podaj_tenor(self) -> dzwiek.Dzwiek:
         return self._tenor
 
-    def podaj_bas(self):
+    def podaj_bas(self) -> dzwiek.Dzwiek:
         return self._bas
 
     def ustal_funkcje(self, dana_tonacja: tonacja.Tonacja) -> funkcje.Funkcja:
@@ -36,11 +38,7 @@ class Akord:
         except ValueError:
             return funkcje.Funkcja.BLAD
 
-        lista_stopni = []
-        lista_stopni.append(stopien_sopranu)
-        lista_stopni.append(stopien_altu)
-        lista_stopni.append(stopien_tenoru)
-        lista_stopni.append(stopien_basu)
+        lista_stopni = [stopien_sopranu, stopien_altu, stopien_tenoru, stopien_basu]
 
         lista_stopni = sorted(set(lista_stopni))
 

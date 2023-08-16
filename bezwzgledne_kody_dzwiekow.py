@@ -1,7 +1,7 @@
 import enum
 
 
-class DzwiekiKodyBezwzgledne(enum.Enum):
+class BezwzgledneKodyDzwiekow(enum.Enum):
     C = 0
     D = 2
     E = 4

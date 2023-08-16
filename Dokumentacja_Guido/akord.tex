@@ -1,0 +1,59 @@
+\documentclass[dokumentacja.tex]{subfiles}
+
+\begin{document}
+\section{Akord}
+
+\subsection{Zależności}
+\paragraph*{Klasa \texttt{`Tonacja'} importuje:}
+\begin{itemize}
+    \item Klasę \texttt{dzwiek}
+    \item Klasę \texttt{tonacja}
+\end{itemize}
+\paragraph*{Oraz wykorzystuje typy wyliczeniowe:}
+\begin{itemize}
+    \item \texttt{WartosciNut}
+    \item \texttt{Funkcje}
+    \item \texttt{Przewroty}
+\end{itemize}
+
+
+\subsection{Pola}
+\begin{itemize}
+    \item \texttt{\_dlugosc: WartosciNut} - przechowuje wartości nut (długość akordu jest jednakowa dla wszstkich głosów)
+    \item \texttt{\_sopran: Dzwiek} - przechowują dźwięki odpowiednio dla każdego z głosów
+    \item \texttt{\_alt: Dzwiek} - j.w.
+    \item \texttt{\_tenor: Dzwiek} - j.w.
+    \item \texttt{\_bas: Dzwiek} - j.w.
+\end{itemize}
+
+\subsection{Metody}
+\begin{itemize}
+    \item Konstruktor parametryczny
+        \begin{python}
+    def __init__(self, nowy_sopran: dzwiek.Dzwiek, nowy_alt: dzwiek.Dzwiek, nowy_tenor: dzwiek.Dzwiek, nowy_bas: dzwiek.Dzwiek, dlugosc: float):
+        \end{python}
+        Konstruktor przyporządkowuje odpowiednie dźwięki do odpowiednich pól. W przypadku, gdy \texttt{dlugosc} przyjmuje wartość spoza Enuma, zwracana jest \texttt{Funkcja.BLAD}.
+
+    \item Akcesory dźwięków:
+          \begin{python}
+    def podaj_sopran(self) -> dzwiek.Dzwiek:
+    def podaj_alt(self) -> dzwiek.Dzwiek:
+    def podaj_tenor(self) -> dzwiek.Dzwiek:
+    def podaj_bas(self) -> dzwiek.Dzwiek:    
+          \end{python}
+
+    \item Metoda zwracająca funkcję danego akordu w odniesieniu do pewnej konkretnej tonacji:
+        \begin{python}
+     def ustal_funkcje(self, dana_tonacja: tonacja.Tonacja) -> funkcje.Funkcja:
+        \end{python}
+        Metoda zwraca jedną z dopuszczalnych wartości typu wyliczeniowego Funkcja. Jeżeli dźwięki nie tworzą żadnej sensownej w danej tonacji funkcji, podnoszony jest \texttt{}
+
+    \item Metoda zwracająca przewrót akordu:
+    \begin{python}
+    def ustal_przewrot(self, dana_tonacja: tonacja.Tonacja) -> przewroty.Przewrot:
+    \end{python}
+    Metoda zwraca jedną z dopuszczalnych wartości typu wyliczeniowego WartosciNut, przy czym wywołuje ona w swoim ciele metodę \texttt{ustal\_funkcje}, by poznać funkcję. 
+    Jeżeli funkcja jest niepoprawna, niemożliwe jest określenie przewrotu akordu, w związku z czym zwraca się \texttt{Przewrot.NIE\_ZDEFINIOWANO}.
+\end{itemize}
+\end{document}
+

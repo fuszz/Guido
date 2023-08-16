@@ -1,0 +1,48 @@
+\documentclass[dokumentacja.tex]{subfiles}
+
+\begin{document}
+\section{Tonacja}
+
+\subsection{Zależności}
+\paragraph*{Klasa \texttt{`Tonacja'} nie importuje żadnych innych klas.}
+
+\subsection{Pola}
+\begin{itemize}
+    \item \texttt{\_nazwa: str} - przechowuje nazwę tonacji
+    \item \texttt{\_czy\_dur: bool} - przechowuje prawdę, jeśli tonacja jest durowa, lub fałsz, jeśli jest molowa.
+    \item \texttt{\_nazwy\_dzwiekow\_tonacji} - lista, w której znajdują się wszystkie stopnie właściwe dla pewnej tonacji
+    \item \texttt{\_lista\_akordow} - przechowuje listę akordów w partyturze
+\end{itemize}
+
+\paragraph*{W klasa \texttt{`Tonacja'} przechowywane są również stałe:}
+\begin{itemize}
+    \item \texttt{\_WSZYSTKIE\_DUROWE\_TONACJE} - lista wszystkich tonacji durowych znajdujących się w kole kwintowym
+    \item \texttt{\_WSZYSTKIE\_MOLOWE\_TONACJE} - lista wszystkich tonacji molowych znajdujących się w kole kwintowym
+    \item \texttt{\_SLOWNIK\_DZWIEKOW\_DUROWE} - słownik, w którym każdej tonacji z powyższej listy tonacji durowych przypisano właściwe jej stopnie
+    \item \texttt{\_SLOWNIK\_DZWIEKOW\_MOLOWE} - słownik, w którym każdej tonacji z powyższej listy tonacji molowych przypisano właściwe jej stopnie
+\end{itemize}
+
+\subsection{Metody}
+\begin{itemize}
+    \item Konstruktor parametryczny
+        \begin{python}
+    def __init__(self, nazwa_tonacji: str):
+        \end{python}
+        Konstruktor wypełnia pola klasy w zależności od podanej nazwy tonacji. W przypadku błędnej nazwy, podnoszony jest \texttt{ValueError}.
+
+    \item Akcesor nazwy:
+          \begin{python}
+    def podaj_nazwe(self) -> str:
+          \end{python}
+
+    \item Akcesor trybu:
+        \begin{python}
+    def podaj_tonacje(self) -> tonacja.Tonacja:
+        \end{python}
+
+    \item Akcesor listy dźwięków:
+    \begin{python}
+    def podaj_liste_nazw_dzwiekow(self) -> list[str]:
+    \end{python}
+\end{itemize}
+\end{document}
