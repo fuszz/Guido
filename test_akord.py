@@ -1,9 +1,10 @@
 import unittest
 import akord
 import dzwiek
-import funkcje
-import przewroty
-import wartosci_nut
+import enum_funkcje
+import enum_przewroty
+import tonacja
+import enum_wartosci_nut
 
 
 class TestyKlasyAKord(unittest.TestCase):
@@ -18,7 +19,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('C') == funkcje.Funkcja.SUBDOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcje.Funkcja.SUBDOMINANTA)
 
     def test_ustal_funkcje_2(self):
         d_b = dzwiek.Dzwiek(2, 'c')
@@ -27,7 +28,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'c')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('C') == funkcje.Funkcja.TONIKA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcje.Funkcja.TONIKA)
 
     def test_ustal_funkcje_3(self):
         d_b = dzwiek.Dzwiek(2, 'g')
@@ -36,7 +37,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'g')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('C') == funkcje.Funkcja.DOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcje.Funkcja.DOMINANTA)
 
     def test_ustal_funkcje_4(self):
         d_b = dzwiek.Dzwiek(2, 'g')
@@ -45,7 +46,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('C') == funkcje.Funkcja.DOMINANTA_SEPTYMOWA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcje.Funkcja.DOMINANTA_SEPTYMOWA)
 
     def test_ustal_funkcje_5(self):
         d_b = dzwiek.Dzwiek(2, 'c')
@@ -54,7 +55,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'c')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('c') == funkcje.Funkcja.MOLL_TONIKA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')) == funkcje.Funkcja.MOLL_TONIKA)
 
     def test_ustal_funkcje_6(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -63,7 +64,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('c') == funkcje.Funkcja.MOLL_SUBDOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')) == funkcje.Funkcja.MOLL_SUBDOMINANTA)
 
     def test_ustal_funkcje_10(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -72,7 +73,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertFalse(nowy_akord.ustal_funkcje('C') == funkcje.Funkcja.SUBDOMINANTA)
+        self.assertFalse(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcje.Funkcja.SUBDOMINANTA)
 
     def test_ustal_funkcje_11(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -81,7 +82,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_funkcje('F') != funkcje.Funkcja.DOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('F')) != funkcje.Funkcja.DOMINANTA)
 
     def test_ustal_przewrot_1(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -90,7 +91,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('F') == przewroty.Przewrot.POSTAC_ZASADNICZA)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('F')) == przewroty.Przewrot.POSTAC_ZASADNICZA)
 
     def test_ustal_przewrot_2(self):
         d_b = dzwiek.Dzwiek(2, 'a')
@@ -99,7 +100,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('F') == przewroty.Przewrot.PIERWSZY)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('F')) == przewroty.Przewrot.PIERWSZY)
 
     def test_ustal_przewrot_3(self):
         d_b = dzwiek.Dzwiek(2, 'c')
@@ -108,7 +109,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
 
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('F') == przewroty.Przewrot.DRUGI)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('F')) == przewroty.Przewrot.DRUGI)
 
     def test_ustal_przewrot_4(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -116,31 +117,31 @@ class TestyKlasyAKord(unittest.TestCase):
         d_a = dzwiek.Dzwiek(4, 'c')
         d_s = dzwiek.Dzwiek(4, 'f')
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('Hb') == przewroty.Przewrot.POSTAC_ZASADNICZA)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('Hb')) == przewroty.Przewrot.POSTAC_ZASADNICZA)
 
-    def test_ustal_przewrot_4(self):
+    def test_ustal_przewrot_5(self):
         d_b = dzwiek.Dzwiek(2, 'f')
         d_t = dzwiek.Dzwiek(3, 'a')
         d_a = dzwiek.Dzwiek(4, 'c')
         d_s = dzwiek.Dzwiek(4, 'f')
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('hb') == przewroty.Przewrot.POSTAC_ZASADNICZA)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('hb')) == przewroty.Przewrot.POSTAC_ZASADNICZA)
 
-    def test_ustal_przewrot_4(self):
+    def test_ustal_przewrot_6(self):
         d_b = dzwiek.Dzwiek(2, 'd')
         d_t = dzwiek.Dzwiek(3, 'a')
         d_a = dzwiek.Dzwiek(4, 'c')
         d_s = dzwiek.Dzwiek(4, 'f')
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('Hb') == przewroty.Przewrot.NIE_ZDEFINIOWANO)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('Hb')) == przewroty.Przewrot.NIE_ZDEFINIOWANO)
 
-    def test_ustal_przewrot_4(self):
+    def test_ustal_przewrot_7(self):
         d_b = dzwiek.Dzwiek(2, 'db')
         d_t = dzwiek.Dzwiek(3, 'ab')
         d_a = dzwiek.Dzwiek(4, 'c')
         d_s = dzwiek.Dzwiek(4, 'f')
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, 1.0)
-        self.assertTrue(nowy_akord.ustal_przewrot('C') == przewroty.Przewrot.NIE_ZDEFINIOWANO)
+        self.assertTrue(nowy_akord.ustal_przewrot(tonacja.Tonacja('C')) == przewroty.Przewrot.NIE_ZDEFINIOWANO)
 
 
 if __name__ == '__main__':

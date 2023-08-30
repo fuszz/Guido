@@ -17,7 +17,18 @@
 \subsection{Pola}
 \begin{itemize}
     \item \texttt{\_nazwa\_dzwieku: NazwyDzwiekow} - przechowuje wartość typu Enum "NazwyDzwiekow"
-    \item \texttt{\_oktawa\_dzwieku: bool} - przechowuje oktawę, do której dźwięk przynależy
+    \item \texttt{\_oktawa\_dzwieku: bool} - przechowuje oktawę, do której dźwięk przynależy. Poszczególnym oktawom przyporządkowano następujące numery:
+    \begin{itemize}[label = o]
+        \item 0 - oktawa subkontra
+        \item 1 - oktawa kontra
+        \item 2 - oktawa wielka
+        \item 3 - oktawa mała 
+        \item 4 - oktawa razkreślna
+        \item 5 - oktawa dwukreślna
+        \item 6 - oktawa trzykreślna
+        \item 7 - oktawa czterokreślna
+        \item 8 - oktawa pięciokreślna
+    \end{itemize}
 \end{itemize}
 
 \subsection{Metody}
@@ -56,7 +67,7 @@
         def podaj_swoj_kod_bezwzgledny(self) -> int:
         \end{python}
         \nopagebreak
-        Bezwzględny kod dźwięku jest niezależny od tonacji i reprezentuje pewną częstotliwość. Rekurencyjny wzór na bezwzględny kod dźwięku możemy wyrazić jako:
+        Bezwzględny kod dźwięku jest niezależny od tonacji i reprezentuje pewną wysokośc dźwięku. Rekurencyjny wzór na bezwzględny kod dźwięku możemy wyrazić jako:
         \[
             \begin{cases}
                 \textit{x } \sharp = \textit{x} + 1 \\

@@ -1,9 +1,14 @@
 import unittest
 import dzwiek
+import tonacja
+
 
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
-        d = dzwiek.Dzwiek(1, 'c')
+        try:
+            dzwiek.Dzwiek(1, 'c')
+        except:
+            self.fail("Konstruktor nie działa.")
 
     def test_konstruktora_2(self):
         with self.assertRaises(ValueError):
@@ -19,39 +24,42 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_swoj_stopien_1(self):
         d = dzwiek.Dzwiek(1, 'c')
-        self.assertEqual(d.podaj_swoj_stopien('C'), 0)
+        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja('C')), 0)
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertFalse(d.podaj_swoj_stopien('C') == 0)
-
-    def test_podaj_swoj_stopien_3(self):
-        d = dzwiek.Dzwiek(1, 'c#')
-        self.assertEqual(d.podaj_swoj_stopien('C'), -1)
+        self.assertRaises(ValueError, lambda: d.podaj_swoj_stopien(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertEqual(d.podaj_swoj_kod('C'), -1)
+        self.assertRaises(ValueError, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
-        self.assertEqual(d.podaj_swoj_kod('C'), -1)
+        self.assertRaises(ValueError, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_swoj_kod('C'), 8)
+        self.assertEqual(d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')), 8)
 
-    def test_czy_to_ma_sens_1(self):
+    def test_spojnosci_oktawy_i_kodu_wzglednego_1(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_oktawe(), d.podaj_swoj_kod('C')//7)
+        self.assertEqual(d.podaj_oktawe(), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')) // 7)
 
-    def test_czy_to_ma_sens_2(self):
+    def test_spojnosci_oktawy_i_kodu_wzglednego_2(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_swoj_stopien('C'), d.podaj_swoj_kod('C') % 7)
+        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja('C')), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')) % 7)
 
-    def test_czy_to_ma_sens_3(self):
-        d = dzwiek.Dzwiek(2, 'db')
-        self.assertEqual(d.podaj_swoj_stopien('C'), d.podaj_swoj_kod('C'))
+    def test_kodu_bezwzglednego_1(self):
+        d1 = dzwiek.Dzwiek(1, 'c##')
+        d2 = dzwiek.Dzwiek(1, 'd')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+
+    def test_kodu_bezwzglednego_2(self):
+        d1 = dzwiek.Dzwiek(1, 'c##')
+        d2 = dzwiek.Dzwiek(1, 'db')
+        self.assertNotEquals(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+
 
 if __name__ == '__main__':
     unittest.main()

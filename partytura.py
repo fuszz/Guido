@@ -1,6 +1,6 @@
 import tonacja
 import akord
-import metrum
+import enum_metrum
 from typing import List, Union
 
 
@@ -11,21 +11,25 @@ class Partytura:
     def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: str, nowa_liczba_taktow: int):
         if nowa_liczba_taktow > 0:
             self._tonacja: tonacja.Tonacja = nowa_tonacja
-            self._metrum: metrum.Metrum = metrum.Metrum(nowe_metrum)
+            self._metrum: enum_metrum.Metrum = enum_metrum.Metrum(nowe_metrum)
             self._liczba_taktow: int = nowa_liczba_taktow
 
         else:
             raise ValueError("Niepoprawna liczba taktów")
 
 
-    def podaj_metrum(self) -> metrum.Metrum:
+    def podaj_metrum(self) -> enum_metrum.Metrum:
         return self._metrum
 
     def podaj_tonacje(self) -> tonacja.Tonacja:
         return self._tonacja
 
-    def podaj_liczbe_taktow(self) -> int:
+    def podaj_zadeklarowana_liczbe_taktow(self) -> int:
         return self._liczba_taktow
+
+
+    def podaj_rzeczywista_liczbe_taktow(self) -> int:
+        return self._lista_akordow.count('T')
 
     def dodaj_akord(self, nowy_akord: akord.Akord) -> None:
         """Funkcja dodaje akord podany w swoim argumencie na koniec listy"""
