@@ -8,9 +8,14 @@ import enum_niepoprawne_stopnie
 import tonacja
 import enum_funkcje
 import enum_zdwojony_skladnik
+import enum_metrum
 
 
-class Sprawdzarka:
+    def jaka_suma_wartosci_w_metrum(badane_metrum: enum_metrum.Metrum) -> float:
+        if self.value == '3/4':
+            return 3.0
+        elif self.value == '4/4':
+            return 4.0
 
     def czy_glosy_w_swoich_skalach(sprawdzany_akord: akord.Akord) -> list[enum_dzwieki_w_skalach.DzwiekiWSkalach]:
         kod_bezwzgledny_sopranu: int = sprawdzany_akord.podaj_sopran().podaj_swoj_kod_bezwzgledny()
@@ -50,6 +55,8 @@ class Sprawdzarka:
         else:
             wynik.append(enum_dzwieki_w_skalach.DzwiekiWSkalach.POWYZEJ_SKALI)
         return wynik
+#zrobić funkcje pojedynczą.
+
 
     def czy_glosy_nie_skrzyzowane(sprawdzany_akord: akord.Akord) -> list[enum_krzyzowania_glosow.KrzyzowaniaGlosow]:
         kod_bezwzgledny_sopranu: int = sprawdzany_akord.podaj_sopran().podaj_swoj_kod_bezwzgledny()
@@ -122,3 +129,19 @@ class Sprawdzarka:
                 return False
         else:
             return False
+
+    def czy_takty_maja_poprawna_dlugosc(badana_partytura: partytura.Partytura) -> list[bool]:
+        lista_wynikowa: list[bool] = []
+        metrum_partytury: enum_metrum.Metrum = badana_partytura.podaj_metrum()
+        licznik_trwania_akordu = 0
+
+        for obecnie_badany_akord in badana_partytura.podaj_liste_akordow():
+            if obecnie_badany_akord == 'T':
+                if licznik_trwania_akordu == Sprawdzarka.jaka_suma_wartosci_w_metrum(metrum_partytury):
+                    lista_wynikowa.append(True)
+                    licznik_trwania_akordu = 0
+                else:
+                    lista_wynikowa.append(False)
+            else:
+                licznik_trwania_akordu = licznik_trwania_akordu + obecnie_badany_akord.podaj_dlugosc().value
+        return lista_wynikowa

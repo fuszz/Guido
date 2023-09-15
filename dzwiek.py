@@ -4,8 +4,6 @@ import enum_bezwzgledne_kody_dzwiekow
 
 
 class Dzwiek:
-    _oktawa_dzwieku: int
-    _nazwa_dzwieku: enum_nazwy_dzwiekow.NazwyDzwiekow
 
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
         self._oktawa_dzwieku = nowa_oktawa_dzwieku

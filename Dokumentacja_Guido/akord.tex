@@ -52,8 +52,14 @@
     \begin{python}
     def ustal_przewrot(self, dana_tonacja: tonacja.Tonacja) -> przewroty.Przewrot:
     \end{python}
-    Metoda zwraca jedną z dopuszczalnych wartości typu wyliczeniowego WartosciNut, przy czym wywołuje ona w swoim ciele metodę \texttt{ustal\_funkcje}, by poznać funkcję. 
+    Metoda zwraca jedną z dopuszczalnych wartości typu wyliczeniowego przewrot.Przewrot, przy czym wywołuje ona w swoim ciele metodę \texttt{ustal\_funkcje}, by poznać funkcję. 
     Jeżeli funkcja jest niepoprawna, niemożliwe jest określenie przewrotu akordu, w związku z czym zwraca się \texttt{Przewrot.NIE\_ZDEFINIOWANO}.
+
+    \item Metoda zwracająca informację, który składnik akordu jest zdwojony:
+    \begin{python}
+    def ustal_dwojenie(self, dana_tonacja: tonacja.Tonacja) -> zdwojony_skladnik.ZdwojonySkladnik:
+    \end{python}
+    Metoda zwraca informację, który ze składników akordu jest zdwojony i zwraca informację o tym w typie wyliczeniowym ZdwojonySkladnik.
 \end{itemize}
 \end{document}
 

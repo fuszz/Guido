@@ -6,10 +6,10 @@ from typing import List, Union
 
 class Partytura:
 
-    _lista_akordow: List[Union[akord.Akord, str]] = []
 
     def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: str, nowa_liczba_taktow: int):
         if nowa_liczba_taktow > 0:
+            self._lista_akordow: List[Union[akord.Akord, str]] = []
             self._tonacja: tonacja.Tonacja = nowa_tonacja
             self._metrum: enum_metrum.Metrum = enum_metrum.Metrum(nowe_metrum)
             self._liczba_taktow: int = nowa_liczba_taktow

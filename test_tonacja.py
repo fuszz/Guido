@@ -20,5 +20,6 @@ class MyTestCase(unittest.TestCase):
         testowa_tonacja_3 = tonacja.Tonacja('C')
         self.assertEqual(testowa_tonacja_3.podaj_liste_nazw_dzwiekow(), ['c', 'd', 'e', 'f', 'g', 'a', 'h'])
 
+
 if __name__ == '__main__':
     unittest.main()
