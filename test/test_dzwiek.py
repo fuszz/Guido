@@ -58,7 +58,7 @@ class MyTestCase(unittest.TestCase):
     def test_kodu_bezwzglednego_2(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'db')
-        self.assertNotEquals(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+        self.assertNotEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
 
 
 if __name__ == '__main__':
