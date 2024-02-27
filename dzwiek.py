@@ -13,12 +13,12 @@ class Dzwiek:
         return self._oktawa_dzwieku
 
     def podaj_nazwe_dzwieku(self) -> str:
-        """Zwraca nazwę dźwięku"""
+        """Zwraca nazwę dźwięku."""
         return self._nazwa_dzwieku.value
 
     def podaj_swoj_stopien(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
         """
-        W przypadku nieporawnego dżwięu (względem danej tonacji)
+        W przypadku nieporawnego dżwięku (względem danej tonacji)
         wyrzuca ValueError
         """
         dzwieki_odpytywanej_tonacji = odpytywana_tonacja.podaj_liste_nazw_dzwiekow()

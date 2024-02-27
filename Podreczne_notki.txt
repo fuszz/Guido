@@ -1,9 +1,0 @@
-Funkcje w module sprawdzarki:
-
-Faza I
-
-1. Badanie objętości taktów w partyturze:
-
-Działanie: sumuje wartości akordów pomiędzy napotkanymi oznaczeniami końca taktu 'T'.
-Sposób komunikacji o błędach: lista[int] indeksów znaków końca taktu. Kończony takt zawiera błąd.
-Jest ok, gdy: funkcja zwraca pustą listę.
