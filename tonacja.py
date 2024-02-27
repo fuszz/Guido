@@ -51,7 +51,7 @@ class Tonacja:
             self._nazwy_dzwiekow_tonacji: list[str] = self._SLOWNIK_DZWIEKOW_MOLOWE[self._nazwa]
 
         else:
-            raise ValueError("Podana nazwa nie jest nazwą tonacji.")
+            raise ValueError("Podana nazwa nie stanowi nazwy tonacji.")
 
     def podaj_nazwe(self) -> str:
         return self._nazwa

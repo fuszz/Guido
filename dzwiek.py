@@ -1,6 +1,5 @@
 import tonacja
-import enum_nazwy_dzwiekow
-import enum_bezwzgledne_kody_dzwiekow
+from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow
 
 
 class Dzwiek:

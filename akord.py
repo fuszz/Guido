@@ -1,15 +1,11 @@
 import dzwiek
 import tonacja
-import enum_wartosci_nut
-import enum_funkcje
-import enum_przewroty
-import enum_zdwojony_skladnik
-import enum_funkcje
+from enumerations import enum_funkcje, enum_przewroty, enum_wartosci_nut, enum_zdwojony_skladnik
 
 
 class Akord:
     def __init__(self, nowy_sopran: dzwiek.Dzwiek, nowy_alt: dzwiek.Dzwiek, nowy_tenor: dzwiek.Dzwiek,
-                 nowy_bas: dzwiek.Dzwiek, dlugosc: float):
+                 nowy_bas: dzwiek.Dzwiek, dlugosc: int):
         self._dlugosc:  enum_wartosci_nut.WartosciNut = enum_wartosci_nut.WartosciNut(dlugosc)
         self._alt: dzwiek.Dzwiek = nowy_alt
         self._sopran: dzwiek.Dzwiek = nowy_sopran

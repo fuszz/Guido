@@ -1,10 +1,7 @@
 import unittest
 import akord
 import dzwiek
-import enum_funkcje
-import enum_przewroty
 import tonacja
-import enum_wartosci_nut
 
 
 class TestyKlasyAKord(unittest.TestCase):

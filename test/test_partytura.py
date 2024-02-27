@@ -1,12 +1,13 @@
 import unittest
 import akord
 import dzwiek
-import enum_metrum
+from enumerations import enum_metrum
 import partytura
 import tonacja
 
 
 class MyTestCase(unittest.TestCase):
+    
     def test_podaj_metrum_1(self):
         p1 = partytura.Partytura(tonacja.Tonacja('C'), "3/4", 2)
         self.assertEqual(p1.podaj_metrum(), enum_metrum.Metrum.TRZY_CZWARTE)
@@ -49,6 +50,7 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(p1.podaj_rzeczywista_liczbe_taktow(), 0)
         del p1
 
+    
     def test_podaj_zadeklarowana_liczbe_taktow(self):
         p1 = partytura.Partytura(tonacja.Tonacja('C'), "4/4", 9)
         self.assertEqual(p1.podaj_zadeklarowana_liczbe_taktow(), 9)
@@ -65,14 +67,13 @@ class MyTestCase(unittest.TestCase):
         p1.dodaj_akord(a1)
         self.assertEqual(p1.podaj_liste_akordow()[0], a1)
 
-
-"""# TEN NIŻEJ PSUJE!
+    
     def test_czy_poprawna_liczba_taktow_1(self):
         p1 = partytura.Partytura(tonacja.Tonacja('C'), "3/4", 1)
         p1.zakoncz_takt()
         self.assertEqual(p1.podaj_rzeczywista_liczbe_taktow() == p1.podaj_zadeklarowana_liczbe_taktow(),
                          p1.czy_poprawna_liczba_taktow())
-"""
+
 
 if __name__ == '__main__':
     unittest.main()

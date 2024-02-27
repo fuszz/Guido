@@ -1,11 +1,5 @@
 import obsluga_plikow
-import partytura
-import tonacja
-import akord
-import dzwiek
 import sprawdzarka
-
-import enum_metrum
 
 #db = dzwiek.Dzwiek(3, 'c')
 #dt = dzwiek.Dzwiek(3, 'g')

@@ -1,11 +1,10 @@
 import unittest
 
-import enum_krzyzowania_glosow
-import enum_niepoprawne_stopnie
+from enum import enum_krzyzowania_glosow, enum_niepoprawne_stopnie
 import sprawdzarka
 import akord
 import dzwiek
-import enum_dzwieki_w_skalach
+from venv.enum import enum_dzwieki_w_skalach
 import tonacja
 
 
