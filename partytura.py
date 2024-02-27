@@ -6,15 +6,15 @@ from typing import List, Union
 
 class Partytura:
 
-    def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: str, nowa_liczba_taktow: int):
+    def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: enum_metrum.Metrum, nowa_liczba_taktow: int):
         if nowa_liczba_taktow > 0:
             self._lista_akordow: List[Union[akord.Akord, str]] = []
             self._tonacja: tonacja.Tonacja = nowa_tonacja
-            self._metrum: enum_metrum.Metrum = enum_metrum.Metrum(nowe_metrum)
+            self._metrum: enum_metrum.Metrum = nowe_metrum
             self._liczba_taktow: int = nowa_liczba_taktow
 
         else:
-            raise ValueError("Niepoprawna liczba taktów")
+            raise ValueError("Blad tworzenia partytury")
 
     def podaj_metrum(self) -> enum_metrum.Metrum:
         return self._metrum

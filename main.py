@@ -9,5 +9,4 @@ import sprawdzarka
 #print(sprawdzarka.Sprawdzarka.czy_poprawne_dwojenia(a_test, tonacja.Tonacja('C')))
 
 
-nowa_partytura = obsluga_plikow.odczytuj_plik("partytura_1.txt")
-print(sprawdzarka.Sprawdzarka.czy_takty_maja_poprawna_dlugosc(nowa_partytura))
+nowa_partytura = obsluga_plikow.odczytuj_plik("przyklady/partytura_1.txt")
