@@ -63,3 +63,5 @@ class Tonacja:
     def podaj_liste_nazw_dzwiekow(self) -> list[str]:
         """Zwraca listę dźwięków występujących w tonacji."""
         return self._nazwy_dzwiekow_tonacji
+
+
