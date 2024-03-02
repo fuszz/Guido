@@ -2,6 +2,9 @@ import enum
 
 
 class KrzyzowaniaGlosow(enum.Enum):
+    """
+    Typ enumeracyjny zwracający informację nt. krzyżowania się głosów w przejściach między akordami.
+    """
     SOPRAN_I_ALT = 12
     SOPRAN_I_TENOR = 13
     SOPRAN_I_BAS = 14

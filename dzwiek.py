@@ -1,5 +1,6 @@
+import dzwiek
 import tonacja
-from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow
+from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow, enum_interwal
 
 
 class Dzwiek:
@@ -30,7 +31,7 @@ class Dzwiek:
     def podaj_swoj_kod_bezwzgledny(self) -> int:
         """
         Zwraca bezwzględny kod dźwięku.
-        <numer oktawy> * 12 + <dzwiek, gdzie c = 0, a h = 12>
+        <numer oktawy> * 12 + <dzwiek, gdzie c = 0, a h = 11>
         """
         kod: int = 12 * self._oktawa_dzwieku
         for kod_bezwzgledny in enum_bezwzgledne_kody_dzwiekow.BezwzgledneKodyDzwiekow:
@@ -42,3 +43,4 @@ class Dzwiek:
                     elif znak == 'b':
                         kod -= 1
                 return kod
+

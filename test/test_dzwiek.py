@@ -53,12 +53,33 @@ class MyTestCase(unittest.TestCase):
     def test_kodu_bezwzglednego_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'd')
+        print(d1.podaj_swoj_kod_bezwzgledny())
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
 
     def test_kodu_bezwzglednego_2(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'db')
         self.assertNotEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+
+    def test_kodu_bezwzglednego_2(self):
+        d1 = dzwiek.Dzwiek(1, 'c')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 12)
+
+    def test_kodu_bezwzglednego_3(self):
+        d1 = dzwiek.Dzwiek(1, 'c#')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 13)
+
+    def test_kodu_bezwzglednego_4(self):
+        d1 = dzwiek.Dzwiek(1, 'd')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 14)
+
+    def test_kodu_bezwzglednego_5(self):
+        d1 = dzwiek.Dzwiek(1, 'h')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 23)
+
+    def test_kodu_bezwzglednego_6(self):
+        d1 = dzwiek.Dzwiek(2, 'c')
+        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 24)
 
 
 if __name__ == '__main__':

@@ -2,6 +2,9 @@ import enum
 
 
 class NazwyDzwiekow(enum.Enum):
+    """
+    Typ przechowuje nazwy dźwięków w języku naturalnym i w schemacie przyjętym na potrzeby Guido
+    """
     CES = 'cb'
     C = 'c'
     CIS = 'c#'
