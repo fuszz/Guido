@@ -1,20 +1,18 @@
 import tonacja
 import akord
-from enumerations import enum_metrum
+from enumerations import enum_metrum, enum_bledy
 from typing import List, Union
 
 
 class Partytura:
 
     def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: enum_metrum.Metrum, nowa_liczba_taktow: int):
-        if nowa_liczba_taktow > 0:
-            self._lista_akordow: List[Union[akord.Akord, str]] = []
-            self._tonacja: tonacja.Tonacja = nowa_tonacja
-            self._metrum: enum_metrum.Metrum = nowe_metrum
-            self._liczba_taktow: int = nowa_liczba_taktow
-
-        else:
-            raise ValueError("Blad tworzenia partytury")
+        if nowa_liczba_taktow < 1:
+            raise enum_bledy.BladTworzeniaPartytury("Zadeklarowano niepoprawną liczbę taktów")
+        self._lista_akordow: List[Union[akord.Akord, str]] = []
+        self._tonacja: tonacja.Tonacja = nowa_tonacja
+        self._metrum: enum_metrum.Metrum = nowe_metrum
+        self._liczba_taktow: int = nowa_liczba_taktow
 
     def podaj_metrum(self) -> enum_metrum.Metrum:
         return self._metrum
@@ -46,4 +44,3 @@ class Partytura:
 
     def podaj_liste_akordow(self) -> List[Union[akord.Akord, str]]:
         return self._lista_akordow
-

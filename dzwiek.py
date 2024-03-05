@@ -1,13 +1,23 @@
-import dzwiek
 import tonacja
-from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow, enum_interwal
+from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow, enum_bledy
 
 
 class Dzwiek:
 
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
-        self._oktawa_dzwieku = nowa_oktawa_dzwieku
-        self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
+        """ Konstruktor klasy Dzwiek zwraca BladTworzeniaDzwieku w dwóch przypadkach:
+            1. Gdy podano niepoprawną wartość oktawy (spoza zakresy od 0 do 8 wł.)
+            2. Gdy podano niepoprawną nazwę dźwięku (spoza enuma)
+        """
+        if nowa_oktawa_dzwieku not in range(9):
+            raise enum_bledy.BladTworzeniaDzwieku("Podana niepoprawna wartość oktawy")
+        else:
+            self._oktawa_dzwieku = nowa_oktawa_dzwieku
+
+        try:
+            self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
+        except ValueError:
+            raise enum_bledy.BladTworzeniaDzwieku("Podana niepoprawna nazwa dźwięku")
 
     def podaj_oktawe(self) -> int:
         """Zwraca względną oktawę, gdzie znajduje się dźwięk."""
@@ -17,13 +27,16 @@ class Dzwiek:
         """Zwraca nazwę dźwięku."""
         return self._nazwa_dzwieku.value
 
-    def podaj_swoj_stopien(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
+    def podaj_swoj_stopien(self, badana_tonacja: tonacja.Tonacja) -> int:
         """
         W przypadku nieporawnego dżwięku (względem danej tonacji)
-        wyrzuca ValueError
+        wyrzuca enum_blad BladDzwiekPozaTonacja
         """
-        dzwieki_odpytywanej_tonacji = odpytywana_tonacja.podaj_liste_nazw_dzwiekow()
-        return dzwieki_odpytywanej_tonacji.index(self._nazwa_dzwieku.value)
+        dzwieki_badanej_tonacji = badana_tonacja.podaj_liste_nazw_dzwiekow()
+        if self._nazwa_dzwieku.value not in dzwieki_badanej_tonacji:
+            raise enum_bledy.BladDzwiekPozaTonacja("")
+        else:
+            return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 
     def podaj_swoj_kod_wzgledny(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
         return self._oktawa_dzwieku * 7 + self.podaj_swoj_stopien(odpytywana_tonacja)
@@ -43,4 +56,3 @@ class Dzwiek:
                     elif znak == 'b':
                         kod -= 1
                 return kod
-

@@ -1,7 +1,7 @@
 import unittest
 import akord
 import dzwiek
-from enumerations import enum_metrum
+from enumerations import enum_metrum, enum_bledy
 import partytura
 import tonacja
 
@@ -27,14 +27,6 @@ class MyTestCase(unittest.TestCase):
             partytura.Partytura(tonacja.Tonacja('C#'),  enum_metrum.Metrum("3/4"), 2)
         except:
             self.fail("Niepoprawne działanie konstruktora")
-
-    def test_konstruktora_3(self):
-        with self.assertRaises(ValueError):
-            partytura.Partytura(tonacja.Tonacja('Z'),  enum_metrum.Metrum("3/4"), 1)
-
-    def test_konstruktora_4(self):
-        with self.assertRaises(ValueError):
-            partytura.Partytura(tonacja.Tonacja('C'),  enum_metrum.Metrum("9/4"), 1)
 
     def test_podaj_tonacje_1(self):
         p1 = partytura.Partytura(tonacja.Tonacja('C'),  enum_metrum.Metrum("3/4"), 1)

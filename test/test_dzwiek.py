@@ -1,7 +1,7 @@
 import unittest
 import dzwiek
 import tonacja
-
+from enumerations import enum_bledy
 
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
@@ -11,7 +11,7 @@ class MyTestCase(unittest.TestCase):
             self.fail("Konstruktor nie działa.")
 
     def test_konstruktora_2(self):
-        with self.assertRaises(ValueError):
+        with self.assertRaises(enum_bledy.BladTworzeniaDzwieku):
             d = dzwiek.Dzwiek(2, 'cbbb')
 
     def test_podaj_oktawe1(self):
@@ -28,15 +28,15 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(ValueError, lambda: d.podaj_swoj_stopien(tonacja.Tonacja('C')))
+        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_stopien(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(ValueError, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
+        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
-        self.assertRaises(ValueError, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
+        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')
@@ -61,23 +61,23 @@ class MyTestCase(unittest.TestCase):
         d2 = dzwiek.Dzwiek(1, 'db')
         self.assertNotEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
 
-    def test_kodu_bezwzglednego_2(self):
+    def test_kodu_bezwzglednego_3(self):
         d1 = dzwiek.Dzwiek(1, 'c')
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 12)
 
-    def test_kodu_bezwzglednego_3(self):
+    def test_kodu_bezwzglednego_4(self):
         d1 = dzwiek.Dzwiek(1, 'c#')
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 13)
 
-    def test_kodu_bezwzglednego_4(self):
+    def test_kodu_bezwzglednego_5(self):
         d1 = dzwiek.Dzwiek(1, 'd')
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 14)
 
-    def test_kodu_bezwzglednego_5(self):
+    def test_kodu_bezwzglednego_6(self):
         d1 = dzwiek.Dzwiek(1, 'h')
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 23)
 
-    def test_kodu_bezwzglednego_6(self):
+    def test_kodu_bezwzglednego_7(self):
         d1 = dzwiek.Dzwiek(2, 'c')
         self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 24)
 

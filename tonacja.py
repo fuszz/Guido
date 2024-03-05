@@ -1,3 +1,4 @@
+from enumerations import enum_bledy
 class Tonacja:
 
     _WSZYSTKIE_DUROWE_TONACJE = ['Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Hb', 'F', 'C', 'G', 'D', 'A', 'E', 'H', 'F#', 'C#']
@@ -40,6 +41,9 @@ class Tonacja:
     }
 
     def __init__(self, nazwa_tonacji: str):
+        """
+        Konstruktor inicjuje instancję klasy Tonacja. Rzuca BladTworzeniaTonacji(), gdy nazwa tonacji jest niepoprawna.
+        """
         if nazwa_tonacji in self._WSZYSTKIE_DUROWE_TONACJE:
             self._nazwa: str = nazwa_tonacji
             self._czy_dur: bool = True
@@ -51,7 +55,7 @@ class Tonacja:
             self._nazwy_dzwiekow_tonacji: list[str] = self._SLOWNIK_DZWIEKOW_MOLOWE[self._nazwa]
 
         else:
-            raise ValueError("Podana nazwa nie stanowi nazwy tonacji.")
+            raise enum_bledy.BladTworzeniaTonacji("Sprawdź, czy podana nazwa tonacji jest poprawna.")
 
     def podaj_nazwe(self) -> str:
         return self._nazwa
