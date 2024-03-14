@@ -2,7 +2,7 @@ import akord
 import dzwiek
 import partytura
 import tonacja
-from enumerations import enum_metrum, enum_bledy
+from enumerations import enum_metrum, enum_bledy, enum_wartosci_nut
 from typing import TextIO
 
 
@@ -22,13 +22,13 @@ class BladWCiele(Exception):
         return self.wiadomosc
 
 
-def utworz_partyture(plik: TextIO) -> partytura.Partytura:
+def utworz_partyture(plik: TextIO) -> partytura.Partytura:  # Skończone :)
     try:
         oznaczenie_metrum: str = plik.readline().replace('\n', '').replace(' ', '')
         liczba_taktow: int = int(plik.readline().replace('\n', '').replace(' ', ''))
         nazwa_tonacji: str = plik.readline().replace('\n', '').replace(' ', '')
         nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja(nazwa_tonacji)
-        nowe_metrum: enum_metrum.Metrum(oznaczenie_metrum)
+        nowe_metrum: enum_metrum.Metrum = enum_metrum.Metrum(oznaczenie_metrum)
         return partytura.Partytura(nowa_tonacja, nowe_metrum, liczba_taktow)
 
     except enum_bledy.BladTworzeniaTonacji:
@@ -42,33 +42,40 @@ def utworz_partyture(plik: TextIO) -> partytura.Partytura:
 
 
 def wypelnij_partyture_akordami(plik: TextIO, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
+    licznik_linii: int = 4  # Licznik linii umożliwi bardziej szczegółowe informowanie o miejscu wystąpienia błędu
+    #                         Pierwsze 3 linie były poświęcone na nagłówek pliku, zaczynamy od linii 4.
     try:
-        licznik_linii: int = 4  # Licznik linii umożliwi bardziej szczegółowe informowanie o miejscu wystąpienia błędu
-        #                         Pierwsze 3 linie były poświęcone na nagłówek pliku, zaczynamy od linii 4.
         for linia in plik:
             linia = linia.replace(' ', '').replace('\n', '')
             if linia == "T":
                 nowa_partytura.zakoncz_takt()
+                print("T")
             else:
                 podane_dzwieki = linia.split(',')
                 dzwiek_sopranu: dzwiek.Dzwiek = dzwiek.Dzwiek(int(podane_dzwieki[0][-1]),
                                                               podane_dzwieki[0][0:-1].strip())
                 dzwiek_altu: dzwiek.Dzwiek = dzwiek.Dzwiek(int(podane_dzwieki[1][-1]), podane_dzwieki[1][0:-1].strip())
+
                 dzwiek_tenoru: dzwiek.Dzwiek = dzwiek.Dzwiek(int(podane_dzwieki[2][-1]),
                                                              podane_dzwieki[2][0:-1].strip())
                 dzwiek_basu: dzwiek.Dzwiek = dzwiek.Dzwiek(int(podane_dzwieki[3][-1]), podane_dzwieki[3][0:-1].strip())
-
-                nowy_akord: akord.Akord = akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu,
-                                                      int(podane_dzwieki[4]))
+                wartosc: enum_wartosci_nut = enum_wartosci_nut.WartosciNut(int(podane_dzwieki[4]))
+                nowy_akord: akord.Akord = akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu, wartosc)
                 nowa_partytura.dodaj_akord(nowy_akord)
-                linia += 1
+                licznik_linii += 1
         return nowa_partytura
+
+    except enum_bledy.BladTworzeniaDzwieku:
+        raise enum_bledy.BladWczytywaniaZPliku("Nieudane utworzenie dźwięku z zapisu linii " + str(licznik_linii) + ".")
+    except enum_bledy.BladTworzeniaAkordu:
+        raise enum_bledy.BladWczytywaniaZPliku("Nieudane utworzenie akordu z zapisu linii " + str(licznik_linii) + ".")
     except IndexError:
-        raise BladWCiele()
+        raise enum_bledy.BladWczytywaniaZPliku("Niepoprawna struktura linijki " + str(licznik_linii) + ".")
     except TypeError:
-        raise BladWCiele()
-    # DOKOŃCZYĆ: Teraz ogarnąć wyjątki z klasy dźwięk (ciul wie, co może być z tego) i te index i type w razie jakby
-    # ktoś podał błędnie te argumenty. Idę spać. DObranoc.
+        raise enum_bledy.BladWczytywaniaZPliku("TypeError - zastosowano niewłaściwy typ" + str(licznik_linii) + ".")
+    except ValueError:
+        raise enum_bledy.BladWczytywaniaZPliku("ValueError - nieprawidłowa wartość" + str(licznik_linii) + ".")
+
 
 def wczytaj_z_pliku(sciezka_do_pliku: str) -> partytura.Partytura:
     try:
@@ -81,8 +88,6 @@ def wczytaj_z_pliku(sciezka_do_pliku: str) -> partytura.Partytura:
     except PermissionError:  # Brak permisji do odczytu pliku
         raise enum_bledy.BladWczytywaniaZPliku("Brak uprawnień do odczytu wskazanego pliku.")
 
-    # !!! DODAĆ OBSŁUGĘ WYJĄTKÓW RZUCANYCH PRZEZ FUNKCJE utworz_partyture() i wypelnij_partyture()
-
     if not nowa_partytura.czy_poprawna_liczba_taktow():
-        raise ValueError("Blednie podane akordy")
+        raise enum_bledy.BladListyAkordow("Błędna liczba taktów w partyturze. Podaj poprawną liczbę taktów w pliku.")
     return nowa_partytura

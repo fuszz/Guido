@@ -2,35 +2,48 @@ import tonacja
 from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow, enum_bledy
 
 
+# Napisane docstringi
+
 class Dzwiek:
 
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
-        """ Konstruktor klasy Dzwiek zwraca BladTworzeniaDzwieku w dwóch przypadkach:
+        """
+        Tworzy nową instancję klasy Dzwiek. Zwraca BladTworzeniaDzwieku w dwóch przypadkach:
             1. Gdy podano niepoprawną wartość oktawy (spoza zakresy od 0 do 8 wł.)
             2. Gdy podano niepoprawną nazwę dźwięku (spoza enuma)
+        :param nowa_oktawa_dzwieku: int z zakresy od 0 do 8 (patrz: dokumentacja)
+        :param nowa_nazwa_dzwieku:  str o wartości równej jednej z
         """
+        if not isinstance(nowa_oktawa_dzwieku, int):
+            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawny typ: oktawa_dzwieku: int")
         if nowa_oktawa_dzwieku not in range(9):
-            raise enum_bledy.BladTworzeniaDzwieku("Podana niepoprawna wartość oktawy")
-        else:
-            self._oktawa_dzwieku = nowa_oktawa_dzwieku
-
+            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawna wartość oktawy [0, 8]")
         try:
             self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
         except ValueError:
-            raise enum_bledy.BladTworzeniaDzwieku("Podana niepoprawna nazwa dźwięku")
+            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawna nazwa dźwięku")
+        self._oktawa_dzwieku = nowa_oktawa_dzwieku
 
     def podaj_oktawe(self) -> int:
-        """Zwraca względną oktawę, gdzie znajduje się dźwięk."""
+        """
+        Zwraca numer oktawy, w której zawiera się dźwięk.
+        :return: int
+        """
         return self._oktawa_dzwieku
 
-    def podaj_nazwe_dzwieku(self) -> str:
-        """Zwraca nazwę dźwięku."""
-        return self._nazwa_dzwieku.value
+    def podaj_nazwe_dzwieku(self) -> enum_nazwy_dzwiekow.NazwyDzwiekow:
+        """
+        Zwraca nazwę dźwięku jako enum_nazwy_dzwiekow.NazwaDzwieku
+        :return: enum_nazwy_dzwiekow.NazwyDzwiekow
+        """
+        return self._nazwa_dzwieku
 
     def podaj_swoj_stopien(self, badana_tonacja: tonacja.Tonacja) -> int:
         """
-        W przypadku nieporawnego dżwięku (względem danej tonacji)
-        wyrzuca enum_blad BladDzwiekPozaTonacja
+        Podaje stopień dźwięku w pewnej tonacji.
+        W przypadku nieporawnego dżwięku (względem danej tonacji) podnosi enum_blad.BladDzwiekPozaTonacja
+        :param badana_tonacja: tonacja.Tonacja - tonacja, w której bada się stopień dźwięku
+        :return: int
         """
         dzwieki_badanej_tonacji = badana_tonacja.podaj_liste_nazw_dzwiekow()
         if self._nazwa_dzwieku.value not in dzwieki_badanej_tonacji:
@@ -38,13 +51,20 @@ class Dzwiek:
         else:
             return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 
-    def podaj_swoj_kod_wzgledny(self, odpytywana_tonacja: tonacja.Tonacja) -> int:
-        return self._oktawa_dzwieku * 7 + self.podaj_swoj_stopien(odpytywana_tonacja)
+    def podaj_swoj_kod_wzgledny(self, badana_tonacja: tonacja.Tonacja) -> int:
+        """
+        Podaje kod względny dźwięku w tonacji, czyli <nr oktawy>*7+<stopień dźwięku w tonacji>
+        :param badana_tonacja: tonacja.Tonacja - tonacja, w której bada się stopień dźwięku
+        :return: int - kod 'względny'
+        """
+        return self._oktawa_dzwieku * 7 + self.podaj_swoj_stopien(badana_tonacja)
 
     def podaj_swoj_kod_bezwzgledny(self) -> int:
         """
         Zwraca bezwzględny kod dźwięku.
+        Nigdy nie powinno zwrócić błędu, bo każdy poprawny dźwięk ma taki kod.
         <numer oktawy> * 12 + <dzwiek, gdzie c = 0, a h = 11>
+        :return: int
         """
         kod: int = 12 * self._oktawa_dzwieku
         for kod_bezwzgledny in enum_bezwzgledne_kody_dzwiekow.BezwzgledneKodyDzwiekow:

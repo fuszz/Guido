@@ -12,10 +12,10 @@ import dzwiek
 #nowa_partytura = obsluga_plikow.odczytuj_plik("przyklady/partytura_1.txt")
 
 #nowy_dzwiek = dzwiek.Dzwiek(1, 'c')
-#nowy_dzwiek.podaj_nazwe_dzwieku()
+#nowy_dzwiek.podaj_nazwe_dzwieku(
 
-
-from enumerations import enum_interwal
-
-if enum_interwal.Interwal.KWARTA_ZWIEKSZONA == enum_interwal.Interwal.KWINTA_ZMNIEJSZONA:
-    print(":)")
+import akord
+from enumerations import enum_wartosci_nut
+d1 = dzwiek.Dzwiek(1, 'c')
+a1 = akord.Akord(d1, d1, d1, d1, enum_wartosci_nut.WartosciNut(5))
+print(a1.podaj_dlugosc())

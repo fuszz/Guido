@@ -72,6 +72,16 @@ class BladTworzeniaDzwieku(BladTworzeniaObiektu):
         return f"Błąd tworzenia nowego dźwięku: {self.message}"
 
 
+class BladTworzeniaAkordu(BladTworzeniaObiektu):
+    """
+    Błąd w razie problemu z utworzeniem instancji Akordu.
+    Nie powinien występować, ale licho nie śpi.
+    """
+
+    def __str__(self):
+        return f"Błąd tworzenia nowego akordu: {self.message}"
+
+
 class BladDzwiekPozaTonacja(Exception):
     """
     Podnoszony, gdy dźwięk znajduje się poza tonacją (pewien dźwięk nie jest stopniem tonacji), a sprawdzamy jego

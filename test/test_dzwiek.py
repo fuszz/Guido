@@ -1,12 +1,15 @@
 import unittest
 import dzwiek
 import tonacja
-from enumerations import enum_bledy
+from enumerations import enum_bledy, enum_nazwy_dzwiekow
+
+
+# Testy są ok - 14.03.2024
 
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
         try:
-            dzwiek.Dzwiek(1, 'c')
+            dzwiek.Dzwiek(1, "c")
         except:
             self.fail("Konstruktor nie działa.")
 
@@ -20,7 +23,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_nazwe_dzwieku1(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_nazwe_dzwieku(), 'd')
+        self.assertEqual(d.podaj_nazwe_dzwieku().value, enum_nazwy_dzwiekow.NazwyDzwiekow("d").value)
 
     def test_podaj_swoj_stopien_1(self):
         d = dzwiek.Dzwiek(1, 'c')
@@ -48,7 +51,8 @@ class MyTestCase(unittest.TestCase):
 
     def test_spojnosci_oktawy_i_kodu_wzglednego_2(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja('C')), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')) % 7)
+        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja('C')),
+                         d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')) % 7)
 
     def test_kodu_bezwzglednego_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')

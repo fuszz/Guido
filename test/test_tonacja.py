@@ -2,6 +2,7 @@ import unittest
 
 import tonacja
 
+# Testy sgit
 
 class MyTestCase(unittest.TestCase):
     def test_podaj_nazwe_tonacji(self):
