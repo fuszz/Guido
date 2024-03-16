@@ -1,8 +1,12 @@
 import unittest
+
+import akord
 import obsluga_plikow
 import partytura
 import tonacja
-from enumerations import enum_metrum, enum_bledy
+from enumerations import enum_metrum, enum_bledy, enum_wartosci_nut
+
+# DZIAŁA, NIE DOTYKAJ!!!!
 
 class TestyObslugiPlikow(unittest.TestCase):
 
@@ -51,14 +55,57 @@ class TestyObslugiPlikow(unittest.TestCase):
                 obsluga_plikow.utworz_partyture(plik)
             self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Niepoprawne metrum")
 
-    def test_utworz_partyture_7(self):
+    def test_utworz_partyture_8(self):
         """Sprawdza, czy w razie podania nieodpowiedniego metrum zwracany jest odpowiedni wyjątek i komunikat wyjątku"""
         with open("../przyklady/partytura_5.txt", "r") as plik:
             with self.assertRaises(enum_bledy.BladWczytywaniaZPliku) as context:
                 obsluga_plikow.utworz_partyture(plik)
             self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Niepoprawne metrum")
 
+    def test_wypelnij_partyture_akordami_1(self):
+        """Sprawdza, czy metoda obsluga_plikow.wypelnij_partyture_akordami() działa poprawnie dla prawidłowych danych"""
+        with open("../przyklady/partytura_6.txt", "r") as plik_wejsciowy:
+            nowa_partytura: partytura.Partytura = obsluga_plikow.utworz_partyture(plik_wejsciowy)
+            nowa_partytura = obsluga_plikow.wypelnij_partyture_akordami(plik_wejsciowy, nowa_partytura)
+        self.assertEqual(nowa_partytura.podaj_liste_akordow()[0].podaj_dlugosc(), enum_wartosci_nut.WartosciNut(4))
+        self.assertEqual(nowa_partytura.czy_poprawna_liczba_taktow(), True)
+        self.assertEqual(nowa_partytura.podaj_liste_akordow()[-1], "T")
+        self.assertEqual(isinstance(nowa_partytura.podaj_liste_akordow()[-2], akord.Akord), True)
 
+    def test_wypelnij_partyture_akordami_2(self):
+        """Sprawdza, czy metoda obsluga_plikow.wypelnij_partyture_akordami() zwraca odpowiedni wyjątek, gdy uszkodzone
+        są dane dot. akordów : brak jednego z dźwięków"""
+        with open("../przyklady/partytura_7.txt", "r") as plik:
+            with self.assertRaises(enum_bledy.BladWczytywaniaZPliku) as context:
+                nowa_partytura: partytura.Partytura = obsluga_plikow.utworz_partyture(plik)
+                nowa_partytura = obsluga_plikow.wypelnij_partyture_akordami(plik, nowa_partytura)
+            self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Niepoprawny dźwięk w linii 4.")
 
+    def test_wypelnij_partyture_akordami_3(self):
+        """Sprawdza, czy metoda obsluga_plikow.wypelnij_partyture_akordami() zwraca odpowiedni wyjątek, gdy uszkodzone
+        są dane dot. akordów: brak długości trwania akordu"""
+        with open("../przyklady/partytura_8.txt", "r") as plik:
+            with self.assertRaises(enum_bledy.BladWczytywaniaZPliku) as context:
+                nowa_partytura: partytura.Partytura = obsluga_plikow.utworz_partyture(plik)
+                nowa_partytura = obsluga_plikow.wypelnij_partyture_akordami(plik, nowa_partytura)
+            self.assertEqual(str(context.exception),
+                             "Błąd wczytywania pliku: Niepoprawna długość dźwięku w linii 4.")
 
+    def test_wczytaj_z_pliku_1(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() działa poprawnie dla poprawnych danych"""
+        nowa_partytura = obsluga_plikow.wczytaj_z_pliku("../przyklady/partytura_6.txt")
+        self.assertEqual(nowa_partytura.czy_poprawna_liczba_taktow(), True)
+        self.assertEqual(nowa_partytura.podaj_tonacje().podaj_nazwe(), tonacja.Tonacja("C").podaj_nazwe())
+        self.assertEqual(nowa_partytura.podaj_metrum().value, enum_metrum.Metrum("4/4").value)
 
+    def test_wczytaj_z_pliku_2(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
+        with self.assertRaises(enum_bledy.BladWczytywaniaZPliku) as context:
+            obsluga_plikow.wczytaj_z_pliku("Sciezka_do_pliku_ktorego_nie_ma")
+        self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Plik nie istnieje")
+
+    def test_wczytaj_z_pliku_3(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
+        with self.assertRaises(enum_bledy.BladWczytywaniaZPliku) as context:
+            obsluga_plikow.wczytaj_z_pliku("../przyklady/partytura_9.txt")
+        self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Błędna liczba taktów w partyturze")
