@@ -11,6 +11,9 @@ class Funkcja(enum.Enum):
     Typ wyliczeniowy przechowujący informację o dopuszczalnych w Guido funkcjach harmonicznych: tonice (moll tonice),
     subdominancie (moll subdominancie), dominancie, dominancie septymowej. Jeśli dźwięki nie stanowią żadnej z w/w
     funkcji, mamy błąd.
+
+    UWAGA: Kolejność zapisu enumów jest ważna: akord mollowy musi być zawsze zapisany jako drugi,
+    np. najpierw Tonika, potem Moll Tonika
     """
     TONIKA = {
         "symbol": "T",
@@ -60,18 +63,26 @@ class Funkcja(enum.Enum):
         return type(self) is type(other) and self.name == other.name and self.value == other.value
 
     @classmethod
-    def funkcja_z_listy_stopni(cls, stopnie: list[int]) -> 'Funkcja':
+    def funkcja_z_listy_stopni(cls, stopnie: list[int], czy_dur: bool) -> 'Funkcja':
         """
-        Tworzy instancję klasy Funkcja z 4-elementowej listy dźwięków akordu.
+        Tworzy instancję klasy Funkcja z 4-elementowej listy dźwięków akordu i informacji o trybie tonacji.
         :param stopnie: list[int]
+        :param czy_dur: bool - True, jeśli tonacja durowa, False, kiedy tonacja mollowa.
         :return: Funkcja
         """
-
+        mozliwe_funkcje = []
         for element in cls:
             stopnie_funkcji = list(filter(lambda x: isinstance(x, int), getattr(Funkcja, element.name).value.values()))
             if set(sorted(stopnie)) == set(sorted(stopnie_funkcji)):
-                return element
-        raise blad.BladStopienPozaFunkcja(f"{stopnie} nie tworzą żadnej funkcji spośród {cls.__members__.keys()}")
+                mozliwe_funkcje.append(element)
+
+        if len(mozliwe_funkcje) == 1:
+            return mozliwe_funkcje[0]
+
+        elif len(mozliwe_funkcje) == 2:
+            return mozliwe_funkcje[0] if czy_dur else mozliwe_funkcje[1]
+        else:
+            raise blad.BladStopienPozaFunkcja(f"{stopnie} nie tworzą żadnej funkcji spośród {cls.__members__.keys()}")
 
     def czy_dur(self) -> bool:
         if self["tryb"] == "-":
@@ -97,8 +108,8 @@ class Funkcja(enum.Enum):
             return enum_przewroty.Przewrot.TRZECI
 
     def stopien_tonacji_w_skladnik_funkcji(self, stopien: int) -> enum_skladnik_funkcji.SkladnikFunkcji:
-        for skladnik_funkcji, stopien_tonacji in self.value:
-            if stopien_tonacji == stopien:
+        for skladnik_funkcji in self.value.keys():
+            if self.value[skladnik_funkcji] == stopien:
                 return skladnik_funkcji
         raise blad.BladStopienPozaFunkcja(f"{stopien} nie należy do funkcji {self.value["symbol"]}")
 

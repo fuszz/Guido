@@ -2,8 +2,9 @@ import dzwiek
 import partytura
 import akord
 import tonacja
-from enumerations import enum_przewroty, \
-    enum_interwal
+import funkcja
+import blad
+from enumerations import enum_przewroty, enum_interwal
 from typing import List, Union
 
 DOPUSZCZALNE_DOMINANTY = [funkcja.Funkcja.DOMINANTA, funkcja.Funkcja.DOMINANTA_SEPTYMOWA]

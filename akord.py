@@ -8,7 +8,7 @@ import funkcja
 class Akord:
 
     def __eq__(self, other):
-        return (type(self) is type(other) and self._._sopran == other._sopran
+        return (type(self) is type(other) and self._sopran == other._sopran
                 and self._alt == other._alt
                 and self._tenor == other._tenor
                 and self._bas == other._bas
@@ -114,8 +114,8 @@ class Akord:
         :param badana_tonacja: tonacja.Tonacja
         :return: funkcja.Funkcja
         """
-        print(type(funkcja.Funkcja.funkcja_z_listy_stopni(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja))))
-        return funkcja.Funkcja.funkcja_z_listy_stopni(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja))
+        return funkcja.Funkcja.funkcja_z_listy_stopni(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja),
+                                                      badana_tonacja.czy_dur())
 
     def ustal_przewrot(self, badana_tonacja: tonacja.Tonacja) -> enum_przewroty.Przewrot:
         """
