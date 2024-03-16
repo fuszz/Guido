@@ -1,6 +1,7 @@
 import dzwiek
 import tonacja
-from enumerations import enum_funkcje, enum_przewroty, enum_wartosci_nut, enum_skladnik_funkcji, enum_bledy
+from enumerations import enum_przewroty, enum_wartosci_nut, enum_bledy
+import funkcja
 
 
 class Akord:

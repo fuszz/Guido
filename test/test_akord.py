@@ -3,7 +3,9 @@ import unittest
 import akord
 import dzwiek
 import tonacja
-from enumerations import enum_wartosci_nut, enum_funkcje, enum_przewroty
+from enumerations import enum_wartosci_nut, enum_przewroty
+import funkcja
+
 
 # Testy są okej
 
