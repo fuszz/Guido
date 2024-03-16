@@ -69,7 +69,7 @@ class BladTworzeniaDzwieku(BladTworzeniaObiektu):
     """
 
     def __str__(self):
-        return f"Błąd tworzenia nowego dźwięku: {self.message}"
+        return f"Błąd tworzenia dźwięku: {self.message}"
 
 
 class BladTworzeniaAkordu(BladTworzeniaObiektu):

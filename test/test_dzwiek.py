@@ -9,14 +9,34 @@ import blad
 
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
-        try:
-            dzwiek.Dzwiek(1, "c")
-        except:
-            self.fail("Konstruktor nie działa.")
+            d1 = dzwiek.Dzwiek(1, "c")
+            self.assertEqual(d1.podaj_nazwe_dzwieku().value, "c")
+            self.assertEqual(d1.podaj_oktawe(), 1)
 
     def test_konstruktora_2(self):
-        with self.assertRaises(blad.BladTworzeniaDzwieku):
+        with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
             d = dzwiek.Dzwiek(2, 'cbbb')
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa dźwięku")
+
+    def test_konstruktora_3(self):
+        with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
+            d = dzwiek.Dzwiek(2, '###')
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa dźwięku")
+
+    def test_konstruktora_4(self):
+        with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
+            d = dzwiek.Dzwiek(10, 'c')
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
+
+    def test_konstruktora_5(self):
+        with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
+            d = dzwiek.Dzwiek("###", 'c')
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
+
+    def test_konstruktora_6(self):
+        with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
+            d = dzwiek.Dzwiek(-100, 'c')
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
 
     def test_podaj_oktawe1(self):
         d = dzwiek.Dzwiek(1, 'd')
@@ -24,7 +44,7 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_nazwe_dzwieku1(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_nazwe_dzwieku().value, enum_nazwy_dzwiekow.NazwyDzwiekow("d").value)
+        self.assertEqual(d.podaj_nazwe_dzwieku(), enum_nazwy_dzwiekow.NazwyDzwiekow("d"))
 
     def test_podaj_swoj_stopien_1(self):
         d = dzwiek.Dzwiek(1, 'c')

@@ -3,7 +3,7 @@ import blad
 import tonacja
 
 
-# Testy działają
+# Testy działają i są wyczerpujące
 
 class MyTestCase(unittest.TestCase):
     

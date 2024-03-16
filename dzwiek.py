@@ -18,14 +18,13 @@ class Dzwiek:
         :param nowa_oktawa_dzwieku: int z zakresy od 0 do 8 (patrz: dokumentacja)
         :param nowa_nazwa_dzwieku:  str o wartości równej jednej z
         """
-        if not isinstance(nowa_oktawa_dzwieku, int):
-            raise blad.BladTworzeniaDzwieku("Niepoprawny typ: oktawa_dzwieku: int")
-        if nowa_oktawa_dzwieku not in range(9):
-            raise blad.BladTworzeniaDzwieku("Niepoprawna wartość oktawy [0, 8]")
+
+        if nowa_oktawa_dzwieku not in range(0, 9) or not isinstance(nowa_oktawa_dzwieku, int):
+            raise blad.BladTworzeniaDzwieku("Niepoprawna oktawa")
         try:
             self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
         except ValueError:
-            raise blad.BladTworzeniaDzwieku("Niepoprawna nazwa dźwięku")
+            raise blad.BladTworzeniaDzwieku("Niepoprawna nazwa")
         self._oktawa_dzwieku = nowa_oktawa_dzwieku
 
     def podaj_oktawe(self) -> int:
