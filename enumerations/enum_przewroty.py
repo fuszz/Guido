@@ -10,3 +10,5 @@ class Przewrot(enum.Enum):
     DRUGI = 2
     TRZECI = 3
 
+    def __eq__(self, other):
+        return type(self) is type(other) and self.name == other.name and self.value == other.value

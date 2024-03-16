@@ -1,7 +1,8 @@
 import unittest
 import dzwiek
 import tonacja
-from enumerations import enum_bledy, enum_nazwy_dzwiekow
+from enumerations import enum_nazwy_dzwiekow
+import blad
 
 
 # Testy są ok - 14.03.2024
@@ -14,7 +15,7 @@ class MyTestCase(unittest.TestCase):
             self.fail("Konstruktor nie działa.")
 
     def test_konstruktora_2(self):
-        with self.assertRaises(enum_bledy.BladTworzeniaDzwieku):
+        with self.assertRaises(blad.BladTworzeniaDzwieku):
             d = dzwiek.Dzwiek(2, 'cbbb')
 
     def test_podaj_oktawe1(self):
@@ -31,15 +32,15 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_stopien(tonacja.Tonacja('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_stopien(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
-        self.assertRaises(enum_bledy.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')

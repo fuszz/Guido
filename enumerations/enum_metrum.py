@@ -1,6 +1,5 @@
 import enum
-from enumerations import enum_bledy
-
+import blad
 
 class Metrum(enum.Enum):
     """Typ wyliczeniowy przechowujący wartości metrum. Ograniczamy się do 3/4 i 4/4"""
@@ -9,7 +8,7 @@ class Metrum(enum.Enum):
 
     @classmethod
     def _missing_(cls, value):
-        raise enum_bledy.BladTworzeniaMetrum(f'{value} nie jest prawidłową wartością dla {cls.__name__}')
+        raise blad.BladTworzeniaMetrum(f'{value} nie jest prawidłową wartością dla {cls.__name__}')
 
     def podaj_pozadana_wartosc_nut_w_takcie(self) -> int:
         """
@@ -19,3 +18,6 @@ class Metrum(enum.Enum):
             return 6
         elif self == Metrum.CZTERY_CZWARTE:
             return 8
+
+    def __eq__(self, other):
+        return type(self) is type(other) and self.name == other.name and self.value == other.value

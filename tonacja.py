@@ -1,9 +1,9 @@
-from enumerations import enum_bledy
+import blad
+
 
 # CZY TA KLASA NIE POWINNA BYĆ W ZASADZIE ENUMEM???
 
 class Tonacja:
-
     _WSZYSTKIE_DUROWE_TONACJE = ['Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Hb', 'F', 'C', 'G', 'D', 'A', 'E', 'H', 'F#', 'C#']
     _WSZYSTKIE_MOLOWE_TONACJE = ['ab', 'eb', 'hb', 'f', 'c', 'g', 'd', 'a', 'e', 'h', 'f#', 'c#', 'g#', 'd#', 'a#']
 
@@ -29,19 +29,23 @@ class Tonacja:
         'ab': ['ab', 'hb', 'cb', 'db', 'eb', 'fb', 'g'],
         'eb': ['eb', 'f', 'gb', 'ab', 'hb', 'cb', 'd'],
         'hb': ['hb', 'c', 'db', 'eb', 'f', 'gb', 'a'],
-        'f':  ['f', 'g', 'ab', 'hb', 'c', 'db', 'e'],
-        'c':  ['c', 'd', 'eb', 'f', 'g', 'ab', 'h'],
-        'g':  ['g', 'a', 'hb', 'c', 'd', 'eb', 'f#'],
-        'd':  ['d', 'e', 'f', 'g', 'a', 'hb', 'c#'],
-        'a':  ['a', 'h', 'c', 'd', 'e', 'f', 'g#'],
-        'e':  ['e', 'f#', 'g', 'a', 'h', 'c', 'd#'],
-        'h':  ['h', 'c#', 'd', 'e', 'f#', 'g', 'a#'],
+        'f': ['f', 'g', 'ab', 'hb', 'c', 'db', 'e'],
+        'c': ['c', 'd', 'eb', 'f', 'g', 'ab', 'h'],
+        'g': ['g', 'a', 'hb', 'c', 'd', 'eb', 'f#'],
+        'd': ['d', 'e', 'f', 'g', 'a', 'hb', 'c#'],
+        'a': ['a', 'h', 'c', 'd', 'e', 'f', 'g#'],
+        'e': ['e', 'f#', 'g', 'a', 'h', 'c', 'd#'],
+        'h': ['h', 'c#', 'd', 'e', 'f#', 'g', 'a#'],
         'f#': ['f#', 'g#', 'a', 'h', 'c#', 'd', 'e#'],
         'c#': ['c#', 'd#', 'e', 'f#', 'g#', 'a', 'h#'],
         'g#': ['g#', 'a#', 'h', 'c#', 'd#', 'e', 'f##'],
         'd#': ['d#', 'e#', 'f#', 'g#', 'a#', 'h', 'c##'],
         'a#': ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##']
     }
+
+    def __eq__(self, other):
+        return (type(self) is type(other) and self._nazwa == other._nazwa and self._czy_dur == other._czy_dur
+                and self._nazwy_dzwiekow_tonacji == other._nazwy_dzwiekow_tonacji)
 
     def __init__(self, nazwa_tonacji: str):
         """
@@ -58,11 +62,11 @@ class Tonacja:
             self._nazwy_dzwiekow_tonacji: list[str] = self._SLOWNIK_DZWIEKOW_MOLOWE[self._nazwa]
 
         else:
-            raise enum_bledy.BladTworzeniaTonacji("Sprawdź, czy podana nazwa tonacji jest poprawna.")
+            raise blad.BladTworzeniaTonacji("Sprawdź, czy podana nazwa tonacji jest poprawna.")
 
     def podaj_nazwe(self) -> str:
         return self._nazwa
-        
+
     def czy_dur(self) -> bool:
         """Funkcja zwraca True dla durowej tonacji i False dla molowej."""
         return self._czy_dur
@@ -70,5 +74,3 @@ class Tonacja:
     def podaj_liste_nazw_dzwiekow(self) -> list[str]:
         """Zwraca listę dźwięków występujących w tonacji."""
         return self._nazwy_dzwiekow_tonacji
-
-

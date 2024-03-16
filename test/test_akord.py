@@ -25,7 +25,8 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == enum_funkcje.Funkcja.SUBDOMINANTA)
+        print(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')).value)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcja.Funkcja.SUBDOMINANTA)
 
     def test_ustal_funkcje_2(self):
         d_b = dzwiek.Dzwiek(2, 'c')
@@ -34,7 +35,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'c')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == enum_funkcje.Funkcja.TONIKA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcja.Funkcja.TONIKA)
 
     def test_ustal_funkcje_3(self):
         d_b = dzwiek.Dzwiek(2, 'g')
@@ -43,7 +44,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'g')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == enum_funkcje.Funkcja.DOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcja.Funkcja.DOMINANTA)
 
     def test_ustal_funkcje_4(self):
         d_b = dzwiek.Dzwiek(2, 'g')
@@ -52,7 +53,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == enum_funkcje.Funkcja.DOMINANTA_SEPTYMOWA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcja.Funkcja.DOMINANTA_SEPTYMOWA)
 
     def test_ustal_funkcje_5(self):
         d_b = dzwiek.Dzwiek(2, 'c')
@@ -61,7 +62,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'c')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')) == enum_funkcje.Funkcja.MOLL_TONIKA)
+        self.assertEqual(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')).name, funkcja.Funkcja.MOLL_TONIKA.name)
 
     def test_ustal_funkcje_6(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -70,7 +71,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')) == enum_funkcje.Funkcja.MOLL_SUBDOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('c')) == funkcja.Funkcja.MOLL_SUBDOMINANTA)
 
     def test_ustal_funkcje_10(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -79,7 +80,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertFalse(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == enum_funkcje.Funkcja.SUBDOMINANTA)
+        self.assertFalse(nowy_akord.ustal_funkcje(tonacja.Tonacja('C')) == funkcja.Funkcja.SUBDOMINANTA)
 
     def test_ustal_funkcje_11(self):
         d_b = dzwiek.Dzwiek(2, 'f')
@@ -88,7 +89,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'f')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('F')) != enum_funkcje.Funkcja.DOMINANTA)
+        self.assertTrue(nowy_akord.ustal_funkcje(tonacja.Tonacja('F')) != funkcja.Funkcja.DOMINANTA)
 
     def test_ustal_przewrot_1(self):
         d_b = dzwiek.Dzwiek(2, 'f')

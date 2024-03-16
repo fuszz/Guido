@@ -1,7 +1,9 @@
 import enum
+import blad
+
 from enumerations import enum_przewroty
 from enumerations import enum_skladnik_funkcji
-from enumerations import enum_bledy
+from enumerations import enum_zdwojony_skladnik_funkcji
 
 
 class Funkcja(enum.Enum):
@@ -20,7 +22,7 @@ class Funkcja(enum.Enum):
     MOLL_TONIKA = {
         "symbol": "mT",
         enum_skladnik_funkcji.SkladnikFunkcji.PRYMA: 0,
-        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MAŁA: 2,
+        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA: 2,
         enum_skladnik_funkcji.SkladnikFunkcji.KWINTA: 4,
         "tryb": "-"
     }
@@ -34,7 +36,7 @@ class Funkcja(enum.Enum):
     MOLL_SUBDOMINANTA = {
         "symbol": "mS",
         enum_skladnik_funkcji.SkladnikFunkcji.PRYMA: 3,
-        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MAŁA: 5,
+        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA: 5,
         enum_skladnik_funkcji.SkladnikFunkcji.KWINTA: 0,
         "tryb": "-"
     }
@@ -48,11 +50,14 @@ class Funkcja(enum.Enum):
     DOMINANTA_SEPTYMOWA = {
         "symbol": "D7",
         enum_skladnik_funkcji.SkladnikFunkcji.PRYMA: 4,
-        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MAŁA: 6,
+        enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA: 6,
         enum_skladnik_funkcji.SkladnikFunkcji.KWINTA: 1,
         enum_skladnik_funkcji.SkladnikFunkcji.SEPTYMA: 3,
         "tryb": "+"
     }
+
+    def __eq__(self, other):
+        return type(self) is type(other) and self.name == other.name and self.value == other.value
 
     @classmethod
     def funkcja_z_listy_stopni(cls, stopnie: list[int]) -> 'Funkcja':
@@ -61,11 +66,12 @@ class Funkcja(enum.Enum):
         :param stopnie: list[int]
         :return: Funkcja
         """
-        for element in cls.__members__:
-            stopnie_funkcji = list(filter(lambda x: isinstance(x, int), getattr(Funkcja, element).value.values()))
+
+        for element in cls:
+            stopnie_funkcji = list(filter(lambda x: isinstance(x, int), getattr(Funkcja, element.name).value.values()))
             if set(sorted(stopnie)) == set(sorted(stopnie_funkcji)):
-                return cls.__init__(element)
-        raise enum_bledy.BladStopienPozaFunkcja(f"{stopnie} nie tworzą żadnej funkcji spośród {cls.__members__.keys()}")
+                return element
+        raise blad.BladStopienPozaFunkcja(f"{stopnie} nie tworzą żadnej funkcji spośród {cls.__members__.keys()}")
 
     def czy_dur(self) -> bool:
         if self["tryb"] == "-":
@@ -82,7 +88,7 @@ class Funkcja(enum.Enum):
         skladnik: enum_skladnik_funkcji.SkladnikFunkcji = self.stopien_tonacji_w_skladnik_funkcji(stopien_basu)
         if skladnik == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA:
             return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
-        elif skladnik in (enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MAŁA,
+        elif skladnik in (enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA,
                           enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_WIELKA):
             return enum_przewroty.Przewrot.PIERWSZY
         elif skladnik == enum_skladnik_funkcji.SkladnikFunkcji.KWINTA:
@@ -94,4 +100,17 @@ class Funkcja(enum.Enum):
         for skladnik_funkcji, stopien_tonacji in self.value:
             if stopien_tonacji == stopien:
                 return skladnik_funkcji
-        raise enum_bledy.BladStopienPozaFunkcja(f"{stopien} nie należy do funkcji {self.value["symbol"]}")
+        raise blad.BladStopienPozaFunkcja(f"{stopien} nie należy do funkcji {self.value["symbol"]}")
+
+    def dwojenie_jako_skladnik_funkcji(self, stopien: int) -> enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji:
+        if stopien == -1:
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK
+
+        skladnik = self.stopien_tonacji_w_skladnik_funkcji(stopien)
+        if skladnik == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA:
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA
+        elif skladnik in (enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_WIELKA,
+                          enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA):
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA
+        elif skladnik == enum_skladnik_funkcji.SkladnikFunkcji.KWINTA:
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.KWINTA

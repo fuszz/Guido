@@ -1,6 +1,7 @@
 import tonacja
 import akord
-from enumerations import enum_metrum, enum_bledy
+import blad
+from enumerations import enum_metrum
 from typing import List, Union
 
 
@@ -8,20 +9,24 @@ from typing import List, Union
 
 class Partytura:
 
+    def __eq__(self, other):
+        return (type(self) is type(other) and self._._metrum == other._metrum and self._tonacja == other._tonacja
+        and self._liczba_taktow == other._liczba_taktow and self._lista_akordow == other._lista_akordow)
+
     def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: enum_metrum.Metrum, nowa_liczba_taktow: int):
         """
         Tworzy nową instancję obiektu klasy Partytura.
         :param nowa_tonacja: tonacja.Tonacja -> obiekt typu enumeracyjnego Tonacja
         :param nowe_metrum: enum_metrum.Metrum -> obiekt typu enumeracyjnego Metrum
         :param nowa_liczba_taktow: int -> liczba taktów, które powinna zawierać partytura. Jeśli faktyczna liczba taktów
-         będzie inna, zostanie potem podniesiony wyjątek enum_bledy.BladListyAkordow
+         będzie inna, zostanie potem podniesiony wyjątek blad.BladListyAkordow
         """
 
         if not (isinstance(nowa_tonacja, tonacja.Tonacja) and isinstance(nowe_metrum, enum_metrum.Metrum)
                 and isinstance(nowa_liczba_taktow, int)):
-            raise enum_bledy.BladTworzeniaPartytury("Sprawdź, czy tworzysz partyturę z poprawnych elementów")
+            raise blad.BladTworzeniaPartytury("Sprawdź, czy tworzysz partyturę z poprawnych elementów")
         if nowa_liczba_taktow < 1:
-            raise enum_bledy.BladTworzeniaPartytury("Zadeklarowano niepoprawną liczbę taktów - mniejszą niż 1")
+            raise blad.BladTworzeniaPartytury("Zadeklarowano niepoprawną liczbę taktów - mniejszą niż 1")
 
         self._lista_akordow: List[Union[akord.Akord, str]] = []
         self._tonacja: tonacja.Tonacja = nowa_tonacja

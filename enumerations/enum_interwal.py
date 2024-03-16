@@ -23,6 +23,9 @@ class Interwal(enum.Enum):
     SEPTYMA_WIELKA = (11, '7<')
     OKTAWA = (12, '8')
 
+    def __eq__(self, other):
+        return type(self) is type(other) and self.name == other.name and self.value == other.value
+
     @classmethod
     def interwal_z_odleglosci(cls, odleglosc_miedzy_poltonami: int):
         for interwal in cls:

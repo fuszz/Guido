@@ -3,12 +3,11 @@ import partytura
 import akord
 import tonacja
 from enumerations import enum_przewroty, \
-    enum_interwal, enum_bledy
-import funkcja
+    enum_interwal
 from typing import List, Union
 
-DOPUSZCZALNE_DOMINANTY = [enum_funkcje.Funkcja.DOMINANTA, enum_funkcje.Funkcja.DOMINANTA_SEPTYMOWA]
-DOPUSZCZALNE_SUBDOMINANTY = [enum_funkcje.Funkcja.SUBDOMINANTA, enum_funkcje.Funkcja.MOLL_SUBDOMINANTA]
+DOPUSZCZALNE_DOMINANTY = [funkcja.Funkcja.DOMINANTA, funkcja.Funkcja.DOMINANTA_SEPTYMOWA]
+DOPUSZCZALNE_SUBDOMINANTY = [funkcja.Funkcja.SUBDOMINANTA, funkcja.Funkcja.MOLL_SUBDOMINANTA]
 IND_ERR_BLAD_LISTY_AK_MSG = ("Index out of range - Niemożliwe odwołanie się do akordu/znaku końca taktu.\n"
                              "Sprawdź poprawność swojego pliku wejściowego")
 TYP_ERR_BLAD_LISTY_AK_MSG = ("Type error - W partyturze wystąpił niedozwolony element. \n "
@@ -46,7 +45,7 @@ def badanie_czy_dzwiek_jest_w_tonacji(badany_dzwiek: dzwiek.Dzwiek, badana_tonac
     try:
         badany_dzwiek.podaj_swoj_stopien(badana_tonacja)
         return True
-    except enum_bledy.BladDzwiekPozaTonacja:
+    except blad.BladDzwiekPozaTonacja:
         return False
 
 
@@ -84,7 +83,7 @@ def podaj_interwal_miedzy_dzwiekami(dzwiek_1: dzwiek.Dzwiek, dzwiek_2: dzwiek.Dz
     try:
         dzwiek_1.podaj_swoj_stopien(badana_tonacja)
         dzwiek_2.podaj_swoj_stopien(badana_tonacja)
-    except enum_bledy.BladDzwiekPozaTonacja:
+    except blad.BladDzwiekPozaTonacja:
         raise ValueError("Podane dźwięki nie należą do podanej tonacji")
 
     if dzwiek_1.podaj_swoj_kod_bezwzgledny() > dzwiek_2.podaj_swoj_kod_bezwzgledny():
@@ -132,8 +131,8 @@ def badanie_czy_tonika_na_poczatku_i_koncu(badana_partytura: partytura.Partytura
     try:
         pierwszy_akord: akord.Akord = badana_partytura.podaj_liste_akordow()[0]
         ostatni_akord: akord.Akord = badana_partytura.podaj_liste_akordow()[-2]
-        if (pierwszy_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) == enum_funkcje.Funkcja.TONIKA and
-                ostatni_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) == enum_funkcje.Funkcja.TONIKA):
+        if (pierwszy_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) == funkcja.Funkcja.TONIKA and
+                ostatni_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) == funkcja.Funkcja.TONIKA):
             return True
         else:
             return False
@@ -153,12 +152,12 @@ def badanie_czy_dzwieki_akordu_tworza_funkcje_w_tonacji(badana_partytura: partyt
         for indeks, element in enumerate(badana_partytura.podaj_liste_akordow()):
             if element == 'T':
                 continue
-            if element.ustal_funkcje(badana_partytura.podaj_tonacje()) == enum_funkcje.Funkcja.BLAD:
+            if element.ustal_funkcje(badana_partytura.podaj_tonacje()) == funkcja.Funkcja.BLAD:
                 wynikowa_lista.append(indeks)
         return wynikowa_lista
 
     except IndexError:
-        raise enum_bledy.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
+        raise blad.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
 
 
 def badanie_czy_po_dominancie_nie_ma_subdominanty(badana_partytura: partytura.Partytura) -> List[int]:
@@ -183,10 +182,10 @@ def badanie_czy_po_dominancie_nie_ma_subdominanty(badana_partytura: partytura.Pa
         return wynikowa_lista
 
     except IndexError:
-        raise enum_bledy.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
+        raise blad.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
 
     except TypeError:
-        raise enum_bledy.BladListyAkordow(TYP_ERR_BLAD_LISTY_AK_MSG)
+        raise blad.BladListyAkordow(TYP_ERR_BLAD_LISTY_AK_MSG)
 
 
 def badanie_czy_takt_nie_zaczyna_sie_drugim_przewrotem(badana_partytura: partytura.Partytura) -> List[int]:
@@ -202,11 +201,11 @@ def badanie_czy_takt_nie_zaczyna_sie_drugim_przewrotem(badana_partytura: partytu
         for indeks, element in enumerate(lista_akordow):
             if indeks == 0 or (indeks > 0 and lista_akordow[indeks - 1] == 'T'):
                 if (element.ustal_funkcje(
-                        badana_partytura.podaj_tonacje()) != enum_funkcje.Funkcja.DOMINANTA_SEPTYMOWA and
+                        badana_partytura.podaj_tonacje()) != funkcja.Funkcja.DOMINANTA_SEPTYMOWA and
                         element.ustal_przewrot(badana_partytura.podaj_tonacje()) == enum_przewroty.Przewrot.DRUGI):
                     wynikowa_lista.append(indeks)
         return wynikowa_lista
     except IndexError:
-        raise enum_bledy.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
+        raise blad.BladListyAkordow(IND_ERR_BLAD_LISTY_AK_MSG)
     except TypeError:
-        raise enum_bledy.BladListyAkordow(TYP_ERR_BLAD_LISTY_AK_MSG)
+        raise blad.BladListyAkordow(TYP_ERR_BLAD_LISTY_AK_MSG)

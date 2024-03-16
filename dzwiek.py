@@ -1,10 +1,14 @@
+import blad
 import tonacja
-from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow, enum_bledy
+from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow
 
 
 # Napisane docstringi
 
 class Dzwiek:
+
+    def __eq__(self, other):
+        return type(self) is type(other) and self._nazwa_dzwieku == other._nazwa_dzwieku and self._oktawa_dzwieku == other._oktawa_dzwieku
 
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
         """
@@ -15,13 +19,13 @@ class Dzwiek:
         :param nowa_nazwa_dzwieku:  str o wartości równej jednej z
         """
         if not isinstance(nowa_oktawa_dzwieku, int):
-            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawny typ: oktawa_dzwieku: int")
+            raise blad.BladTworzeniaDzwieku("Niepoprawny typ: oktawa_dzwieku: int")
         if nowa_oktawa_dzwieku not in range(9):
-            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawna wartość oktawy [0, 8]")
+            raise blad.BladTworzeniaDzwieku("Niepoprawna wartość oktawy [0, 8]")
         try:
             self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
         except ValueError:
-            raise enum_bledy.BladTworzeniaDzwieku("Niepoprawna nazwa dźwięku")
+            raise blad.BladTworzeniaDzwieku("Niepoprawna nazwa dźwięku")
         self._oktawa_dzwieku = nowa_oktawa_dzwieku
 
     def podaj_oktawe(self) -> int:
@@ -47,7 +51,7 @@ class Dzwiek:
         """
         dzwieki_badanej_tonacji = badana_tonacja.podaj_liste_nazw_dzwiekow()
         if self._nazwa_dzwieku.value not in dzwieki_badanej_tonacji:
-            raise enum_bledy.BladDzwiekPozaTonacja("")
+            raise blad.BladDzwiekPozaTonacja("")
         else:
             return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 

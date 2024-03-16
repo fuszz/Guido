@@ -97,7 +97,7 @@ class BladDzwiekPozaTonacja(Exception):
 
 class BladStopienPozaFunkcja(Exception):
     """
-    Podnoszony, gdy podany stopień (int) nie należy do danej funkcji enum_funkcje.
+    Podnoszony, gdy podany stopień (int) nie należy do danej funkcji funkcja.
     """
 
     def __init__(self, message):
