@@ -1,76 +1,183 @@
 import blad
+import enum
 
 
 # CZY TA KLASA NIE POWINNA BYĆ W ZASADZIE ENUMEM???
 
-class Tonacja:
-    _WSZYSTKIE_DUROWE_TONACJE = ['Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Hb', 'F', 'C', 'G', 'D', 'A', 'E', 'H', 'F#', 'C#']
-    _WSZYSTKIE_MOLOWE_TONACJE = ['ab', 'eb', 'hb', 'f', 'c', 'g', 'd', 'a', 'e', 'h', 'f#', 'c#', 'g#', 'd#', 'a#']
+class Tonacja(enum.Enum):
+    # Tonacje durowe
 
-    _SLOWNIK_DZWIEKOW_DUROWE = {
-        'Cb': ['cb', 'db', 'eb', 'fb', 'gb', 'ab', 'hb'],
-        'Gb': ['gb', 'ab', 'hb', 'cb', 'db', 'eb', 'f'],
-        'Db': ['db', 'eb', 'f', 'gb', 'ab', 'hb', 'c'],
-        'Ab': ['ab', 'hb', 'c', 'db', 'eb', 'f', 'g'],
-        'Eb': ['eb', 'f', 'g', 'ab', 'hb', 'c', 'd'],
-        'Hb': ['hb', 'c', 'd', 'eb', 'f', 'g', 'a'],
-        'F': ['f', 'g', 'a', 'hb', 'c', 'd', 'e'],
-        'C': ['c', 'd', 'e', 'f', 'g', 'a', 'h'],
-        'G': ['g', 'a', 'h', 'c', 'd', 'e', 'f#'],
-        'D': ['d', 'e', 'f#', 'g', 'a', 'h', 'c#'],
-        'A': ['a', 'h', 'c#', 'd', 'e', 'f#', 'g#'],
-        'E': ['e', 'f#', 'g#', 'a', 'h', 'c#', 'd#'],
-        'H': ['h', 'c#', 'd#', 'e', 'f#', 'g#', 'a#'],
-        'F#': ['f#', 'g#', 'a#', 'h', 'c#', 'd#', 'e#'],
-        'C#': ['c#', 'd#', 'e#', 'f#', 'g#', 'a#', 'h#']
+    GES_DUR = {
+        "tryb": "+",
+        "symbol": "Gb",
+        "dzwieki": ['gb', 'ab', 'hb', 'cb', 'db', 'eb', 'f']
+    }
+    DES_DUR = {
+        "tryb": "+",
+        "symbol": "Db",
+        "dzwieki": ['db', 'eb', 'f', 'gb', 'ab', 'hb', 'c']
+    }
+    AES_DUR = {
+        "tryb": "+",
+        "symbol": "Ab",
+        "dzwieki": ['ab', 'hb', 'c', 'db', 'eb', 'f', 'g']
+    }
+    ES_DUR = {
+        "tryb": "+",
+        "symbol": "Eb",
+        "dzwieki": ['eb', 'f', 'g', 'ab', 'hb', 'c', 'd']
+    }
+    B_DUR = {
+        "tryb": "+",
+        "symbol": "Hb",
+        "dzwieki": ['hb', 'c', 'd', 'eb', 'f', 'g', 'a']
+    }
+    F_DUR = {
+        "tryb": "+",
+        "symbol": "F",
+        "dzwieki": ['f', 'g', 'a', 'hb', 'c', 'd', 'e']
+    }
+    C_DUR = {
+        "tryb": "+",
+        "symbol": "C",
+        "dzwieki": ['c', 'd', 'e', 'f', 'g', 'a', 'h']
+    }
+    G_DUR = {
+        "tryb": "+",
+        "symbol": "G",
+        "dzwieki": ['g', 'a', 'h', 'c', 'd', 'e', 'f#']
+    }
+    D_DUR = {
+        "tryb": "+",
+        "symbol": "D",
+        "dzwieki": ['d', 'e', 'f#', 'g', 'a', 'h', 'c#']
+    }
+    A_DUR = {
+        "tryb": "+",
+        "symbol": "A",
+        "dzwieki": ['a', 'h', 'c#', 'd', 'e', 'f#', 'g#']
+    }
+    E_DUR = {
+        "tryb": "+",
+        "symbol": "E",
+        "dzwieki": ['e', 'f#', 'g#', 'a', 'h', 'c#', 'd#']
+    }
+    H_DUR = {
+        "tryb": "+",
+        "symbol": "H",
+        "dzwieki": ['h', 'c#', 'd#', 'e', 'f#', 'g#', 'a#']
+    }
+    FIS_DUR = {
+        "tryb": "+",
+        "symbol": "F#",
+        "dzwieki": ['f#', 'g#', 'a#', 'h', 'c#', 'd#', 'e#']
+    }
+    CIS_DUR = {
+        "tryb": "+",
+        "symbol": "C#",
+        "dzwieki": ['c#', 'd#', 'e#', 'f#', 'g#', 'a#', 'h#']
     }
 
-    _SLOWNIK_DZWIEKOW_MOLOWE = {
-        'ab': ['ab', 'hb', 'cb', 'db', 'eb', 'fb', 'g'],
-        'eb': ['eb', 'f', 'gb', 'ab', 'hb', 'cb', 'd'],
-        'hb': ['hb', 'c', 'db', 'eb', 'f', 'gb', 'a'],
-        'f': ['f', 'g', 'ab', 'hb', 'c', 'db', 'e'],
-        'c': ['c', 'd', 'eb', 'f', 'g', 'ab', 'h'],
-        'g': ['g', 'a', 'hb', 'c', 'd', 'eb', 'f#'],
-        'd': ['d', 'e', 'f', 'g', 'a', 'hb', 'c#'],
-        'a': ['a', 'h', 'c', 'd', 'e', 'f', 'g#'],
-        'e': ['e', 'f#', 'g', 'a', 'h', 'c', 'd#'],
-        'h': ['h', 'c#', 'd', 'e', 'f#', 'g', 'a#'],
-        'f#': ['f#', 'g#', 'a', 'h', 'c#', 'd', 'e#'],
-        'c#': ['c#', 'd#', 'e', 'f#', 'g#', 'a', 'h#'],
-        'g#': ['g#', 'a#', 'h', 'c#', 'd#', 'e', 'f##'],
-        'd#': ['d#', 'e#', 'f#', 'g#', 'a#', 'h', 'c##'],
-        'a#': ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##']
+    # Tonacje molowe
+
+    AS_MOLL = {
+        "tryb": "-",
+        "symbol": "ab",
+        "dzwieki": ['ab', 'hb', 'cb', 'db', 'eb', 'fb', 'g']
+    }
+    ES_MOLL = {
+        "tryb": "-",
+        "symbol": "eb",
+        "dzwieki": ['eb', 'f', 'gb', 'ab', 'hb', 'cb', 'd']
+    }
+    B_MOLL = {
+        "tryb": "-",
+        "symbol": "hb",
+        "dzwieki": ['hb', 'c', 'db', 'eb', 'f', 'gb', 'a']
+    }
+    F_MOLL = {
+        "tryb": "-",
+        "symbol": "f",
+        "dzwieki": ['f', 'g', 'ab', 'hb', 'c', 'db', 'e']
+    }
+    C_MOLL = {
+        "tryb": "-",
+        "symbol": "c",
+        "dzwieki": ['c', 'd', 'eb', 'f', 'g', 'ab', 'h']
+    }
+    G_MOLL = {
+        "tryb": "-",
+        "symbol": "g",
+        "dzwieki": ['g', 'a', 'hb', 'c', 'd', 'eb', 'f#']
+    }
+    D_MOLL = {
+        "tryb": "-",
+        "symbol": "d",
+        "dzwieki": ['d', 'e', 'f', 'g', 'a', 'hb', 'c#']
+    }
+    A_MOLL = {
+        "tryb": "-",
+        "symbol": "a",
+        "dzwieki": ['a', 'h', 'c', 'd', 'e', 'f', 'g#']
+    }
+    E_MOLL = {
+        "tryb": "-",
+        "symbol": "e",
+        "dzwieki": ['e', 'f#', 'g', 'a', 'h', 'c', 'd#']
+    }
+    H_MOLL = {
+        "tryb": "-",
+        "symbol": "h",
+        "dzwieki": ['h', 'c#', 'd', 'e', 'f#', 'g', 'a#']
+    }
+    FIS_MOLL = {
+        "tryb": "-",
+        "symbol": "f#",
+        "dzwieki": ['f#', 'g#', 'a', 'h', 'c#', 'd', 'e#']
+    }
+    CIS_MOLL = {
+        "tryb": "-",
+        "symbol": "c#",
+        "dzwieki": ['c#', 'd#', 'e', 'f#', 'g#', 'a', 'h#']
+    }
+    GIS_MOLL = {
+        "tryb": "-",
+        "symbol": "g#",
+        "dzwieki": ['g#', 'a#', 'h', 'c#', 'd#', 'e', 'f##']
+    }
+
+    DIS_MOLL = {
+        "tryb": "-",
+        "symbol": "d#",
+        "dzwieki": ['d#', 'e#', 'f#', 'g#', 'a#', 'h', 'c##']
+    }
+
+    AIS_MOLL = {
+        "tryb": "-",
+        "symbol": "a#",
+        "dzwieki": ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##']
     }
 
     def __eq__(self, other):
-        return (type(self) is type(other) and self._nazwa == other._nazwa and self._czy_dur == other._czy_dur
-                and self._nazwy_dzwiekow_tonacji == other._nazwy_dzwiekow_tonacji)
+        return type(self) is type(other) and self.name == other.name
 
-    def __init__(self, nazwa_tonacji: str):
+    @classmethod
+    def tonacja_z_symbolu(cls, symbol_tonacji: str) -> 'Tonacja':
         """
         Konstruktor inicjuje instancję klasy Tonacja. Rzuca BladTworzeniaTonacji(), gdy nazwa tonacji jest niepoprawna.
         """
-        if nazwa_tonacji in self._WSZYSTKIE_DUROWE_TONACJE:
-            self._nazwa: str = nazwa_tonacji
-            self._czy_dur: bool = True
-            self._nazwy_dzwiekow_tonacji: list[str] = self._SLOWNIK_DZWIEKOW_DUROWE[self._nazwa]
+        for element in cls:
+            if element.value["symbol"] == symbol_tonacji:
+                return element
+        raise blad.BladTworzeniaTonacji("Sprawdź, czy podana nazwa tonacji jest poprawna.")
 
-        elif nazwa_tonacji in self._WSZYSTKIE_MOLOWE_TONACJE:
-            self._nazwa: str = nazwa_tonacji
-            self._czy_dur: bool = False
-            self._nazwy_dzwiekow_tonacji: list[str] = self._SLOWNIK_DZWIEKOW_MOLOWE[self._nazwa]
-
-        else:
-            raise blad.BladTworzeniaTonacji("Sprawdź, czy podana nazwa tonacji jest poprawna.")
-
-    def podaj_nazwe(self) -> str:
-        return self._nazwa
+    def podaj_symbol(self) -> str:
+        return self.value["symbol"]
 
     def czy_dur(self) -> bool:
         """Funkcja zwraca True dla durowej tonacji i False dla molowej."""
-        return self._czy_dur
+        return True if self.value["tryb"] == "+" else False
 
     def podaj_liste_nazw_dzwiekow(self) -> list[str]:
         """Zwraca listę dźwięków występujących w tonacji."""
-        return self._nazwy_dzwiekow_tonacji
+        return self.value["dzwieki"]

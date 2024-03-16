@@ -17,7 +17,7 @@ class TestyObslugiPlikow(unittest.TestCase):
         with open("../przyklady/partytura_0.txt", "r") as plik:
             p1: partytura.Partytura = obsluga_plikow.utworz_partyture(plik)
 
-        self.assertEqual(p1.podaj_tonacje().podaj_nazwe(), tonacja.Tonacja("C").podaj_nazwe())
+        self.assertEqual(p1.podaj_tonacje().podaj_symbol(), tonacja.Tonacja.tonacja_z_symbolu("C").podaj_symbol())
         self.assertEqual(p1.podaj_zadeklarowana_liczbe_taktow(), 4)
         self.assertEqual(p1.podaj_metrum(), enum_metrum.Metrum("4/4"))
 
@@ -97,7 +97,7 @@ class TestyObslugiPlikow(unittest.TestCase):
         """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() działa poprawnie dla poprawnych danych"""
         nowa_partytura = obsluga_plikow.wczytaj_z_pliku("../przyklady/partytura_6.txt")
         self.assertEqual(nowa_partytura.czy_poprawna_liczba_taktow(), True)
-        self.assertEqual(nowa_partytura.podaj_tonacje().podaj_nazwe(), tonacja.Tonacja("C").podaj_nazwe())
+        self.assertEqual(nowa_partytura.podaj_tonacje().podaj_symbol(), tonacja.Tonacja.tonacja_z_symbolu("C").podaj_symbol())
         self.assertEqual(nowa_partytura.podaj_metrum().value, enum_metrum.Metrum("4/4").value)
 
     def test_wczytaj_z_pliku_2(self):
