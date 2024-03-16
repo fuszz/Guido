@@ -9,4 +9,4 @@ class Przewrot(enum.Enum):
     PIERWSZY = 1
     DRUGI = 2
     TRZECI = 3
-    NIE_ZDEFINIOWANO = -1
+

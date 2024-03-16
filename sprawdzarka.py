@@ -3,7 +3,7 @@ import partytura
 import akord
 import tonacja
 from enumerations import enum_funkcje, enum_krzyzowania_glosow, enum_metrum, enum_przewroty, \
-    enum_zdwojony_skladnik, enum_dzwieki_w_skalach, enum_interwal, enum_bledy
+    enum_skladnik_funkcji, enum_dzwieki_w_skalach, enum_interwal, enum_bledy
 from typing import List, Union
 
 DOPUSZCZALNE_DOMINANTY = [enum_funkcje.Funkcja.DOMINANTA, enum_funkcje.Funkcja.DOMINANTA_SEPTYMOWA]

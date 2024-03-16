@@ -1,6 +1,6 @@
 import dzwiek
 import tonacja
-from enumerations import enum_funkcje, enum_przewroty, enum_wartosci_nut, enum_zdwojony_skladnik, enum_bledy
+from enumerations import enum_funkcje, enum_przewroty, enum_wartosci_nut, enum_skladnik_funkcji, enum_bledy
 
 
 class Akord:
@@ -77,9 +77,10 @@ class Akord:
             return False
         return True
 
-    def podaj_liste_stopni_dzwiekow(self, badana_tonacja: tonacja.Tonacja) -> list[int]:
+    def podaj_liste_stopni_dzwiekow_akordu(self, badana_tonacja: tonacja.Tonacja) -> list[int]:
         """
         Zwraca listę stopni dźwięków poszczególnych głosów względem danej tonacji w kolejności sopran, alt, tenor, bas.
+        Nie usuwa duplikatów!
         Podnosi błąd BladDzwiekPozaTonacja, jeśli któryś z dźwięków nie leży w tonacji.
         Lepiej używać jej dopiero, gdy sprawdzimy, czy dźwięki są z tonacji.
         :param badana_tonacja: tonacja.Tonacja
@@ -107,7 +108,7 @@ class Akord:
             return enum_funkcje.Funkcja.BLAD
 
         tonacja_durowa: bool = badana_tonacja.czy_dur()
-        lista_stopni = sorted(set(self.podaj_liste_stopni_dzwiekow(badana_tonacja)))
+        lista_stopni = sorted(set(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja)))
 
         if lista_stopni == [0, 2, 4]:
             return enum_funkcje.Funkcja.TONIKA if tonacja_durowa else enum_funkcje.Funkcja.MOLL_TONIKA

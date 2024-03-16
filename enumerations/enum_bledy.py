@@ -92,4 +92,16 @@ class BladDzwiekPozaTonacja(Exception):
         self.message = message
 
     def __str__(self):
-        return f"Dźwięk nie przynależy do tonacji. {self.message}"
+        return f"Dźwięk nie należy do tonacji. {self.message}"
+
+
+class BladStopienPozaFunkcja(Exception):
+    """
+    Podnoszony, gdy podany stopień (int) nie należy do danej funkcji enum_funkcje.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"{self.message}"

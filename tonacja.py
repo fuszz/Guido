@@ -1,4 +1,7 @@
 from enumerations import enum_bledy
+
+# CZY TA KLASA NIE POWINNA BYĆ W ZASADZIE ENUMEM???
+
 class Tonacja:
 
     _WSZYSTKIE_DUROWE_TONACJE = ['Cb', 'Gb', 'Db', 'Ab', 'Eb', 'Hb', 'F', 'C', 'G', 'D', 'A', 'E', 'H', 'F#', 'C#']
