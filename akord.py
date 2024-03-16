@@ -79,10 +79,15 @@ class Akord:
 
     def podaj_liste_stopni_dzwiekow(self, badana_tonacja: tonacja.Tonacja) -> list[int]:
         """
-        Zwraca listę stopni dźwięków poszczególnych głosów względem danej tonacji w kolejności sopran, alt, tenor, bas
+        Zwraca listę stopni dźwięków poszczególnych głosów względem danej tonacji w kolejności sopran, alt, tenor, bas.
+        Podnosi błąd BladDzwiekPozaTonacja, jeśli któryś z dźwięków nie leży w tonacji.
+        Lepiej używać jej dopiero, gdy sprawdzimy, czy dźwięki są z tonacji.
         :param badana_tonacja: tonacja.Tonacja
         :return: list[int]
         """
+        if not self.czy_dzwieki_w_tonacji(badana_tonacja):
+            raise enum_bledy.BladDzwiekPozaTonacja
+
         return [
             self._sopran.podaj_swoj_stopien(badana_tonacja),
             self._alt.podaj_swoj_stopien(badana_tonacja),
@@ -100,11 +105,12 @@ class Akord:
 
         if not self.czy_dzwieki_w_tonacji(badana_tonacja):
             return enum_funkcje.Funkcja.BLAD
+
         tonacja_durowa: bool = badana_tonacja.czy_dur()
         lista_stopni = sorted(set(self.podaj_liste_stopni_dzwiekow(badana_tonacja)))
 
         if lista_stopni == [0, 2, 4]:
-            return enum_funkcje.Funkcja.TONIKA if tonacja_durowa else  enum_funkcje.Funkcja.MOLL_TONIKA
+            return enum_funkcje.Funkcja.TONIKA if tonacja_durowa else enum_funkcje.Funkcja.MOLL_TONIKA
 
         elif lista_stopni == [0, 3, 5]:
             return enum_funkcje.Funkcja.SUBDOMINANTA if tonacja_durowa else enum_funkcje.Funkcja.MOLL_SUBDOMINANTA
@@ -119,48 +125,14 @@ class Akord:
             return enum_funkcje.Funkcja.BLAD
 
     def ustal_przewrot(self, badana_tonacja: tonacja.Tonacja) -> enum_przewroty.Przewrot:
-        try:
-            stopien_basu: int = self._bas.podaj_swoj_stopien(badana_tonacja)
-        except enum_bledy.BladDzwiekPozaTonacja:
-            return enum_przewroty.Przewrot.NIE_ZDEFINIOWANO
+
         funkcja: enum_funkcje.Funkcja = self.ustal_funkcje(badana_tonacja)
-
-        if funkcja == enum_funkcje.Funkcja.TONIKA or funkcja == enum_funkcje.Funkcja.MOLL_TONIKA:
-            if stopien_basu == 0:
-                return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
-            elif stopien_basu == 2:
-                return enum_przewroty.Przewrot.PIERWSZY
-            elif stopien_basu == 4:
-                return enum_przewroty.Przewrot.DRUGI
-
-        elif funkcja == enum_funkcje.Funkcja.SUBDOMINANTA or funkcja == enum_funkcje.Funkcja.MOLL_SUBDOMINANTA:
-            if stopien_basu == 3:
-                return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
-            elif stopien_basu == 5:
-                return enum_przewroty.Przewrot.PIERWSZY
-            elif stopien_basu == 1:
-                return enum_przewroty.Przewrot.DRUGI
-
-        elif funkcja == enum_funkcje.Funkcja.DOMINANTA:
-            if stopien_basu == 4:
-                return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
-            elif stopien_basu == 6:
-                return enum_przewroty.Przewrot.PIERWSZY
-            elif stopien_basu == 1:
-                return enum_przewroty.Przewrot.DRUGI
-
-        elif funkcja == enum_funkcje.Funkcja.DOMINANTA_SEPTYMOWA:
-            if stopien_basu == 4:
-                return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
-            elif stopien_basu == 6:
-                return enum_przewroty.Przewrot.PIERWSZY
-            elif stopien_basu == 1:
-                return enum_przewroty.Przewrot.DRUGI
-            elif stopien_basu == 3:
-                return enum_przewroty.Przewrot.DRUGI
-
-        else:
+        if funkcja == enum_funkcje.Funkcja.BLAD:
             return enum_przewroty.Przewrot.NIE_ZDEFINIOWANO
+
+        stopien_basu: int = self._bas.podaj_swoj_stopien(badana_tonacja)
+
+        return funkcja.okresl_przewrot(stopien_basu)
 
     def ustal_dwojenie(self, badana_tonacja: tonacja.Tonacja) -> enum_zdwojony_skladnik.ZdwojonySkladnik:
 
