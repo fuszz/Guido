@@ -6,39 +6,34 @@ from enumerations import enum_metrum, enum_bledy, enum_wartosci_nut
 from typing import TextIO
 
 
-class BladWNaglowku(Exception):
-    def __init__(self):
-        self.wiadomosc: str = "Błąd w nagłówku partytury?"
-
-    def __str__(self):
-        return self.wiadomosc
-
-
-class BladWCiele(Exception):
-    def __init__(self):
-        self.wiadomosc: str = "Błąd w ciele partytury."
-
-    def __str__(self):
-        return self.wiadomosc
-
-
 def utworz_partyture(plik: TextIO) -> partytura.Partytura:  # Skończone :)
-    try:
-        oznaczenie_metrum: str = plik.readline().replace('\n', '').replace(' ', '')
-        liczba_taktow: int = int(plik.readline().replace('\n', '').replace(' ', ''))
-        nazwa_tonacji: str = plik.readline().replace('\n', '').replace(' ', '')
-        nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja(nazwa_tonacji)
-        nowe_metrum: enum_metrum.Metrum = enum_metrum.Metrum(oznaczenie_metrum)
-        return partytura.Partytura(nowa_tonacja, nowe_metrum, liczba_taktow)
 
-    except enum_bledy.BladTworzeniaTonacji:
-        raise enum_bledy.BladWczytywaniaZPliku("Sprawdź, czy poprawnie podałeś nazwę tonacji.")
+    try:
+        linia: str = plik.readline().replace('\n', '').replace(' ', '')
+        nowe_metrum: enum_metrum.Metrum = enum_metrum.Metrum(linia)
     except enum_bledy.BladTworzeniaMetrum:
-        raise enum_bledy.BladWczytywaniaZPliku("Sprawdź, czy poprawnie oznaczyłeś metrum.")
-    except enum_bledy.BladTworzeniaPartytury:
-        raise enum_bledy.BladWczytywaniaZPliku("Sprawdź, czy liczba taktów jest poprawna (co najmniej 1)")
+        raise enum_bledy.BladWczytywaniaZPliku("Niepoprawne metrum")
     except IOError:
-        raise enum_bledy.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik i spróbuj ponownie")
+        raise enum_bledy.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik")
+
+    try:
+        nowa_liczba_taktow: int = int(plik.readline().replace('\n', '').replace(' ', ''))
+        if nowa_liczba_taktow < 1:
+            raise enum_bledy.BladWczytywaniaZPliku("Niepoprawna liczba taktów")
+    except (enum_bledy.BladTworzeniaMetrum, ValueError, TypeError):
+        raise enum_bledy.BladWczytywaniaZPliku("Niepoprawna liczba taktów")
+    except IOError:
+        raise enum_bledy.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik")
+
+    try:
+        linia: str = plik.readline().replace('\n', '').replace(' ', '')
+        nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja(linia)
+    except enum_bledy.BladTworzeniaTonacji:
+        raise enum_bledy.BladWczytywaniaZPliku("Niepoprawna nazwa tonacji")
+    except IOError:
+        raise enum_bledy.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik")
+
+    return partytura.Partytura(nowa_tonacja, nowe_metrum, nowa_liczba_taktow)
 
 
 def wypelnij_partyture_akordami(plik: TextIO, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
@@ -49,7 +44,6 @@ def wypelnij_partyture_akordami(plik: TextIO, nowa_partytura: partytura.Partytur
             linia = linia.replace(' ', '').replace('\n', '')
             if linia == "T":
                 nowa_partytura.zakoncz_takt()
-                print("T")
             else:
                 podane_dzwieki = linia.split(',')
                 dzwiek_sopranu: dzwiek.Dzwiek = dzwiek.Dzwiek(int(podane_dzwieki[0][-1]),

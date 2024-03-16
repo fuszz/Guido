@@ -21,7 +21,7 @@ class BladWczytywaniaZPliku(Exception):
         self.message = message
 
     def __str__(self):
-        return f"Błąd wczytania partytury z pliku: {self.message}"
+        return f"Błąd wczytywania pliku: {self.message}"
 
 
 class BladTworzeniaObiektu(Exception):
