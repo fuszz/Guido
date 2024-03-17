@@ -1,7 +1,7 @@
 import dzwiek
 import tonacja
 import blad
-from enumerations import enum_przewroty, enum_wartosci_nut, enum_zdwojony_skladnik_funkcji
+from enumerations import enum_przewroty, enum_wartosci_nut, enum_zdwojony_skladnik_funkcji, enum_skladnik_funkcji
 import funkcja
 
 
@@ -97,7 +97,7 @@ class Akord:
         :return: list[int]
         """
         if not self.czy_dzwieki_w_tonacji(badana_tonacja):
-            raise blad.BladDzwiekPozaTonacja
+            raise blad.BladDzwiekPozaTonacja("Dźwięk nie jest stopniem tonacji")
 
         return [
             self._sopran.podaj_swoj_stopien(badana_tonacja),
@@ -126,40 +126,31 @@ class Akord:
         """
         return self.ustal_funkcje(badana_tonacja).okresl_przewrot(self._bas.podaj_swoj_stopien(badana_tonacja))
 
-    def ustal_pozycje(self, badana_tonacja: tonacja.Tonacja) -> enum_przewroty.Przewrot:
+    def ustal_pozycje(self, badana_tonacja: tonacja.Tonacja) -> enum_skladnik_funkcji.SkladnikFunkcji:
         """
         Zwraca instancję klasy enumeracyjnej Przewrot, w zależności od basu i funkcji akordu w danej tonacji.
         Jeśli akord nie jest funkcją w badanej tonacji, podnosi błąd BladStopienPozaFunkcja
         :param badana_tonacja: tonacja.Tonacja - wobec której ustalamy przewrót akordu
         :return: enum_przewroty.Przewrot
         """
-        return self.ustal_funkcje(badana_tonacja).okresl_przewrot(self._sopran.podaj_swoj_stopien(badana_tonacja))
+        return self.ustal_funkcje(badana_tonacja).stopien_tonacji_w_skladnik_funkcji(
+            self._sopran.podaj_swoj_stopien(badana_tonacja))
 
-    def ustal_zdwojony_stopien_tonacji(self, badana_tonacja: tonacja.Tonacja) -> int:
-        """
-        Jeśli akord nie stanowi w badanej tonacji funkcji - podnosi BladStopienPozaFukcja.
-        Jeśli akord stanowi funkcję, ale nie ma dwojeń - zwraca '-1'.
-        Jeśli akord stanowi funkcję i  jest dwojenie - zwraca stopień dwojonego dźwięku jako int-a z przedziału [0, 6]
-
-        :param badana_tonacja: tonacja, w której rozpatrujemy akord
-        :return: int - stopień zdwojonego dźwięku [0, 6] lub '-1', jeśli nie ma dwojeń
-        """
-        self.ustal_funkcje(badana_tonacja)
-        lista_stopni = self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja)
-        dublowane = [stopien for stopien in lista_stopni if lista_stopni.count(stopien) > 1
-                     and stopien not in lista_stopni]
-        if len(dublowane) == 0:
-            return -1
-        elif len(dublowane) == 1:
-            return dublowane[0]
-        else:
-            raise ValueError(
-                "COŚ DZIWNEGO W akord.ustal_jaki_stopien_zdwojony() !!!")  # Komunikat testowy - upewnić się, że nigdy nie wystąpi i wywalić.
-
-    def ustal_zdwojony_skladnik_funkcji(self, badana_tonacja: tonacja.Tonacja) -> (
+    def ustal_zdwojony_dzwiek_jako_skladnik_funkcji(self, badana_tonacja: tonacja.Tonacja) -> (
             enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji):
-        zdwojony_stopien: int = self.ustal_zdwojony_stopien_tonacji(badana_tonacja)
-        return self.ustal_funkcje(badana_tonacja).dwojenie_jako_skladnik_funkcji(zdwojony_stopien)
+        """
+            Jeśli akord nie stanowi w badanej tonacji funkcji - podnosi BladStopienPozaFukcja.
+            Jeśli akord stanowi funkcję, ale nie ma dwojeń - zwraca '-1'.
+            Jeśli akord stanowi funkcję i  jest dwojenie - zwraca stopień dwojonego dźwięku jako int-a z przedziału [0, 6]
+            :param badana_tonacja: tonacja, w której rozpatrujemy akord
+            """
+        funkcja_akordu = self.ustal_funkcje(badana_tonacja)
+        if funkcja_akordu == funkcja.Funkcja.DOMINANTA_SEPTYMOWA:
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK
+        zdwojony_stopien: int = 0
+        for stopien in self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja):
+            if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
+                return funkcja_akordu.dwojenie_jako_skladnik_funkcji(zdwojony_stopien)
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""

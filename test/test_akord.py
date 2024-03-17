@@ -4,7 +4,7 @@ import akord
 import blad
 import dzwiek
 import tonacja
-from enumerations import enum_wartosci_nut, enum_przewroty
+from enumerations import enum_wartosci_nut, enum_przewroty, enum_skladnik_funkcji
 import funkcja
 
 
@@ -157,6 +157,80 @@ class TestyKlasyAKord(unittest.TestCase):
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
         self.assertRaises(blad.BladStopienPozaFunkcja,
                           lambda: nowy_akord.ustal_przewrot(tonacja.Tonacja.tonacja_z_symbolu('Hb')))
+
+    def test_ustal_pozycje_1(self):
+        d_b = dzwiek.Dzwiek(2, 'f')
+        d_t = dzwiek.Dzwiek(3, 'a')
+        d_a = dzwiek.Dzwiek(4, 'c')
+        d_s = dzwiek.Dzwiek(4, 'f')
+
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertTrue(nowy_akord.ustal_pozycje(tonacja.Tonacja.tonacja_z_symbolu('F')) ==
+                        enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
+
+    def test_ustal_pozycje_2(self):
+        d_b = dzwiek.Dzwiek(2, 'a')
+        d_t = dzwiek.Dzwiek(3, 'f')
+        d_a = dzwiek.Dzwiek(4, 'f')
+        d_s = dzwiek.Dzwiek(4, 'c')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertTrue(
+            nowy_akord.ustal_pozycje(tonacja.Tonacja.tonacja_z_symbolu('F')) ==
+            enum_skladnik_funkcji.SkladnikFunkcji.KWINTA)
+
+    def test_ustal_pozycje_3(self):
+        d_b = dzwiek.Dzwiek(2, 'c')
+        d_t = dzwiek.Dzwiek(3, 'a')
+        d_a = dzwiek.Dzwiek(4, 'f')
+        d_s = dzwiek.Dzwiek(4, 'f')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertTrue(
+            nowy_akord.ustal_pozycje(tonacja.Tonacja.tonacja_z_symbolu("C")) ==
+            enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
+
+    def test_ustal_pozycje_4(self):
+        d_b = dzwiek.Dzwiek(2, 'f')
+        d_t = dzwiek.Dzwiek(3, 'a')
+        d_a = dzwiek.Dzwiek(4, 'c')
+        d_s = dzwiek.Dzwiek(4, 'f')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertTrue(nowy_akord.ustal_pozycje(
+            tonacja.Tonacja.tonacja_z_symbolu('Hb')) == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
+
+    def test_ustal_pozycje_5(self):
+        d_b = dzwiek.Dzwiek(2, 'f')
+        d_t = dzwiek.Dzwiek(3, 'a')
+        d_a = dzwiek.Dzwiek(4, 'c')
+        d_s = dzwiek.Dzwiek(4, 'f')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertTrue(nowy_akord.ustal_pozycje(
+            tonacja.Tonacja.tonacja_z_symbolu('hb')) == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
+
+    def test_ustal_pozycje_6(self):
+        d_b = dzwiek.Dzwiek(2, 'g')
+        d_t = dzwiek.Dzwiek(3, 'h')
+        d_a = dzwiek.Dzwiek(4, 'd')
+        d_s = dzwiek.Dzwiek(4, 'f')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertRaises(blad.BladDzwiekPozaTonacja,
+                          lambda: nowy_akord.ustal_pozycje(tonacja.Tonacja.tonacja_z_symbolu('D')))
+
+    def test_czy_dzwieki_w_tonacji(self):
+        d_b = dzwiek.Dzwiek(2, 'a')
+        d_t = dzwiek.Dzwiek(3, 'h')
+        d_a = dzwiek.Dzwiek(4, 'c')
+        d_s = dzwiek.Dzwiek(4, 'd')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+
+        self.assertTrue(nowy_akord.czy_dzwieki_w_tonacji(tonacja.Tonacja.tonacja_z_symbolu("C")))
+        self.assertFalse(nowy_akord.czy_dzwieki_w_tonacji(tonacja.Tonacja.tonacja_z_symbolu("C#")))
 
 
 if __name__ == '__main__':
