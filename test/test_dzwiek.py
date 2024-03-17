@@ -9,19 +9,19 @@ import blad
 
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
-            d1 = dzwiek.Dzwiek(1, "c")
-            self.assertEqual(d1.podaj_nazwe_dzwieku().value, "c")
-            self.assertEqual(d1.podaj_oktawe(), 1)
+        d1 = dzwiek.Dzwiek(1, "c")
+        self.assertEqual(d1.podaj_nazwe_dzwieku().value, "c")
+        self.assertEqual(d1.podaj_oktawe(), 1)
 
     def test_konstruktora_2(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
             d = dzwiek.Dzwiek(2, 'cbbb')
-        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa dźwięku")
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa")
 
     def test_konstruktora_3(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
             d = dzwiek.Dzwiek(2, '###')
-        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa dźwięku")
+        self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa")
 
     def test_konstruktora_4(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
@@ -52,15 +52,18 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja,
+                          lambda: d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')))
 
-    def test_podaj_swoj_kod_1(self):
+    def test_podaj_swoj_kod_wzgledny_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja,
+                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
 
-    def test_podaj_swoj_kod_2(self):
+    def test_podaj_swoj_kod_wzgledny_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
-        self.assertRaises(blad.BladDzwiekPozaTonacja, lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
+        self.assertRaises(blad.BladDzwiekPozaTonacja,
+                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')

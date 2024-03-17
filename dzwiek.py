@@ -13,7 +13,7 @@ class Dzwiek:
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
         """
         Tworzy nową instancję klasy Dzwiek. Zwraca BladTworzeniaDzwieku w dwóch przypadkach:
-            1. Gdy podano niepoprawną wartość oktawy (spoza zakresy od 0 do 8 wł.)
+            1. Gdy podano niepoprawną wartość oktawy (spoza zakresu od 0 do 8 wł.)
             2. Gdy podano niepoprawną nazwę dźwięku (spoza enuma)
         :param nowa_oktawa_dzwieku: int z zakresy od 0 do 8 (patrz: dokumentacja)
         :param nowa_nazwa_dzwieku:  str o wartości równej jednej z
@@ -50,7 +50,7 @@ class Dzwiek:
         """
         dzwieki_badanej_tonacji = badana_tonacja.podaj_liste_nazw_dzwiekow()
         if self._nazwa_dzwieku.value not in dzwieki_badanej_tonacji:
-            raise blad.BladDzwiekPozaTonacja("")
+            raise blad.BladDzwiekPozaTonacja("Dzwiek nie jest stopniem tej tonacji")
         else:
             return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 

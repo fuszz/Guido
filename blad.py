@@ -79,7 +79,17 @@ class BladTworzeniaAkordu(BladTworzeniaObiektu):
     """
 
     def __str__(self):
-        return f"Błąd tworzenia nowego akordu: {self.message}"
+        return f"Błąd tworzenia akordu: {self.message}"
+
+
+class BladTworzeniaFunkcji(BladTworzeniaObiektu):
+    """
+    Błąd w razie problemu z utworzeniem instancji Funkcji.
+    Nie powinien występować, ale licho nie śpi.
+    """
+
+    def __str__(self):
+        return f"Błąd tworzenia funkcji: {self.message}"
 
 
 class BladDzwiekPozaTonacja(Exception):
@@ -105,3 +115,16 @@ class BladStopienPozaFunkcja(Exception):
 
     def __str__(self):
         return f"{self.message}"
+
+
+class BladNiepoprawneArgumenty(Exception):
+    """
+    Podnoszony, gdy jako argument funkcji zostanie podana nieprawidłowa wartość - czyli taka, która zwraca
+    Value lub TypeError i nie ma innego szczegółowego błedu do obsługi wyjątku.
+    """
+
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Niepoprawne argumenty: {self.message}"
