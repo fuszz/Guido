@@ -83,3 +83,26 @@ def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> boo
             funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA):
         return False
     return True
+
+
+def czy_takty_maja_odpowiednie_dlugosci(badana_partytura: partytura.Partytura) -> list[int]:
+    """Sprawdza, czy takty partytury mają odpowiednie długości. Zwraca listę numerów (licząc od 0) tych taktów,
+    których długość jest niepoprawna. Pusta lista oznacza pozytywny wynik testu."""
+    lista_wynikowa = []
+    licznik_dlugosci = 0
+    licznik_taktow = 0
+    for element in badana_partytura.podaj_liste_akordow():
+        if element == "T":
+            if licznik_dlugosci != badana_partytura.podaj_metrum().podaj_pozadana_wartosc_nut_w_takcie():
+                lista_wynikowa.append(licznik_taktow)
+            licznik_taktow += 1
+            licznik_dlugosci = 0
+        else:
+            licznik_dlugosci += element.podaj_dlugosc().value
+    return lista_wynikowa
+
+
+def czy_liczba_taktow_jest_poprawna(badana_partytura: partytura.Partytura) -> bool:
+    """Zwraca true, jeśli liczba znaków końca taktu jest taka sama, jak zadeklarowana liczba taktów. W przeciwnym razie
+    zwraca false."""
+    return badana_partytura.czy_poprawna_liczba_taktow()

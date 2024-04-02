@@ -95,5 +95,44 @@ class TestSprawdzarka(unittest.TestCase):
         par.zakoncz_takt()
         self.assertEqual(False, sprawdzarka.czy_pierwsza_i_ostatnia_tonika(par))
 
+    def test_czy_takty_maja_poprawne_dlugosci_1(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_a = dzwiek.Dzwiek(3, 'c')
+        d_b = dzwiek.Dzwiek(4, 'e')
+        d_c = dzwiek.Dzwiek(3, 'g')
+        d_d = dzwiek.Dzwiek(4, 'c')
+        akord_a = akord.Akord(d_a, d_b, d_c, d_d, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.zakoncz_takt()
+        par.zakoncz_takt()
+        self.assertEqual([1], sprawdzarka.czy_takty_maja_odpowiednie_dlugosci(par))
+
+    def test_czy_takty_maja_poprawne_dlugosci_2(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_a = dzwiek.Dzwiek(3, 'c')
+        d_b = dzwiek.Dzwiek(4, 'e')
+        d_c = dzwiek.Dzwiek(3, 'g')
+        d_d = dzwiek.Dzwiek(4, 'c')
+        akord_a = akord.Akord(d_a, d_b, d_c, d_d, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.dodaj_akord(akord_a)
+        par.zakoncz_takt()
+        self.assertEqual([0], sprawdzarka.czy_takty_maja_odpowiednie_dlugosci(par))
+
+    def test_czy_liczba_taktow_jest_poprawna(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 1)
+        self.assertEqual(False, sprawdzarka.czy_liczba_taktow_jest_poprawna(par))
+
+    def test_czy_liczba_taktow_jest_poprawna_1(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 1)
+        par.zakoncz_takt()
+        self.assertEqual(True, sprawdzarka.czy_liczba_taktow_jest_poprawna(par))
+
 if __name__ == '__main__':
     unittest.main()

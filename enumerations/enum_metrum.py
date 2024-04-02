@@ -1,6 +1,7 @@
 import enum
 import blad
 
+
 class Metrum(enum.Enum):
     """Typ wyliczeniowy przechowujący wartości metrum. Ograniczamy się do 3/4 i 4/4"""
     TRZY_CZWARTE = '3/4'
