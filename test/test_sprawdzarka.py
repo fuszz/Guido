@@ -175,6 +175,50 @@ class TestSprawdzarka(unittest.TestCase):
         par.dodaj_akord(akord_a)
         self.assertEqual([], sprawdzarka.czy_glosy_w_swoich_skalach(par))
 
+    def test_czy_glosy_w_swoich_skalach_2(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_s = dzwiek.Dzwiek(6, 'c')
+        d_a = dzwiek.Dzwiek(3, 'h')
+        d_t = dzwiek.Dzwiek(3, 'h')
+        d_b = dzwiek.Dzwiek(2, 'h')
+        akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        self.assertEqual([(0, 0, "sopran ")], sprawdzarka.czy_glosy_w_swoich_skalach(par))
+
+    def test_czy_dzwieki_tworza_sensowne_funkcje_w_tonacji_1(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        akord_a = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(4, "e"),
+                              dzwiek.Dzwiek(4, "g"),
+                              dzwiek.Dzwiek(4, "c"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        akord_b = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(5, "d"),
+                              dzwiek.Dzwiek(5, "f"),
+                              dzwiek.Dzwiek(5, "g"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_b)
+        self.assertEqual([(0, 1)], sprawdzarka.czy_dzwieki_tworza_sensowne_funkcje_w_tonacji(par))
+
+
+    def test_czy_dzwieki_tworza_sensowne_funkcje_w_tonacji_2(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        akord_a = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(4, "e"),
+                              dzwiek.Dzwiek(4, "g"),
+                              dzwiek.Dzwiek(4, "c"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        par.zakoncz_takt()
+        akord_b = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(5, "d"),
+                              dzwiek.Dzwiek(5, "f"),
+                              dzwiek.Dzwiek(5, "g"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_b)
+        self.assertEqual([(1, 0)], sprawdzarka.czy_dzwieki_tworza_sensowne_funkcje_w_tonacji(par))
+
 
 if __name__ == '__main__':
     unittest.main()

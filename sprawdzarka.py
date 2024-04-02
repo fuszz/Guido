@@ -169,6 +169,10 @@ def czy_glosy_nie_sa_skrzyzowane(badana_partytura: partytura.Partytura) -> list[
 
 
 def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(int, int, str)]:
+    """Funkcja sprawdza, czy w podanej partyturze dźwięki nie wykraczają poza skale głosów.
+    Zwraca listę tupli postaci (int, int, str), gdzie pierwsza liczba oznacza numer taktu, druga - numer akordu, a str -
+    informacje o głosie, w którym nastąpiło naruszenie. Numeracja od 0.
+    Pusta lista wynikowa oznacza poprawność partytury."""
     lista_wynikowa = []
     licznik_taktow = 0
     licznik_akordow = 0
@@ -203,6 +207,30 @@ def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(i
             przekroczone_glosy = ""
         licznik_akordow += 1
     return lista_wynikowa
+
+
+def czy_dzwieki_tworza_sensowne_funkcje_w_tonacji(badana_partytura: partytura.Partytura) -> list[(int, int)]:
+    """Funkcja sprawdza, czy akordy partytury są w swojej funkcji dobrymi akordami. Zwraca listę par intów, gdzie
+    pierwsza liczba oznacza numer taktu, a druga - numer akordu, w którym wystepuje skrzyżowanie. Numeracja od 0.
+    Pusta lista wynikowa oznacza poprawność partytury."""
+    lista_wynikowa = []
+    licznik_akordow = 0
+    licznik_taktow = 0
+
+    for element in badana_partytura.podaj_liste_akordow():
+        if element == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+
+        try:
+            element.ustal_funkcje(badana_partytura.podaj_tonacje())
+
+        except blad.BladStopienPozaFunkcja:
+            lista_wynikowa.append((licznik_taktow, licznik_akordow))
+        licznik_akordow += 1
+    return lista_wynikowa
+
 
 
 def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:
