@@ -6,6 +6,46 @@ import funkcja
 import partytura
 import tonacja
 
+""" Moduł sprawdzarki będzie opierać sie na czterech (?) warstwach sprawdzania poprawności partytury. Będą to:
+    1. Sprawdzenie, czy wprowadzone dane są kompletne i czy dane nie zostały uszkodzone. Należą tu:
+        a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów
+        b. Czy pojemność poszczególnych taktów odpowiada wymogom obranego metrum
+        c. ... 
+        itp.
+        
+    2. Sprawdzenie, czy w partyturze nie ma pionowych błędów harmonicznych, czyli takich, które nie dotyczą kolejności 
+       ani łączenia akordów ze sobą. A zatem:
+        a. Czy w partyturze nie występują dźwięki obce
+        b. Czy w partyturze nie występują krzyżowania głosów
+        c. Czy w poszczególnych głosach dźwięki pozostają w swoich skalach
+        d. Czy dźwięki tworzą w podanej tonacji sensowne funkcje harmoniczne 
+        e. Czy nie są przekroczone odległości pomiędzy głosami
+        f. ...
+        itp.
+        
+    3. Sprawdzenie, czy kolejność akordów jest poprawna, ale na razie bez wnikania w sposób łączenia ich ze sobą. 
+       Tutaj analizujemy
+       a. Czy w partyturze na pierwszym i ostatnim miejscu występuje akord toniczny
+       b. Czy w partyturze po dominancie nie występuje subdominanta
+       c. Czy w partyturze na mocnej części taktu (na "raz") nie występuje akord w słabym (drugim) przewrocie ->>> to sprawdzić z Sikorskim!!!
+       d. Czy w partyturze nie przetrzymano akordu przez kreskę taktową (błąd!) 
+       e. ...
+       itd.
+       
+    4. Sprawdzenie poprawności łączeń akordów. Będą to:
+        a. Sprawdzenie, czy w partyturze występują kwinty równoległe
+        b. Sprawdzenie, czy są oktawy równoległe
+        c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku
+        d. Sprawdzenie, czy nie występują skoki o niedozwolony (zbyt duży lub zwiększony) interwał
+        e. ...
+        itp.
+        
+    Jeśli we wcześniejszych warstwach testy wykażą błędy, sprawdzanie zakończy się, bo niemożliwe będzie osiągnięcie
+    pozytywnych wyników w testach późniejszych, co wynika z prawideł harmonii. Użytkownik będzie informowany 
+    o występowaniu poszczególnych błędów. Niektóre funkcje, w razie wystąpienia błędów, z tego samego powodu będą 
+    przerywać dalsze poszukiwanie błędów.
+"""
+
 INTERWALY_DUR = [['1', '2', '3', '4', '5', '6', '7'],
                  ['7', '1', '2', '3>', '4', '5', '6'],
                  ['6>', '7', '1', '2>', '3>', '4', '5'],
@@ -45,44 +85,13 @@ def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tona
     return pelnych_oktaw, intr.Interwal(symbol)
 
 
-def czy_w_akordzie_sa_dzwieki_obce(badany_akord: akord.Akord, badana_tonacja: tonacja.Tonacja) -> bool:
-    """
-    Sprawdza, czy w podanym akordzie znajdują się dźwięki obce względem podanej tonacji. Jeśli tak, zwraca True,
-    w przeciwnym razie - zwraca False.
-    """
-    try:
-        badany_akord.podaj_sopran().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_alt().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_tenor().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_bas().podaj_swoj_stopien(badana_tonacja)
-    except blad.BladDzwiekPozaTonacja:
-        return True
-    return False
-
-
-def czy_w_partyturze_sa_dzwieki_obce(badana_partytutra: partytura.Partytura) -> bool:
-    """ Sprawdza, czy w podanej partyturze znajdują się dźwięki obce.
-    Jeśli tak, zwraca True, a w przeciwnym razie False"""
-    for element in badana_partytutra.podaj_liste_akordow():
-        if element == "T":
-            pass
-        if czy_w_akordzie_sa_dzwieki_obce(element, badana_partytutra.podaj_tonacje()):
-            return True
-    return False
-
-
-def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:
-    """Sprawdza, czy pierwszym i ostatnim akordem parytury jest tonika.
-    Jeśli tak, zwraca True. W przeciwnym razie false"""
-
-    if badana_partytura.podaj_liste_akordow()[0].ustal_funkcje(badana_partytura.podaj_tonacje()) not in (
-            funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA):
-        return False
-
-    if badana_partytura.podaj_liste_akordow()[-2].ustal_funkcje(badana_partytura.podaj_tonacje()) not in (
-            funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA):
-        return False
-    return True
+# ===============================================================
+# Warstwa 1 --> Poprawność i kompletność wprowadzenia danych:
+# ===============================================================
+def czy_liczba_taktow_jest_poprawna(badana_partytura: partytura.Partytura) -> bool:
+    """Zwraca true, jeśli liczba znaków końca taktu jest taka sama, jak zadeklarowana liczba taktów. W przeciwnym razie
+    zwraca false."""
+    return badana_partytura.czy_poprawna_liczba_taktow()
 
 
 def czy_takty_maja_odpowiednie_dlugosci(badana_partytura: partytura.Partytura) -> list[int]:
@@ -102,7 +111,41 @@ def czy_takty_maja_odpowiednie_dlugosci(badana_partytura: partytura.Partytura) -
     return lista_wynikowa
 
 
-def czy_liczba_taktow_jest_poprawna(badana_partytura: partytura.Partytura) -> bool:
-    """Zwraca true, jeśli liczba znaków końca taktu jest taka sama, jak zadeklarowana liczba taktów. W przeciwnym razie
-    zwraca false."""
-    return badana_partytura.czy_poprawna_liczba_taktow()
+def czy_w_partyturze_sa_dzwieki_obce(badana_partytutra: partytura.Partytura) -> bool:
+    """ Sprawdza, czy w podanej partyturze znajdują się dźwięki obce.
+    Jeśli tak, zwraca True, a w przeciwnym razie False"""
+    for element in badana_partytutra.podaj_liste_akordow():
+        if element == "T":
+            pass
+        if czy_w_akordzie_sa_dzwieki_obce(element, badana_partytutra.podaj_tonacje()):
+            return True
+    return False
+
+
+def czy_w_akordzie_sa_dzwieki_obce(badany_akord: akord.Akord, badana_tonacja: tonacja.Tonacja) -> bool:
+    """
+    Sprawdza, czy w podanym akordzie znajdują się dźwięki obce względem podanej tonacji. Jeśli tak, zwraca True,
+    w przeciwnym razie - zwraca False.
+    """
+    try:
+        badany_akord.podaj_sopran().podaj_swoj_stopien(badana_tonacja)
+        badany_akord.podaj_alt().podaj_swoj_stopien(badana_tonacja)
+        badany_akord.podaj_tenor().podaj_swoj_stopien(badana_tonacja)
+        badany_akord.podaj_bas().podaj_swoj_stopien(badana_tonacja)
+    except blad.BladDzwiekPozaTonacja:
+        return True
+    return False
+
+
+def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:
+    """Sprawdza, czy pierwszym i ostatnim akordem parytury jest tonika.
+    Jeśli tak, zwraca True. W przeciwnym razie false"""
+
+    if badana_partytura.podaj_liste_akordow()[0].ustal_funkcje(badana_partytura.podaj_tonacje()) not in (
+            funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA):
+        return False
+
+    if badana_partytura.podaj_liste_akordow()[-2].ustal_funkcje(badana_partytura.podaj_tonacje()) not in (
+            funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA):
+        return False
+    return True
