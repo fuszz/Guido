@@ -13,7 +13,7 @@ import tonacja
         c. ... 
         itp.
         
-    2. Sprawdzenie, czy w partyturze nie ma pionowych błędów harmonicznych, czyli takich, które nie dotyczą kolejności 
+    2. Sprawdzenie, czy w partyturze nie ma pionowych błędów, czyli takich, które nie dotyczą kolejności 
        ani łączenia akordów ze sobą. A zatem:
         a. Czy w partyturze nie występują dźwięki obce
         b. Czy w partyturze nie występują krzyżowania głosów
@@ -111,15 +111,25 @@ def czy_takty_maja_odpowiednie_dlugosci(badana_partytura: partytura.Partytura) -
     return lista_wynikowa
 
 
-def czy_w_partyturze_sa_dzwieki_obce(badana_partytutra: partytura.Partytura) -> bool:
+# ================================================================
+# Warstwa 2 - błędy pionowe
+# ================================================================
+def czy_w_partyturze_sa_dzwieki_obce(badana_partytutra: partytura.Partytura) -> list[(int, int)]:
     """ Sprawdza, czy w podanej partyturze znajdują się dźwięki obce.
-    Jeśli tak, zwraca True, a w przeciwnym razie False"""
+    Zwraca listę par intów, w której 1-sza liczba to numer taktu, a druga to numer akordu w tym takcie. Numeracja od 0.
+    Jeśli lista jest pusta, to znaczy, że wynik sprawdzenia jest pozytywny."""
+    licznik_akordow = 0
+    licznik_taktow = 0
+    lista_wynikowa = []
     for element in badana_partytutra.podaj_liste_akordow():
         if element == "T":
-            pass
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
         if czy_w_akordzie_sa_dzwieki_obce(element, badana_partytutra.podaj_tonacje()):
-            return True
-    return False
+            lista_wynikowa.append((licznik_taktow, licznik_akordow))
+        licznik_akordow += 1
+    return lista_wynikowa
 
 
 def czy_w_akordzie_sa_dzwieki_obce(badany_akord: akord.Akord, badana_tonacja: tonacja.Tonacja) -> bool:
@@ -135,6 +145,64 @@ def czy_w_akordzie_sa_dzwieki_obce(badany_akord: akord.Akord, badana_tonacja: to
     except blad.BladDzwiekPozaTonacja:
         return True
     return False
+
+
+def czy_glosy_nie_sa_skrzyzowane(badana_partytura: partytura.Partytura) -> list[(int, int)]:
+    """Funkcja sprawdza, czy w podanej partyturze nie występują skrzyżowania głosów. Zwraca listę par intów, gdzie
+    pierwsza liczba oznacza numer taktu, a druga - numer akordu, w którym wystepuje skrzyżowanie. Numeracja od 0.
+    Pusta lista wynikowa oznacza poprawność partytury."""
+    licznik_akordow = 0
+    licznik_taktow = 0
+    lista_wynikowa = []
+    for element in badana_partytura.podaj_liste_akordow():
+        if element == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+        if not (
+                element.podaj_sopran().podaj_swoj_kod_bezwzgledny() >= element.podaj_alt().podaj_swoj_kod_bezwzgledny()
+                >= element.podaj_tenor().podaj_swoj_kod_bezwzgledny() >= element.podaj_bas().podaj_swoj_kod_bezwzgledny()
+        ):
+            lista_wynikowa.append((licznik_taktow, licznik_akordow))
+        licznik_akordow += 1
+    return lista_wynikowa
+
+
+def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(int, int, str)]:
+    lista_wynikowa = []
+    licznik_taktow = 0
+    licznik_akordow = 0
+    przekroczone_glosy = ""
+    for element in badana_partytura.podaj_liste_akordow():
+        if element == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+        if not (dzwiek.Dzwiek(5, "a").podaj_swoj_kod_bezwzgledny() >=
+                element.podaj_sopran().podaj_swoj_kod_bezwzgledny() >=
+                dzwiek.Dzwiek(4, "c").podaj_swoj_kod_bezwzgledny()):
+            przekroczone_glosy += "sopran "
+
+        if not (dzwiek.Dzwiek(5, "d").podaj_swoj_kod_bezwzgledny() >=
+                element.podaj_alt().podaj_swoj_kod_bezwzgledny() >=
+                dzwiek.Dzwiek(3, "f").podaj_swoj_kod_bezwzgledny()):
+            przekroczone_glosy += "alt "
+
+        if not (dzwiek.Dzwiek(4, "a").podaj_swoj_kod_bezwzgledny() >=
+                element.podaj_tenor().podaj_swoj_kod_bezwzgledny() >=
+                dzwiek.Dzwiek(3, "c").podaj_swoj_kod_bezwzgledny()):
+            przekroczone_glosy += "tenor "
+
+        if not (dzwiek.Dzwiek(4, "d").podaj_swoj_kod_bezwzgledny() >=
+                element.podaj_bas().podaj_swoj_kod_bezwzgledny() >=
+                dzwiek.Dzwiek(2, "f").podaj_swoj_kod_bezwzgledny()):
+            przekroczone_glosy += "bas "
+
+        if len(przekroczone_glosy) > 0:
+            lista_wynikowa.append((licznik_taktow, licznik_akordow, przekroczone_glosy))
+            przekroczone_glosy = ""
+        licznik_akordow += 1
+    return lista_wynikowa
 
 
 def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:

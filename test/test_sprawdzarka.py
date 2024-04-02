@@ -57,7 +57,7 @@ class TestSprawdzarka(unittest.TestCase):
         akord_a = akord.Akord(d_a, d_b, d_c, d_d, enum_wartosci_nut.WartosciNut.POLNUTA)
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 1)
         par.dodaj_akord(akord_a)
-        self.assertEqual(False, sprawdzarka.czy_w_partyturze_sa_dzwieki_obce(par))
+        self.assertEqual([], sprawdzarka.czy_w_partyturze_sa_dzwieki_obce(par))
 
     def test_czy_w_partyturze_sa_dzwieki_obce_2(self):
         d_a = dzwiek.Dzwiek(3, 'c#')
@@ -67,7 +67,7 @@ class TestSprawdzarka(unittest.TestCase):
         akord_a = akord.Akord(d_a, d_b, d_c, d_d, enum_wartosci_nut.WartosciNut.POLNUTA)
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 1)
         par.dodaj_akord(akord_a)
-        self.assertEqual(True, sprawdzarka.czy_w_partyturze_sa_dzwieki_obce(par))
+        self.assertEqual([(0, 0)], sprawdzarka.czy_w_partyturze_sa_dzwieki_obce(par))
 
     def test_czy_pierwsza_i_ostatnia_tonika_1(self):
         d_a = dzwiek.Dzwiek(3, 'c')
@@ -133,6 +133,48 @@ class TestSprawdzarka(unittest.TestCase):
         par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 1)
         par.zakoncz_takt()
         self.assertEqual(True, sprawdzarka.czy_liczba_taktow_jest_poprawna(par))
+
+    def test_czy_wystepuja_skrzyzowania_glosow_1(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_s = dzwiek.Dzwiek(3, 'c')
+        d_a = dzwiek.Dzwiek(4, 'e')
+        d_t = dzwiek.Dzwiek(5, 'g')
+        d_b = dzwiek.Dzwiek(4, 'c')
+        akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        self.assertEqual([(0, 0)], sprawdzarka.czy_glosy_nie_sa_skrzyzowane(par))
+
+    def test_czy_wystepuja_skrzyzowania_glosow_2(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_s = dzwiek.Dzwiek(3, 'c')
+        d_a = dzwiek.Dzwiek(4, 'e')
+        d_t = dzwiek.Dzwiek(5, 'g')
+        d_b = dzwiek.Dzwiek(4, 'c')
+        akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.zakoncz_takt()
+        par.dodaj_akord(akord_a)
+        self.assertEqual([(1, 0)], sprawdzarka.czy_glosy_nie_sa_skrzyzowane(par))
+
+    def test_czy_wystepuja_skrzyzowania_glosow_3(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_s = dzwiek.Dzwiek(5, 'c')
+        d_a = dzwiek.Dzwiek(4, 'e')
+        d_t = dzwiek.Dzwiek(3, 'g')
+        d_b = dzwiek.Dzwiek(2, 'c')
+        akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        self.assertEqual([], sprawdzarka.czy_glosy_nie_sa_skrzyzowane(par))
+
+    def test_czy_glosy_w_swoich_skalach(self):
+        par = partytura.Partytura(tonacja.Tonacja.F_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        d_s = dzwiek.Dzwiek(4, 'c')
+        d_a = dzwiek.Dzwiek(3, 'h')
+        d_t = dzwiek.Dzwiek(3, 'h')
+        d_b = dzwiek.Dzwiek(2, 'h')
+        akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        self.assertEqual([], sprawdzarka.czy_glosy_w_swoich_skalach(par))
+
 
 if __name__ == '__main__':
     unittest.main()
