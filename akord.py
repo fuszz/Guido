@@ -145,12 +145,14 @@ class Akord:
             :param badana_tonacja: tonacja, w której rozpatrujemy akord
             """
         funkcja_akordu = self.ustal_funkcje(badana_tonacja)
+
         if funkcja_akordu == funkcja.Funkcja.DOMINANTA_SEPTYMOWA:
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK
-        zdwojony_stopien: int = 0
+        print(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja))
         for stopien in self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja):
             if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
-                return funkcja_akordu.dwojenie_jako_skladnik_funkcji(zdwojony_stopien)
+                print(stopien)
+                return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""

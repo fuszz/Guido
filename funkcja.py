@@ -101,6 +101,7 @@ class Funkcja(enum.Enum):
         :param stopien: int, int [0, 6]
         :return: enum_skladnik_funkcji.SkladnikFunkcji
         """
+        print(self.name)
         if not (isinstance(stopien, int)):
             raise blad.BladNiepoprawneArgumenty("funkcja.okresl_przewrot(): stopień musi być intem")
         if not (stopien in range(0, 7)):
@@ -144,6 +145,6 @@ class Funkcja(enum.Enum):
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA
         elif skladnik in (enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_WIELKA,
                           enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA):
-            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA
+            return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.TERCJA
         elif skladnik == enum_skladnik_funkcji.SkladnikFunkcji.KWINTA:
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.KWINTA
