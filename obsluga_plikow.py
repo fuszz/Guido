@@ -6,10 +6,10 @@ import blad
 from enumerations import enum_metrum, enum_wartosci_nut
 from typing import TextIO
 
+
 # NIE TYKAĆ!!!
 
 def utworz_partyture(plik: TextIO) -> partytura.Partytura:
-
     try:
         linia: str = plik.readline().replace('\n', '').replace(' ', '')
         nowe_metrum: enum_metrum.Metrum = enum_metrum.Metrum(linia)

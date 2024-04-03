@@ -75,8 +75,8 @@ INTERWALY_MOLL = [['1', '2', '3>', '4', '5', '6>', '7<'],
                   ['2>', '3>', '4>', '5>', '6>', '7>', '1']]
 
 
-def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> (
-int, intr.Interwal):
+def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> \
+        (int, intr.Interwal):
     """
     Podaje, jaki interwał leży pomiędzy dźwiękami a i b. Nieczuły na kolejność dźwięków. Dźwięki muszą znajdować się w
     tonacji badana_tonacja, w przeciwnym razie podniesie BladDzwiekPozaTonacją.
@@ -553,8 +553,8 @@ def czy_ruch_glosu_o_nie_zbyt_duzy_interwal(badana_partytura: partytura.Partytur
         dzwieki_obecnego_akordu = obecny_akord.podaj_krotke_dzwiekow_z_akordu()
         wadliwe_glosy = ""
         for i in range(4):
-            ruch_w_glosie=podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
-                                         badana_partytura.podaj_tonacje())
+            ruch_w_glosie = podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
+                                           badana_partytura.podaj_tonacje())
             if ruch_w_glosie[0] > 0 or ruch_w_glosie[1] > intr.Interwal.SEKSTA_WIELKA:
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
 

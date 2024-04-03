@@ -430,7 +430,7 @@ class TestSprawdzarka(unittest.TestCase):
                                     dzwiek.Dzwiek(3, "h"),
                                     dzwiek.Dzwiek(3, "h"),
                                     enum_wartosci_nut.WartosciNut.CWIERCNUTA))
-        self.assertEqual([(0, 1, "SATB")], sprawdzarka.czy_ruch_glosu_o_interwal_zwiekszony(par))
+        self.assertEqual([(0, 1, "SATB")], sprawdzarka.czy_ruch_glosu_o_nie_zbyt_duzy_interwal(par))
 
 
 if __name__ == '__main__':
