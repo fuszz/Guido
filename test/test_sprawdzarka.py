@@ -301,5 +301,57 @@ class TestSprawdzarka(unittest.TestCase):
         par.zakoncz_takt()
         self.assertEqual([1], sprawdzarka.czy_na_raz_nie_ma_drugiego_przewrotu(par))
 
+    def test_czy_funkcja_nie_przetrzymana_przez_kreske_taktowa(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                             dzwiek.Dzwiek(4, "e"),
+                             dzwiek.Dzwiek(4, "g"),
+                             dzwiek.Dzwiek(4, "c"),
+                             enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        subdominanta = akord.Akord(dzwiek.Dzwiek(5, "f"),
+                                   dzwiek.Dzwiek(5, "a"),
+                                   dzwiek.Dzwiek(5, "c"),
+                                   dzwiek.Dzwiek(5, "c"),
+                                   enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        dominanta = akord.Akord(dzwiek.Dzwiek(1, "g"),
+                                dzwiek.Dzwiek(1, "h"),
+                                dzwiek.Dzwiek(1, "d"),
+                                dzwiek.Dzwiek(1, "g"),
+                                enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(subdominanta)
+        par.dodaj_akord(dominanta)
+        par.zakoncz_takt()
+        par.dodaj_akord(dominanta)
+        par.dodaj_akord(tonika)
+        par.zakoncz_takt()
+        par.dodaj_akord(tonika)
+        par.zakoncz_takt()
+        self.assertEqual([1, 2], sprawdzarka.czy_funkcja_nie_przetrzymana_przez_kreske_taktowa(par))
+
+    def test_czy_sa_kwinty_rownolegle(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                             dzwiek.Dzwiek(4, "e"),
+                             dzwiek.Dzwiek(4, "g"),
+                             dzwiek.Dzwiek(4, "c"),
+                             enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(tonika)
+        par.zakoncz_takt()
+        self.assertEqual([(0, 1, "ST,TB,")], sprawdzarka.czy_sa_kwinty_rownolegle(par))
+
+    def test_czy_sa_oktawy_rownolegle(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                             dzwiek.Dzwiek(4, "e"),
+                             dzwiek.Dzwiek(4, "g"),
+                             dzwiek.Dzwiek(5, "c"),
+                             enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(tonika)
+        par.zakoncz_takt()
+        self.assertEqual([(0, 1, "SB,")], sprawdzarka.czy_sa_oktawy_rownolegle(par))
+
 if __name__ == '__main__':
     unittest.main()

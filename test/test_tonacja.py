@@ -15,10 +15,14 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("d#").czy_dur(), False)
         self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("a").czy_dur(), False)
 
-        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("C").podaj_liste_nazw_dzwiekow(), ['c', 'd', 'e', 'f', 'g', 'a', 'h'])
-        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("C#").podaj_liste_nazw_dzwiekow(), ['c#', 'd#', 'e#', 'f#', 'g#', 'a#', 'h#'])
-        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("a#").podaj_liste_nazw_dzwiekow(), ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##'])
-        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("eb").podaj_liste_nazw_dzwiekow(), ['eb', 'f', 'gb', 'ab', 'hb', 'cb', 'd'])
+        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("C").podaj_liste_nazw_dzwiekow(),
+                         ['c', 'd', 'e', 'f', 'g', 'a', 'h'])
+        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("C#").podaj_liste_nazw_dzwiekow(),
+                         ['c#', 'd#', 'e#', 'f#', 'g#', 'a#', 'h#'])
+        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("a#").podaj_liste_nazw_dzwiekow(),
+                         ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##'])
+        self.assertEqual(tonacja.Tonacja.tonacja_z_symbolu("eb").podaj_liste_nazw_dzwiekow(),
+                         ['eb', 'f', 'gb', 'ab', 'hb', 'cb', 'd'])
 
     def test_konstruktora(self):
         """Sprawdza działanie konstruktora dla NIEpoprawnie podanych danych - t durowa:

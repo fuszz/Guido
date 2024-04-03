@@ -80,5 +80,8 @@ class Dzwiek:
                         kod -= 1
                 return kod
 
+
+
+
 #d = Dzwiek(8, 'c')
 #print(d.podaj_swoj_kod_midi())

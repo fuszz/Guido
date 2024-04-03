@@ -101,7 +101,6 @@ class Funkcja(enum.Enum):
         :param stopien: int, int [0, 6]
         :return: enum_skladnik_funkcji.SkladnikFunkcji
         """
-        print(self.name)
         if not (isinstance(stopien, int)):
             raise blad.BladNiepoprawneArgumenty("funkcja.okresl_przewrot(): stopień musi być intem")
         if not (stopien in range(0, 7)):
