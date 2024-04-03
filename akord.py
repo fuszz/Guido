@@ -156,5 +156,5 @@ class Akord:
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""
-        print(self._sopran.podaj_swoj_kod_bezwzgledny(), self._alt.podaj_swoj_kod_bezwzgledny(),
-              self._tenor.podaj_swoj_kod_bezwzgledny(), self._bas.podaj_swoj_kod_bezwzgledny(), self._dlugosc.value)
+        print(self._sopran.podaj_swoj_kod_midi(), self._alt.podaj_swoj_kod_midi(),
+              self._tenor.podaj_swoj_kod_midi(), self._bas.podaj_swoj_kod_midi(), self._dlugosc.value)

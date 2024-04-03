@@ -128,3 +128,11 @@ class BladNiepoprawneArgumenty(Exception):
 
     def __str__(self):
         return f"Niepoprawne argumenty: {self.message}"
+
+class BladBrakTakiegoInterwalu(Exception):
+    """Podnoszony, gdy niemożliwe jest utworzenie interwału o pewnym symbolu"""
+    def __init__(self, message):
+        self.message = message
+
+    def __str__(self):
+        return f"Błąd tworzenia interwału: {self.message}"

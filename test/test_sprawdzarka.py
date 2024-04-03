@@ -201,7 +201,6 @@ class TestSprawdzarka(unittest.TestCase):
         par.dodaj_akord(akord_b)
         self.assertEqual([(0, 1)], sprawdzarka.czy_dzwieki_tworza_sensowne_funkcje_w_tonacji(par))
 
-
     def test_czy_dzwieki_tworza_sensowne_funkcje_w_tonacji_2(self):
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
         akord_a = akord.Akord(dzwiek.Dzwiek(4, "c"),
@@ -219,6 +218,88 @@ class TestSprawdzarka(unittest.TestCase):
         par.dodaj_akord(akord_b)
         self.assertEqual([(1, 0)], sprawdzarka.czy_dzwieki_tworza_sensowne_funkcje_w_tonacji(par))
 
+    def test_czy_odleglosci_glosow_nieprzekroczone_1(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        akord_a = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(4, "e"),
+                              dzwiek.Dzwiek(4, "g"),
+                              dzwiek.Dzwiek(4, "c"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        par.zakoncz_takt()
+        akord_b = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(5, "d"),
+                              dzwiek.Dzwiek(5, "f"),
+                              dzwiek.Dzwiek(5, "g"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_b)
+        self.assertEqual([(2, 0, "SA(1, <Interwal.SEKUNDA_WIELKA: (3, \'2\')>)")],
+                         sprawdzarka.czy_odleglosci_glosow_nie_sa_przekroczone(par))
+
+    def test_czy_po_dominancie_nie_ma_subdominanty(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(4, "e"),
+                              dzwiek.Dzwiek(4, "g"),
+                              dzwiek.Dzwiek(4, "c"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        subdominanta = akord.Akord(dzwiek.Dzwiek(5, "f"),
+                                   dzwiek.Dzwiek(5, "a"),
+                                   dzwiek.Dzwiek(5, "c"),
+                                   dzwiek.Dzwiek(5, "c"),
+                                   enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        dominanta = akord.Akord(dzwiek.Dzwiek(1, "g"),
+                                dzwiek.Dzwiek(1, "h"),
+                                dzwiek.Dzwiek(1, "d"),
+                                dzwiek.Dzwiek(1, "g"),
+                                enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(subdominanta)
+        par.dodaj_akord(dominanta)
+        par.zakoncz_takt()
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(dominanta)
+        par.dodaj_akord(tonika)
+        par.zakoncz_takt()
+
+        self.assertEqual([], sprawdzarka.czy_po_dominancie_nie_ma_subdominanty(par))
+
+        par.dodaj_akord(dominanta)
+        par.dodaj_akord(subdominanta)
+        par.dodaj_akord(dominanta)
+        par.zakoncz_takt()
+        self.assertEqual([(2, 1)], sprawdzarka.czy_po_dominancie_nie_ma_subdominanty(par))
+
+    def test_czy_na_raz_nie_ma_drugiego_przewrotu_1(self):
+        bez = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                              dzwiek.Dzwiek(4, "e"),
+                              dzwiek.Dzwiek(4, "g"),
+                              dzwiek.Dzwiek(4, "c"),
+                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        pierwszy = akord.Akord(dzwiek.Dzwiek(5, "a"),
+                                   dzwiek.Dzwiek(5, "f"),
+                                   dzwiek.Dzwiek(5, "c"),
+                                   dzwiek.Dzwiek(5, "f"),
+                                   enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        drugi = akord.Akord(dzwiek.Dzwiek(1, "g"),
+                                dzwiek.Dzwiek(1, "h"),
+                                dzwiek.Dzwiek(1, "g"),
+                                dzwiek.Dzwiek(1, "d"),
+                                enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
+        par.dodaj_akord(bez)
+        par.dodaj_akord(pierwszy)
+
+        par.zakoncz_takt()
+        par.dodaj_akord(drugi)
+
+        par.zakoncz_takt()
+        par.dodaj_akord(pierwszy)
+        par.dodaj_akord(bez)
+
+        par.zakoncz_takt()
+        self.assertEqual([1], sprawdzarka.czy_na_raz_nie_ma_drugiego_przewrotu(par))
 
 if __name__ == '__main__':
     unittest.main()

@@ -62,14 +62,14 @@ class Dzwiek:
         """
         return self._oktawa_dzwieku * 7 + self.podaj_swoj_stopien(badana_tonacja)
 
-    def podaj_swoj_kod_bezwzgledny(self) -> int:
+    def podaj_swoj_kod_midi(self) -> int:
         """
-        Zwraca bezwzględny kod dźwięku.
+        Zwraca kod dźwięku w postaci MIDI.
         Nigdy nie powinno zwrócić błędu, bo każdy poprawny dźwięk ma taki kod.
-        <numer oktawy> * 12 + <dzwiek, gdzie c = 0, a h = 11>
+        [<numer oktawy> * 12 + <dzwiek, gdzie c = 0, a h = 11>] + 12
         :return: int
         """
-        kod: int = 12 * self._oktawa_dzwieku
+        kod: int = 12 + 12 * self._oktawa_dzwieku
         for kod_bezwzgledny in enum_bezwzgledne_kody_dzwiekow.BezwzgledneKodyDzwiekow:
             if kod_bezwzgledny.name.lower() == self._nazwa_dzwieku.value[0]:
                 kod += kod_bezwzgledny.value
@@ -79,3 +79,6 @@ class Dzwiek:
                     elif znak == 'b':
                         kod -= 1
                 return kod
+
+#d = Dzwiek(8, 'c')
+#print(d.podaj_swoj_kod_midi())

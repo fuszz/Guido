@@ -158,6 +158,16 @@ class TestyKlasyAKord(unittest.TestCase):
         self.assertRaises(blad.BladStopienPozaFunkcja,
                           lambda: nowy_akord.ustal_przewrot(tonacja.Tonacja.tonacja_z_symbolu('Hb')))
 
+    def test_ustal_przewrot_7(self):
+        d_b = dzwiek.Dzwiek(2, 'd')
+        d_t = dzwiek.Dzwiek(3, 'g')
+        d_a = dzwiek.Dzwiek(4, 'h')
+        d_s = dzwiek.Dzwiek(4, 'd')
+        wartosc = enum_wartosci_nut.WartosciNut(2)
+        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
+        self.assertEqual(enum_przewroty.Przewrot.DRUGI,
+                         nowy_akord.ustal_przewrot(tonacja.Tonacja.tonacja_z_symbolu('C')))
+
     def test_ustal_pozycje_1(self):
         d_b = dzwiek.Dzwiek(2, 'f')
         d_t = dzwiek.Dzwiek(3, 'a')

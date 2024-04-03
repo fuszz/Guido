@@ -81,33 +81,33 @@ class MyTestCase(unittest.TestCase):
     def test_kodu_bezwzglednego_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'd')
-        print(d1.podaj_swoj_kod_bezwzgledny())
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+        print(d1.podaj_swoj_kod_midi())
+        self.assertEqual(d1.podaj_swoj_kod_midi(), d2.podaj_swoj_kod_midi())
 
     def test_kodu_bezwzglednego_2(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'db')
-        self.assertNotEqual(d1.podaj_swoj_kod_bezwzgledny(), d2.podaj_swoj_kod_bezwzgledny())
+        self.assertNotEqual(d1.podaj_swoj_kod_midi(), d2.podaj_swoj_kod_midi())
 
-    def test_kodu_bezwzglednego_3(self):
+    def test_kodu_midi_3(self):
         d1 = dzwiek.Dzwiek(1, 'c')
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 12)
+        self.assertEqual(d1.podaj_swoj_kod_midi(), 24)
 
-    def test_kodu_bezwzglednego_4(self):
+    def test_kodu_midi_4(self):
         d1 = dzwiek.Dzwiek(1, 'c#')
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 13)
+        self.assertEqual(d1.podaj_swoj_kod_midi(), 25)
 
-    def test_kodu_bezwzglednego_5(self):
+    def test_kodu_midi_5(self):
         d1 = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 14)
+        self.assertEqual(d1.podaj_swoj_kod_midi(), 26)
 
-    def test_kodu_bezwzglednego_6(self):
+    def test_kodu_midi_6(self):
         d1 = dzwiek.Dzwiek(1, 'h')
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 23)
+        self.assertEqual(d1.podaj_swoj_kod_midi(), 35)
 
-    def test_kodu_bezwzglednego_7(self):
+    def test_kodu_midi_7(self):
         d1 = dzwiek.Dzwiek(2, 'c')
-        self.assertEqual(d1.podaj_swoj_kod_bezwzgledny(), 24)
+        self.assertEqual(d1.podaj_swoj_kod_midi(), 36)
 
 
 if __name__ == '__main__':
