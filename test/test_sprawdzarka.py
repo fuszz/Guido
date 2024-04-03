@@ -239,10 +239,10 @@ class TestSprawdzarka(unittest.TestCase):
     def test_czy_po_dominancie_nie_ma_subdominanty(self):
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
         tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
-                              dzwiek.Dzwiek(4, "e"),
-                              dzwiek.Dzwiek(4, "g"),
-                              dzwiek.Dzwiek(4, "c"),
-                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+                             dzwiek.Dzwiek(4, "e"),
+                             dzwiek.Dzwiek(4, "g"),
+                             dzwiek.Dzwiek(4, "c"),
+                             enum_wartosci_nut.WartosciNut.CWIERCNUTA)
         subdominanta = akord.Akord(dzwiek.Dzwiek(5, "f"),
                                    dzwiek.Dzwiek(5, "a"),
                                    dzwiek.Dzwiek(5, "c"),
@@ -273,20 +273,20 @@ class TestSprawdzarka(unittest.TestCase):
 
     def test_czy_na_raz_nie_ma_drugiego_przewrotu_1(self):
         bez = akord.Akord(dzwiek.Dzwiek(4, "c"),
-                              dzwiek.Dzwiek(4, "e"),
-                              dzwiek.Dzwiek(4, "g"),
-                              dzwiek.Dzwiek(4, "c"),
-                              enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+                          dzwiek.Dzwiek(4, "e"),
+                          dzwiek.Dzwiek(4, "g"),
+                          dzwiek.Dzwiek(4, "c"),
+                          enum_wartosci_nut.WartosciNut.CWIERCNUTA)
         pierwszy = akord.Akord(dzwiek.Dzwiek(5, "a"),
-                                   dzwiek.Dzwiek(5, "f"),
-                                   dzwiek.Dzwiek(5, "c"),
-                                   dzwiek.Dzwiek(5, "f"),
-                                   enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+                               dzwiek.Dzwiek(5, "f"),
+                               dzwiek.Dzwiek(5, "c"),
+                               dzwiek.Dzwiek(5, "f"),
+                               enum_wartosci_nut.WartosciNut.CWIERCNUTA)
         drugi = akord.Akord(dzwiek.Dzwiek(1, "g"),
-                                dzwiek.Dzwiek(1, "h"),
-                                dzwiek.Dzwiek(1, "g"),
-                                dzwiek.Dzwiek(1, "d"),
-                                enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+                            dzwiek.Dzwiek(1, "h"),
+                            dzwiek.Dzwiek(1, "g"),
+                            dzwiek.Dzwiek(1, "d"),
+                            enum_wartosci_nut.WartosciNut.CWIERCNUTA)
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
         par.dodaj_akord(bez)
         par.dodaj_akord(pierwszy)
@@ -329,6 +329,28 @@ class TestSprawdzarka(unittest.TestCase):
         par.zakoncz_takt()
         self.assertEqual([1, 2], sprawdzarka.czy_funkcja_nie_przetrzymana_przez_kreske_taktowa(par))
 
+    def test_czy_ostateczne_rozwiazanie_nie_jest_w_drugim_przewrocie(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        akd = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                          dzwiek.Dzwiek(4, "e"),
+                          dzwiek.Dzwiek(4, "g"),
+                          dzwiek.Dzwiek(4, "c"),
+                          enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akd)
+        par.zakoncz_takt()
+        self.assertEqual(True, sprawdzarka.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(par))
+
+    def test_czy_ostateczne_rozwiazanie_nie_jest_w_drugim_przewrocie_2(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        akd = akord.Akord(dzwiek.Dzwiek(4, "c"),
+                          dzwiek.Dzwiek(4, "e"),
+                          dzwiek.Dzwiek(4, "g"),
+                          dzwiek.Dzwiek(4, "g"),
+                          enum_wartosci_nut.WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akd)
+        par.zakoncz_takt()
+        self.assertEqual(False, sprawdzarka.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(par))
+
     def test_czy_sa_kwinty_rownolegle(self):
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
         tonika = akord.Akord(dzwiek.Dzwiek(4, "c"),
@@ -352,6 +374,7 @@ class TestSprawdzarka(unittest.TestCase):
         par.dodaj_akord(tonika)
         par.zakoncz_takt()
         self.assertEqual([(0, 1, "SB,")], sprawdzarka.czy_sa_oktawy_rownolegle(par))
+
 
 if __name__ == '__main__':
     unittest.main()

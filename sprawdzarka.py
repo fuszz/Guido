@@ -19,36 +19,37 @@ KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI = ["SA,", "ST,", "SB,", "AT,", "AB,", "TB,"]
 
 """ Moduł sprawdzarki będzie opierać sie na czterech (?) warstwach sprawdzania poprawności partytury. Będą to:
     1. Sprawdzenie, czy wprowadzone dane są kompletne i czy dane nie zostały uszkodzone. Należą tu:
-        a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów
-        b. Czy pojemność poszczególnych taktów odpowiada wymogom obranego metrum
+        a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów - OK
+        b. Czy pojemność poszczególnych taktów odpowiada wymogom obranego metrum - OK
         c. ... 
         itp.
         
     2. Sprawdzenie, czy w partyturze nie ma pionowych błędów, czyli takich, które nie dotyczą kolejności 
        ani łączenia akordów ze sobą. A zatem:
-        a. Czy w partyturze nie występują dźwięki obce
-        b. Czy w partyturze nie występują krzyżowania głosów
-        c. Czy w poszczególnych głosach dźwięki pozostają w swoich skalach
-        d. Czy dźwięki tworzą w podanej tonacji sensowne funkcje harmoniczne 
-        e. Czy nie są przekroczone odległości pomiędzy głosami
+        a. Czy w partyturze nie występują dźwięki obce - OK
+        b. Czy w partyturze nie występują krzyżowania głosów - OK
+        c. Czy w poszczególnych głosach dźwięki pozostają w swoich skalach - OK
+        d. Czy dźwięki tworzą w podanej tonacji sensowne funkcje harmoniczne  - OK
+        e. Czy nie są przekroczone odległości pomiędzy głosami - OK
         f. ...
         itp.
         
     3. Sprawdzenie, czy kolejność akordów jest poprawna, ale na razie bez wnikania w sposób łączenia ich ze sobą. 
        Tutaj analizujemy
-       a. Czy w partyturze na pierwszym i ostatnim miejscu występuje akord toniczny
-       b. Czy w partyturze po dominancie nie występuje subdominanta
-       c. Czy w partyturze na mocnej części taktu (na "raz") nie występuje akord w słabym (drugim) przewrocie ->>> to sprawdzić z Sikorskim!!!
-       d. Czy w partyturze nie przetrzymano akordu przez kreskę taktową (błąd!) ->>>> Sprawdzic w Sikorskim
-       e. ...
+       a. Czy w partyturze na pierwszym i ostatnim miejscu występuje akord toniczny - OK
+       b. Czy w partyturze po dominancie nie występuje subdominanta - OK
+       c. Czy w partyturze na mocnej części taktu (na "raz") nie występuje akord w słabym (drugim) przewrocie - OK
+       d. Czy w partyturze nie przetrzymano akordu przez kreskę taktową (błąd!) - OK
+       e. Czy ostateczne rozwiązanie nie jest w drugim (słabym) przewrocie - jeszcze testy
        itd.
        
     4. Sprawdzenie poprawności łączeń akordów. Będą to:
         a. Sprawdzenie, czy w partyturze występują kwinty równoległe
         b. Sprawdzenie, czy są oktawy równoległe
         c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku
-        d. Sprawdzenie, czy nie występują skoki o niedozwolony (zbyt duży lub zwiększony) interwał
-        e. ...
+        d. Sprawdzenie, czy nie występują skoki o zbyt duży interwał
+        e. Sprawdzenie, czy nie występuje ruch o interwał zwiększony
+        f. ...
         itp.
         
     Jeśli we wcześniejszych warstwach testy wykażą błędy, sprawdzanie zakończy się, bo niemożliwe będzie osiągnięcie
@@ -193,6 +194,15 @@ def czy_glosy_nie_sa_skrzyzowane(badana_partytura: partytura.Partytura) -> list[
     return lista_wynikowa
 
 
+def czy_dzwiek_w_zadanej_skali(badany_dzwiek: dzwiek.Dzwiek, granica_dolna: dzwiek.Dzwiek,
+                               granica_gorna: dzwiek.Dzwiek) -> bool:
+    """Sprawdza, czy badany_dzwiek leży nie niżej niż  dźwięk granica_dolna i nie wyżej niż dźwięk granica_górna.
+    Zwraca True, jeśli dźwięk leży w skali i False, gdy ją przekracza"""
+
+    return (granica_dolna.podaj_swoj_kod_midi() <= badany_dzwiek.podaj_swoj_kod_midi() <=
+            granica_gorna.podaj_swoj_kod_midi())
+
+
 def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(int, int, str)]:
     """Funkcja sprawdza, czy w podanej partyturze dźwięki nie wykraczają poza skale głosów.
     Zwraca listę tupli postaci (int, int, str), gdzie pierwsza liczba oznacza numer taktu, druga - numer akordu, a str -
@@ -201,34 +211,26 @@ def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(i
     lista_wynikowa = []
     licznik_taktow = 0
     licznik_akordow = 0
+
     for element in badana_partytura.podaj_liste_akordow():
         przekroczone_glosy = ""
-
         if element == "T":
             licznik_taktow += 1
             licznik_akordow = 0
             continue
-        if not (dzwiek.Dzwiek(5, "a").podaj_swoj_kod_midi() >=
-                element.podaj_sopran().podaj_swoj_kod_midi() >=
-                dzwiek.Dzwiek(4, "c").podaj_swoj_kod_midi()):
+        if not (czy_dzwiek_w_zadanej_skali(element.podaj_sopran(), dzwiek.Dzwiek(4, "c"), dzwiek.Dzwiek(5, "a"))):
             przekroczone_glosy += "sopran "
 
-        if not (dzwiek.Dzwiek(5, "d").podaj_swoj_kod_midi() >=
-                element.podaj_alt().podaj_swoj_kod_midi() >=
-                dzwiek.Dzwiek(3, "f").podaj_swoj_kod_midi()):
+        if not (czy_dzwiek_w_zadanej_skali(element.podaj_alt(), dzwiek.Dzwiek(3, "f"), dzwiek.Dzwiek(5, "d"))):
             przekroczone_glosy += "alt "
 
-        if not (dzwiek.Dzwiek(4, "a").podaj_swoj_kod_midi() >=
-                element.podaj_tenor().podaj_swoj_kod_midi() >=
-                dzwiek.Dzwiek(3, "c").podaj_swoj_kod_midi()):
+        if not (czy_dzwiek_w_zadanej_skali(element.podaj_tenor(), dzwiek.Dzwiek(3, "c"), dzwiek.Dzwiek(4, "a"))):
             przekroczone_glosy += "tenor "
 
-        if not (dzwiek.Dzwiek(4, "d").podaj_swoj_kod_midi() >=
-                element.podaj_bas().podaj_swoj_kod_midi() >=
-                dzwiek.Dzwiek(2, "f").podaj_swoj_kod_midi()):
+        if not (czy_dzwiek_w_zadanej_skali(element.podaj_bas(), dzwiek.Dzwiek(2, "f"), dzwiek.Dzwiek(4, "d"))):
             przekroczone_glosy += "bas "
 
-        if len(przekroczone_glosy) > 0:
+        if przekroczone_glosy:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, przekroczone_glosy))
         licznik_akordow += 1
     return lista_wynikowa
@@ -288,7 +290,7 @@ def czy_odleglosci_glosow_nie_sa_przekroczone(badana_partytura: partytura.Partyt
             oznaczenia_glosow += "TB" + str(podaj_interwal(element.podaj_bas(), element.podaj_tenor(),
                                                            badana_partytura.podaj_tonacje()))
 
-        if len(oznaczenia_glosow) > 0:
+        if oznaczenia_glosow:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, oznaczenia_glosow))
         licznik_taktow += 1
 
@@ -311,6 +313,15 @@ def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> boo
             badana_partytura.podaj_tonacje()) not in PRZEWIDZIANE_TONIKI:
         return False
     return True
+
+
+def czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: partytura.Partytura) -> bool:
+    """Sprawdza, czy ostateczne rozwiązanie (ostatnia tonika w partyturze) jest w innym niż drugi przewrocie. Jeśli tak,
+    zwraca True. W przeciwnym razie zwraca False. Funkcja przyjmuje, że ostatni akord to zawsze przedostatni
+    element listy akordów"""
+
+    return (badana_partytura.podaj_liste_akordow()[-2].ustal_przewrot(badana_partytura.podaj_tonacje()) !=
+            prz.Przewrot.DRUGI)
 
 
 def czy_po_dominancie_nie_ma_subdominanty(badana_partytura: partytura.Partytura) -> list[(int, int)]:
@@ -427,7 +438,7 @@ def czy_sa_kwinty_rownolegle(badana_partytura: partytura.Partytura) -> list[(int
                     poprzednie_interwaly[i][1] == intr.Interwal.KWINTA_CZYSTA):
                 glosy_z_kwintami += KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI[i]
 
-        if len(glosy_z_kwintami) > 0:
+        if glosy_z_kwintami:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, glosy_z_kwintami))
 
     return lista_wynikowa
@@ -459,7 +470,35 @@ def czy_sa_oktawy_rownolegle(badana_partytura: partytura.Partytura) -> list[(int
                     poprzednie_interwaly[i][0] > 0 and poprzednie_interwaly[i][1] == intr.Interwal.PRYMA_CZYSTA):
                 glosy_z_oktawami += KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI[i]
 
-        if len(glosy_z_oktawami) > 0:
+        if glosy_z_oktawami:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, glosy_z_oktawami))
 
     return lista_wynikowa
+
+
+def czy_wszystkie_glosy_poszly_w_jednym_kierunku(badana_partytura: partytura.Partytura) -> list[(int, int)]:
+    """ Sprawdza, czy w którymś połączeniu wszystkie głosy nie poruszają się w tym samym kierunku. Zwraca listę tupli
+    postaci (int, int), gdzie pierwsza liczba to numer taktu, a druga - numer akordu w takcie tego akordu, który został
+    połączony wadliwie ze swoim poprzednikiem. Liczniki pracują od 0. Pusta lista wynikowa oznacza brak błędu"""
+
+    lista_wynikowa = []
+    licznik_akordow = 0
+    licznik_taktow = 0
+    poprzedni_akord = badana_partytura.podaj_liste_akordow()[0]
+    for obecny_akord in badana_partytura.podaj_liste_akordow()[1:]:
+        if obecny_akord == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+        licznik_akordow += 1
+        kody_midi_dzwiekow_poprzedniego_akordu = tuple(map(lambda d: d.podaj_swoj_kod_midi(),
+                                                           poprzedni_akord.podaj_krotke_dzwiekow_z_akordu()))
+        kody_midi_dzwiekow_obecnego_akordu = tuple(map(lambda d: d.podaj_swoj_kod_midi(),
+                                                       obecny_akord.podaj_krotke_dzwiekow_z_akordu()))
+        if (all(d1 > d2 for d1, d2 in
+                zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu)) or
+                all(d1 < d2 for d1, d2 in
+                    zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu))):
+            lista_wynikowa.append((licznik_taktow, licznik_akordow))
+    return lista_wynikowa
+ # TESTY DO TEGO

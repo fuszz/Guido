@@ -154,7 +154,7 @@ class Akord:
                 print(stopien)
                 return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
 
-    def daj_krotke_dzwiekow_z_akordu(self) -> (dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek):
+    def podaj_krotke_dzwiekow_z_akordu(self) -> (dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek):
         """Zwraca dźwięki składowe akordu w postaci czteroelementowej krotki obiektów klasy Dźwięk w kolejności:
         (sopran, alt, tenor, bas)"""
         return self._sopran, self._alt, self._tenor, self._bas
