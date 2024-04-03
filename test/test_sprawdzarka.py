@@ -183,7 +183,7 @@ class TestSprawdzarka(unittest.TestCase):
         d_b = dzwiek.Dzwiek(2, 'h')
         akord_a = akord.Akord(d_s, d_a, d_t, d_b, enum_wartosci_nut.WartosciNut.CWIERCNUTA)
         par.dodaj_akord(akord_a)
-        self.assertEqual([(0, 0, "sopran ")], sprawdzarka.czy_glosy_w_swoich_skalach(par))
+        self.assertEqual([(0, 0, "S")], sprawdzarka.czy_glosy_w_swoich_skalach(par))
 
     def test_czy_dzwieki_tworza_sensowne_funkcje_w_tonacji_1(self):
         par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 2)
@@ -374,6 +374,63 @@ class TestSprawdzarka(unittest.TestCase):
         par.dodaj_akord(tonika)
         par.zakoncz_takt()
         self.assertEqual([(0, 1, "SB,")], sprawdzarka.czy_sa_oktawy_rownolegle(par))
+
+    def test_czy_wszystkie_glosy_poszly_w_jednym_kierunku(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(1, "c"),
+                                    dzwiek.Dzwiek(1, "d"),
+                                    dzwiek.Dzwiek(2, "e"),
+                                    dzwiek.Dzwiek(2, "c"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(2, "c"),
+                                    dzwiek.Dzwiek(2, "d"),
+                                    dzwiek.Dzwiek(3, "e"),
+                                    dzwiek.Dzwiek(3, "c"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(2, "c"),
+                                    dzwiek.Dzwiek(3, "d"),
+                                    dzwiek.Dzwiek(1, "e"),
+                                    dzwiek.Dzwiek(3, "c"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(0, "c"),
+                                    dzwiek.Dzwiek(0, "d"),
+                                    dzwiek.Dzwiek(0, "e"),
+                                    dzwiek.Dzwiek(0, "c"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+        self.assertEqual([(0, 1), (0, 3)], sprawdzarka.czy_wszystkie_glosy_poszly_w_jednym_kierunku(par))
+
+    def test_czy_ruch_o_interwal_zwiekszony(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(1, "f"),
+                                    dzwiek.Dzwiek(1, "f"),
+                                    dzwiek.Dzwiek(2, "f"),
+                                    dzwiek.Dzwiek(2, "f"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(2, "h"),
+                                    dzwiek.Dzwiek(2, "h"),
+                                    dzwiek.Dzwiek(3, "h"),
+                                    dzwiek.Dzwiek(3, "h"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+        self.assertEqual([(0, 1, "SATB")], sprawdzarka.czy_ruch_glosu_o_interwal_zwiekszony(par))
+
+    def test_czy_ruch_o_nie_za_duzy_interwal(self):
+        par = partytura.Partytura(tonacja.Tonacja.C_DUR, enum_metrum.Metrum.TRZY_CZWARTE, 4)
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(1, "f"),
+                                    dzwiek.Dzwiek(1, "f"),
+                                    dzwiek.Dzwiek(2, "f"),
+                                    dzwiek.Dzwiek(2, "f"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(akord.Akord(dzwiek.Dzwiek(2, "h"),
+                                    dzwiek.Dzwiek(2, "h"),
+                                    dzwiek.Dzwiek(3, "h"),
+                                    dzwiek.Dzwiek(3, "h"),
+                                    enum_wartosci_nut.WartosciNut.CWIERCNUTA))
+        self.assertEqual([(0, 1, "SATB")], sprawdzarka.czy_ruch_glosu_o_interwal_zwiekszony(par))
 
 
 if __name__ == '__main__':

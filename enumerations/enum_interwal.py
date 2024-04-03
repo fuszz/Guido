@@ -42,3 +42,11 @@ class Interwal(Enum):
 
     def __ge__(self, other):
         return type(self) is type(other) and self.value[0] >= other.value[0]
+
+    def czy_interwal_zwiekszony(self) -> bool:
+        """Zwraca True, jeśli dana instancja jest interwałem zwiększonym. W przeciwnym razie zwraca False"""
+
+        if self.value[1] == '<' and self != Interwal.SEPTYMA_WIELKA:
+            return True
+        else:
+            return False

@@ -16,7 +16,7 @@ PRZEWIDZIANE_TROJDZWIEKI = [funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA,
                             funkcja.Funkcja.MOLL_SUBDOMINANTA, funkcja.Funkcja.DOMINANTA]
 PRZEWIDZIANE_CZTERODZWIEKI = [funkcja.Funkcja.DOMINANTA_SEPTYMOWA]
 KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI = ["SA,", "ST,", "SB,", "AT,", "AB,", "TB,"]
-
+KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
 """ Moduł sprawdzarki będzie opierać sie na czterech (?) warstwach sprawdzania poprawności partytury. Będą to:
     1. Sprawdzenie, czy wprowadzone dane są kompletne i czy dane nie zostały uszkodzone. Należą tu:
         a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów - OK
@@ -40,15 +40,15 @@ KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI = ["SA,", "ST,", "SB,", "AT,", "AB,", "TB,"]
        b. Czy w partyturze po dominancie nie występuje subdominanta - OK
        c. Czy w partyturze na mocnej części taktu (na "raz") nie występuje akord w słabym (drugim) przewrocie - OK
        d. Czy w partyturze nie przetrzymano akordu przez kreskę taktową (błąd!) - OK
-       e. Czy ostateczne rozwiązanie nie jest w drugim (słabym) przewrocie - jeszcze testy
+       e. Czy ostateczne rozwiązanie nie jest w drugim (słabym) przewrocie - OK
        itd.
        
     4. Sprawdzenie poprawności łączeń akordów. Będą to:
-        a. Sprawdzenie, czy w partyturze występują kwinty równoległe
-        b. Sprawdzenie, czy są oktawy równoległe
-        c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku
+        a. Sprawdzenie, czy w partyturze występują kwinty równoległe - OK
+        b. Sprawdzenie, czy są oktawy równoległe - OK
+        c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku - OK
         d. Sprawdzenie, czy nie występują skoki o zbyt duży interwał
-        e. Sprawdzenie, czy nie występuje ruch o interwał zwiększony
+        e. Sprawdzenie, czy nie występuje ruch o interwał zwiększony - OK
         f. ...
         itp.
         
@@ -76,7 +76,7 @@ INTERWALY_MOLL = [['1', '2', '3>', '4', '5', '6>', '7<'],
 
 
 def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> (
-        int, intr.Interwal):
+int, intr.Interwal):
     """
     Podaje, jaki interwał leży pomiędzy dźwiękami a i b. Nieczuły na kolejność dźwięków. Dźwięki muszą znajdować się w
     tonacji badana_tonacja, w przeciwnym razie podniesie BladDzwiekPozaTonacją.
@@ -219,16 +219,16 @@ def czy_glosy_w_swoich_skalach(badana_partytura: partytura.Partytura) -> list[(i
             licznik_akordow = 0
             continue
         if not (czy_dzwiek_w_zadanej_skali(element.podaj_sopran(), dzwiek.Dzwiek(4, "c"), dzwiek.Dzwiek(5, "a"))):
-            przekroczone_glosy += "sopran "
+            przekroczone_glosy += "S"
 
         if not (czy_dzwiek_w_zadanej_skali(element.podaj_alt(), dzwiek.Dzwiek(3, "f"), dzwiek.Dzwiek(5, "d"))):
-            przekroczone_glosy += "alt "
+            przekroczone_glosy += "A"
 
         if not (czy_dzwiek_w_zadanej_skali(element.podaj_tenor(), dzwiek.Dzwiek(3, "c"), dzwiek.Dzwiek(4, "a"))):
-            przekroczone_glosy += "tenor "
+            przekroczone_glosy += "T"
 
         if not (czy_dzwiek_w_zadanej_skali(element.podaj_bas(), dzwiek.Dzwiek(2, "f"), dzwiek.Dzwiek(4, "d"))):
-            przekroczone_glosy += "bas "
+            przekroczone_glosy += "B"
 
         if przekroczone_glosy:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, przekroczone_glosy))
@@ -495,10 +495,70 @@ def czy_wszystkie_glosy_poszly_w_jednym_kierunku(badana_partytura: partytura.Par
                                                            poprzedni_akord.podaj_krotke_dzwiekow_z_akordu()))
         kody_midi_dzwiekow_obecnego_akordu = tuple(map(lambda d: d.podaj_swoj_kod_midi(),
                                                        obecny_akord.podaj_krotke_dzwiekow_z_akordu()))
-        if (all(d1 > d2 for d1, d2 in
-                zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu)) or
-                all(d1 < d2 for d1, d2 in
-                    zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu))):
+        if ((all(d1 > d2 for d1, d2 in zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu)))
+                or (all(d1 < d2 for d1, d2 in
+                        zip(kody_midi_dzwiekow_poprzedniego_akordu, kody_midi_dzwiekow_obecnego_akordu)))):
             lista_wynikowa.append((licznik_taktow, licznik_akordow))
     return lista_wynikowa
- # TESTY DO TEGO
+
+
+def czy_ruch_glosu_o_interwal_zwiekszony(badana_partytura: partytura.Partytura) -> list[(int, int)]:
+    """ Sprawdza, czy w którymś połączeniu głos nie porusza się o interwał zwiększony. Zwraca listę tupli
+        postaci (int, int, str), gdzie pierwsza liczba to numer taktu, druga - numer akordu w takcie tego akordu, a str
+        daje info o głosie, w którym miał miejsce niedozwolony ruch. Wskazywany jest akord wadliwie połączony z
+        poprzednikiem. Liczniki pracują od 0. Pusta lista wynikowa oznacza brak błędu. Nie sprawdza, czy interwał nie
+        jest zbyt wielki."""
+
+    lista_wynikowa = []
+    licznik_akordow = 0
+    licznik_taktow = 0
+    poprzedni_akord = badana_partytura.podaj_liste_akordow()[0]
+    for obecny_akord in badana_partytura.podaj_liste_akordow()[1:]:
+        if obecny_akord == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+        licznik_akordow += 1
+        dzwieki_poprzedniego_akordu = poprzedni_akord.podaj_krotke_dzwiekow_z_akordu()
+        dzwieki_obecnego_akordu = obecny_akord.podaj_krotke_dzwiekow_z_akordu()
+        wadliwe_glosy = ""
+        for i in range(4):
+            if podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
+                              badana_partytura.podaj_tonacje())[1].czy_interwal_zwiekszony:
+                wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
+
+        if wadliwe_glosy:
+            lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
+
+    return lista_wynikowa
+
+
+def czy_ruch_glosu_o_nie_zbyt_duzy_interwal(badana_partytura: partytura.Partytura) -> list[(int, int)]:
+    """ Sprawdza, czy w którymś połączeniu głos nie porusza się o zbyt duży interwał. Zwraca listę tupli
+        postaci (int, int, str), gdzie pierwsza liczba to numer taktu, druga - numer akordu w takcie tego akordu, a str
+        daje info o głosie, w którym miał miejsce niedozwolony ruch. Wskazywany jest akord wadliwie połączony z
+        poprzednikiem. Liczniki pracują od 0. Pusta lista wynikowa oznacza brak błędu."""
+
+    lista_wynikowa = []
+    licznik_akordow = 0
+    licznik_taktow = 0
+    poprzedni_akord = badana_partytura.podaj_liste_akordow()[0]
+    for obecny_akord in badana_partytura.podaj_liste_akordow()[1:]:
+        if obecny_akord == "T":
+            licznik_taktow += 1
+            licznik_akordow = 0
+            continue
+        licznik_akordow += 1
+        dzwieki_poprzedniego_akordu = poprzedni_akord.podaj_krotke_dzwiekow_z_akordu()
+        dzwieki_obecnego_akordu = obecny_akord.podaj_krotke_dzwiekow_z_akordu()
+        wadliwe_glosy = ""
+        for i in range(4):
+            ruch_w_glosie=podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
+                                         badana_partytura.podaj_tonacje())
+            if ruch_w_glosie[0] > 0 or ruch_w_glosie[1] > intr.Interwal.SEKSTA_WIELKA:
+                wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
+
+        if wadliwe_glosy:
+            lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
+
+    return lista_wynikowa
