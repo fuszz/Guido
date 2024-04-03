@@ -17,6 +17,7 @@ PRZEWIDZIANE_TROJDZWIEKI = [funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA,
 PRZEWIDZIANE_CZTERODZWIEKI = [funkcja.Funkcja.DOMINANTA_SEPTYMOWA]
 KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI = ["SA,", "ST,", "SB,", "AT,", "AB,", "TB,"]
 KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
+
 """ Moduł sprawdzarki będzie opierać sie na czterech (?) warstwach sprawdzania poprawności partytury. Będą to:
     1. Sprawdzenie, czy wprowadzone dane są kompletne i czy dane nie zostały uszkodzone. Należą tu:
         a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów - OK
@@ -47,7 +48,7 @@ KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
         a. Sprawdzenie, czy w partyturze występują kwinty równoległe - OK
         b. Sprawdzenie, czy są oktawy równoległe - OK
         c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku - OK
-        d. Sprawdzenie, czy nie występują skoki o zbyt duży interwał
+        d. Sprawdzenie, czy nie występują skoki o zbyt duży interwał - OK
         e. Sprawdzenie, czy nie występuje ruch o interwał zwiększony - OK
         f. ...
         itp.
@@ -75,8 +76,7 @@ INTERWALY_MOLL = [['1', '2', '3>', '4', '5', '6>', '7<'],
                   ['2>', '3>', '4>', '5>', '6>', '7>', '1']]
 
 
-def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> \
-        (int, intr.Interwal):
+def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> (int, intr.Interwal):
     """
     Podaje, jaki interwał leży pomiędzy dźwiękami a i b. Nieczuły na kolejność dźwięków. Dźwięki muszą znajdować się w
     tonacji badana_tonacja, w przeciwnym razie podniesie BladDzwiekPozaTonacją.
@@ -401,7 +401,7 @@ def czy_funkcja_nie_przetrzymana_przez_kreske_taktowa(badana_partytura: partytur
 
 
 # ===================================================================================================
-# Warstwa 3 - sprawdzenie poprawności połączeń akordów
+# Warstwa 4 - sprawdzenie poprawności połączeń akordów
 # ===================================================================================================
 
 
@@ -562,3 +562,4 @@ def czy_ruch_glosu_o_nie_zbyt_duzy_interwal(badana_partytura: partytura.Partytur
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
 
     return lista_wynikowa
+
