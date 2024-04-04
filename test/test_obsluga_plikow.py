@@ -2,7 +2,7 @@ import unittest
 
 import blad
 import akord
-import obsluga_plikow
+import obsluga_plikow_txt as obsluga_plikow
 import partytura
 import tonacja
 from enumerations import enum_metrum, enum_wartosci_nut
@@ -93,21 +93,21 @@ class TestyObslugiPlikow(unittest.TestCase):
             self.assertEqual(str(context.exception),
                              "Błąd wczytywania pliku: Niepoprawna długość dźwięku w linii 4.")
 
-    def test_wczytaj_z_pliku_1(self):
-        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() działa poprawnie dla poprawnych danych"""
-        nowa_partytura = obsluga_plikow.wczytaj_z_pliku("../przyklady/partytura_6.txt")
+    def test_wczytaj_z_pliku_txt_1(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku_txt() działa poprawnie dla poprawnych danych"""
+        nowa_partytura = obsluga_plikow.wczytaj_z_pliku_txt("../przyklady/partytura_6.txt")
         self.assertEqual(nowa_partytura.czy_poprawna_liczba_taktow(), True)
         self.assertEqual(nowa_partytura.podaj_tonacje().podaj_symbol(), tonacja.Tonacja.tonacja_z_symbolu("C").podaj_symbol())
         self.assertEqual(nowa_partytura.podaj_metrum().value, enum_metrum.Metrum("4/4").value)
 
-    def test_wczytaj_z_pliku_2(self):
-        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
+    def test_wczytaj_z_pliku_txt_2(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku_txt() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
         with self.assertRaises(blad.BladWczytywaniaZPliku) as context:
-            obsluga_plikow.wczytaj_z_pliku("Sciezka_do_pliku_ktorego_nie_ma")
+            obsluga_plikow.wczytaj_z_pliku_txt("Sciezka_do_pliku_ktorego_nie_ma")
         self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Plik nie istnieje")
 
-    def test_wczytaj_z_pliku_3(self):
-        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
+    def test_wczytaj_z_pliku_txt_3(self):
+        """Sprawdza, czy metoda obsluga_plikow.wczytaj_z_pliku_txt() podnosi odpowiednie wyjątki: brak wskazanego pliku"""
         with self.assertRaises(blad.BladWczytywaniaZPliku) as context:
-            obsluga_plikow.wczytaj_z_pliku("../przyklady/partytura_9.txt")
+            obsluga_plikow.wczytaj_z_pliku_txt("../przyklady/partytura_9.txt")
         self.assertEqual(str(context.exception), "Błąd wczytywania pliku: Błędna liczba taktów w partyturze")

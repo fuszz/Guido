@@ -78,10 +78,9 @@ class MyTestCase(unittest.TestCase):
         self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')),
                          d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')) % 7)
 
-    def test_kodu_bezwzglednego_1(self):
+    def test_kodu_midi_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'd')
-        print(d1.podaj_swoj_kod_midi())
         self.assertEqual(d1.podaj_swoj_kod_midi(), d2.podaj_swoj_kod_midi())
 
     def test_kodu_bezwzglednego_2(self):

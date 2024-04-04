@@ -1,6 +1,6 @@
 import blad
 import tonacja
-from enumerations import enum_bezwzgledne_kody_dzwiekow, enum_nazwy_dzwiekow
+from enumerations import enum_kody_midi, enum_nazwy_dzwiekow
 
 
 # Napisane docstringi
@@ -70,7 +70,7 @@ class Dzwiek:
         :return: int
         """
         kod: int = 12 + 12 * self._oktawa_dzwieku
-        for kod_bezwzgledny in enum_bezwzgledne_kody_dzwiekow.BezwzgledneKodyDzwiekow:
+        for kod_bezwzgledny in enum_kody_midi.KodyMidi:
             if kod_bezwzgledny.name.lower() == self._nazwa_dzwieku.value[0]:
                 kod += kod_bezwzgledny.value
                 for znak in self._nazwa_dzwieku.value[1:]:
