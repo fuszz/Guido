@@ -148,10 +148,8 @@ class Akord:
 
         if funkcja_akordu == funkcja.Funkcja.DOMINANTA_SEPTYMOWA:
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK
-        print(self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja))
         for stopien in self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja):
             if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
-                print(stopien)
                 return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
 
     def podaj_krotke_dzwiekow_z_akordu(self) -> (dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek, dzwiek.Dzwiek):
@@ -161,5 +159,8 @@ class Akord:
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""
-        print(self._sopran.podaj_swoj_kod_midi(), self._alt.podaj_swoj_kod_midi(),
-              self._tenor.podaj_swoj_kod_midi(), self._bas.podaj_swoj_kod_midi(), self._dlugosc.value)
+        print(self._sopran.podaj_nazwe_dzwieku(), " ", self._sopran.podaj_oktawe(), '\t',
+              self._alt.podaj_nazwe_dzwieku(), " ", self._alt.podaj_oktawe(), '\t',
+              self._tenor.podaj_nazwe_dzwieku(), " ", self._tenor.podaj_oktawe(), '\t',
+              self._bas.podaj_nazwe_dzwieku(), " ", self._bas.podaj_oktawe(), '\t',
+              self._dlugosc.name)

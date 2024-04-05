@@ -38,25 +38,6 @@ class MyTestCase(unittest.TestCase):
             d = dzwiek.Dzwiek(-100, 'c')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
 
-    def test_dzwiek_z_kodu_midi_w_podanej_tonacji(self):
-        CIS_DUR = ['c#', 'd#', 'e#', 'f#', 'g#', 'a#', 'h#']
-        CES_DUR = ['cb', 'db', 'eb', 'fb', 'gb', 'ab', 'hb']
-        C_DUR = ['c', 'd', 'e', 'f', 'g', 'a', 'h']
-        AS_MOLL = ['ab', 'hb', 'cb', 'db', 'eb', 'fb', 'g']
-        A_MOLL = ['a', 'h', 'c', 'd', 'e', 'f', 'g#']
-        AIS_MOLL = ['a#', 'h#', 'c#', 'd#', 'e#', 'f#', 'g##']
-
-        for i in range(0, 9):
-            for j in range(0, 7):
-                self.assertEqual(dzwiek.Dzwiek(i, CIS_DUR[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.CIS_DUR, dzwiek.Dzwiek(i, CIS_DUR[j]).podaj_swoj_kod_midi()))
-                self.assertEqual(dzwiek.Dzwiek(i, CES_DUR[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.CES_DUR, dzwiek.Dzwiek(i, CES_DUR[j]).podaj_swoj_kod_midi()))
-                self.assertEqual(dzwiek.Dzwiek(i, C_DUR[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.C_DUR, dzwiek.Dzwiek(i, C_DUR[j]).podaj_swoj_kod_midi()))
-                self.assertEqual(dzwiek.Dzwiek(i, AS_MOLL[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.AS_MOLL, dzwiek.Dzwiek(i, AS_MOLL[j]).podaj_swoj_kod_midi()))
-                self.assertEqual(dzwiek.Dzwiek(i, AIS_MOLL[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.AIS_MOLL, dzwiek.Dzwiek(i, AIS_MOLL[j]).podaj_swoj_kod_midi()))
-                self.assertEqual(dzwiek.Dzwiek(i, A_MOLL[j]), dzwiek.Dzwiek.dzwiek_z_kodu_midi(tonacja.Tonacja.A_MOLL, dzwiek.Dzwiek(i, A_MOLL[j]).podaj_swoj_kod_midi()))
-
-
-
     def test_podaj_oktawe1(self):
         d = dzwiek.Dzwiek(1, 'd')
         self.assertEqual(d.podaj_oktawe(), 1)

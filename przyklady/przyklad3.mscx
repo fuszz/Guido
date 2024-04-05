@@ -2,7 +2,7 @@
 <museScore version="4.20">
   <programVersion>4.2.1</programVersion>
   <programRevision>d757433</programRevision>
-  <LastEID>134</LastEID>
+  <LastEID>138</LastEID>
   <Score>
     <Division>480</Division>
     <showInvisible>1</showInvisible>
@@ -116,7 +116,7 @@
         <Text>
           <eid>12884901894</eid>
           <style>subtitle</style>
-          <text>Test Guido</text>
+          <text>C</text>
           </Text>
         <Text>
           <eid>17179869190</eid>
@@ -142,7 +142,7 @@
               <eid>360777252884</eid>
               <Accidental>
                 <subtype>accidentalSharp</subtype>
-                <eid>579820584977</eid>
+                <eid>588410519569</eid>
                 </Accidental>
               <pitch>73</pitch>
               <tpc>21</tpc>
@@ -154,11 +154,12 @@
             <Note>
               <eid>373662154772</eid>
               <Accidental>
-                <subtype>accidentalNatural</subtype>
-                <eid>377957122065</eid>
+                <role>1</role>
+                <subtype>accidentalFlat</subtype>
+                <eid>592705486865</eid>
                 </Accidental>
-              <pitch>72</pitch>
-              <tpc>14</tpc>
+              <pitch>73</pitch>
+              <tpc>9</tpc>
               </Note>
             </Chord>
           </voice>

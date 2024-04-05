@@ -5,7 +5,6 @@ import partytura
 import tonacja
 import blad
 from enumerations import enum_metrum, enum_wartosci_nut
-from typing import TextIO
 
 """ MAŁA ŚCIĄGAWKA:
 
@@ -32,6 +31,20 @@ ADRES_NIZSZEJ_PIECIOLINI = './Score/Staff[@id="2"]'
 ADRES_LICZBA_ZNAKOW_PRZYKLUCZOWYCH = './Score/Staff[1]/Measure[1]/voice[1]/KeySig/concertKey'
 ADRES_PODTYTUL_INFO_O_TONACJI = './Score/Staff[1]/VBox/Text[2]/text'
 SLOWNIK_WARTOSCI_NUT = {"whole": 8, "half": 4, "quarter": 2, "eighth": 1}
+MAPA_TPC = {
+    -1: 'fbb', 0: 'cbb', 1: 'gbb',
+    2: 'gbb', 3: 'abb', 4: 'ebb',
+    5: 'hbb', 6: 'fb', 7: 'cb',
+    8: 'hb', 9: 'db', 10: 'ab',
+    11: 'eb', 12: 'bb', 13: 'f',
+    14: 'c', 15: 'g', 16: 'd',
+    17: 'a', 18: 'e', 19: 'h',
+    20: 'f#', 21: 'c#', 22: 'g#',
+    23: 'd#', 24: 'a#', 25: 'e#',
+    26: 'h#', 27: 'f##', 28: 'c##',
+    29: 'g##', 30: 'd##', 31: 'a##',
+    32: 'e##', 33: 'h##'
+}
 
 
 def oblicz_ile_taktow(rodzic: ET.ElementTree) -> int:
@@ -65,7 +78,6 @@ def utworz_partyture(rodzic: ET.ElementTree) -> partytura.Partytura:
         raise blad.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik")
 
     try:
-        print(rodzic.find(ADRES_PODTYTUL_INFO_O_TONACJI).text)
         nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja.tonacja_z_symbolu(
             rodzic.find(ADRES_PODTYTUL_INFO_O_TONACJI).text)
 
@@ -87,9 +99,11 @@ def info_z_pliku_w_wartosc_nuty(tag_chord: ET.Element) -> enum_wartosci_nut.Wart
     wartosc_nuty: int = SLOWNIK_WARTOSCI_NUT[dlugosc] + liczba_kropek
     return enum_wartosci_nut.WartosciNut(wartosc_nuty)
 
-def info_z_pliku_w_dzwiek(tag_chord: ET.Element, liczba_znakow_przykluczowych: int) -> dzwiek.Dzwiek:
-    kod_midi: int = tag_chord.find("./Note/pitch").text
-    print(kod_midi)
+
+def info_z_pliku_w_dzwiek(tag_chord: ET.Element) -> dzwiek.Dzwiek:
+    kod_midi: int = int(tag_chord.find("./Note/pitch").text)
+    kod_tpc: int = int(tag_chord.find("./Note/tpc").text)
+    return dzwiek.Dzwiek(kod_midi // 12 - 1, MAPA_TPC[kod_tpc])
 
 
 def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
@@ -106,7 +120,6 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
         raise blad.BladWczytywaniaZPliku("Różna liczba taktów w pięcioliniach")
 
     for numer_taktu in range(nowa_partytura.podaj_zadeklarowana_liczbe_taktow()):
-        print("Numer taktu: ", numer_taktu)
         tagi_chord_sopranu: list[ET.Element] = takty_wyzszej_pieciolinii[numer_taktu].findall('./voice[1]/Chord')
         tagi_chord_altu: list[ET.Element] = takty_wyzszej_pieciolinii[numer_taktu].findall('./voice[2]/Chord')
         tagi_chord_tenoru: list[ET.Element] = takty_nizszej_pieciolinii[numer_taktu].findall('./voice[1]/Chord')
@@ -116,15 +129,16 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
             raise blad.BladWczytywaniaZPliku("Różna liczba dźwięków w głosach")
 
         for numer_akordu in range(len(tagi_chord_sopranu)):
-            print(numer_akordu)
-            dlugosc_akordu: enum_wartosci_nut.WartosciNut = (info_z_pliku_w_wartosc_nuty(tagi_chord_sopranu[numer_akordu]))
-            info_z_pliku_w_dzwiek(tagi_chord_sopranu[numer_akordu], liczba_znakow_przykluczowych)
-            dzwiek_altu: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_altu[numer_akordu], liczba_znakow_przykluczowych)
-            dzwiek_tenoru: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_tenoru[numer_akordu], liczba_znakow_przykluczowych)
-            dzwiek_basu: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_basu[numer_akordu], liczba_znakow_przykluczowych)
+            dlugosc_akordu = (info_z_pliku_w_wartosc_nuty(tagi_chord_sopranu[numer_akordu]))
+            dzwiek_sopranu = info_z_pliku_w_dzwiek(tagi_chord_sopranu[numer_akordu])
+            dzwiek_altu = info_z_pliku_w_dzwiek(tagi_chord_altu[numer_akordu])
+            dzwiek_tenoru = info_z_pliku_w_dzwiek(tagi_chord_tenoru[numer_akordu])
+            dzwiek_basu = info_z_pliku_w_dzwiek(tagi_chord_basu[numer_akordu])
+            nowa_partytura.dodaj_akord(
+                akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu, dlugosc_akordu))
+        nowa_partytura.zakoncz_takt()
 
-
-            print(dlugosc_akordu.name)
+    return nowa_partytura
 
 
 def wczytaj_z_pliku_mscx(adres: str) -> partytura.Partytura:
@@ -133,8 +147,6 @@ def wczytaj_z_pliku_mscx(adres: str) -> partytura.Partytura:
 
     rodzic = ET.parse(adres).getroot()
     nowa_partytura: partytura.Partytura = utworz_partyture(rodzic)
-    wypelnij_partyture_akordami(rodzic, nowa_partytura)
-    # Tworzenie nowej partytury
+    return wypelnij_partyture_akordami(rodzic, nowa_partytura)
 
 
-wczytaj_z_pliku_mscx("przyklady/przyklad0.mscx")

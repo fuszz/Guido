@@ -21,7 +21,7 @@
     <metaTag name="platform">Microsoft Windows</metaTag>
     <metaTag name="source"></metaTag>
     <metaTag name="sourceRevisionId"></metaTag>
-    <metaTag name="subtitle">C#</metaTag>
+    <metaTag name="subtitle"></metaTag>
     <metaTag name="translator"></metaTag>
     <metaTag name="workNumber"></metaTag>
     <metaTag name="workTitle">Tytuł</metaTag>
@@ -116,7 +116,7 @@
         <Text>
           <eid>12884901894</eid>
           <style>subtitle</style>
-          <text>Test Guido</text>
+          <text>C</text>
           </Text>
         <Text>
           <eid>17179869190</eid>
@@ -128,7 +128,7 @@
         <voice>
           <KeySig>
             <eid>347892350998</eid>
-            <concertKey>0</concertKey>
+            <concertKey>3</concertKey>
             </KeySig>
           <TimeSig>
             <eid>352187318296</eid>
@@ -140,10 +140,6 @@
             <durationType>half</durationType>
             <Note>
               <eid>360777252884</eid>
-              <Accidental>
-                <subtype>accidentalSharp</subtype>
-                <eid>365072220177</eid>
-                </Accidental>
               <pitch>73</pitch>
               <tpc>21</tpc>
               </Note>
@@ -153,12 +149,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>373662154772</eid>
-              <Accidental>
-                <subtype>accidentalNatural</subtype>
-                <eid>377957122065</eid>
-                </Accidental>
-              <pitch>72</pitch>
-              <tpc>14</tpc>
+              <pitch>73</pitch>
+              <tpc>21</tpc>
               </Note>
             </Chord>
           </voice>
@@ -177,12 +169,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>395136991252</eid>
-              <Accidental>
-                <subtype>accidentalFlat</subtype>
-                <eid>399431958545</eid>
-                </Accidental>
-              <pitch>68</pitch>
-              <tpc>10</tpc>
+              <pitch>69</pitch>
+              <tpc>17</tpc>
               </Note>
             </Chord>
           </voice>
@@ -203,8 +191,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>416611827732</eid>
-              <pitch>72</pitch>
-              <tpc>14</tpc>
+              <pitch>73</pitch>
+              <tpc>21</tpc>
               </Note>
             </Chord>
           </voice>
@@ -236,8 +224,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>442381631508</eid>
-              <pitch>72</pitch>
-              <tpc>14</tpc>
+              <pitch>73</pitch>
+              <tpc>21</tpc>
               </Note>
             </Chord>
           <Rest>
@@ -267,7 +255,7 @@
         <voice>
           <KeySig>
             <eid>463856467990</eid>
-            <concertKey>0</concertKey>
+            <concertKey>3</concertKey>
             </KeySig>
           <TimeSig>
             <eid>468151435288</eid>
@@ -279,10 +267,6 @@
             <durationType>half</durationType>
             <Note>
               <eid>476741369876</eid>
-              <Accidental>
-                <subtype>accidentalSharp</subtype>
-                <eid>481036337169</eid>
-                </Accidental>
               <pitch>56</pitch>
               <tpc>22</tpc>
               </Note>
@@ -292,8 +276,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>489626271764</eid>
-              <pitch>53</pitch>
-              <tpc>13</tpc>
+              <pitch>54</pitch>
+              <tpc>20</tpc>
               </Note>
             </Chord>
           </voice>
@@ -303,8 +287,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>498216206356</eid>
-              <pitch>48</pitch>
-              <tpc>14</tpc>
+              <pitch>49</pitch>
+              <tpc>21</tpc>
               </Note>
             </Chord>
           <Chord>
@@ -312,8 +296,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>506806140948</eid>
-              <pitch>41</pitch>
-              <tpc>13</tpc>
+              <pitch>42</pitch>
+              <tpc>20</tpc>
               </Note>
             </Chord>
           </voice>
@@ -325,8 +309,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>515396075540</eid>
-              <pitch>55</pitch>
-              <tpc>15</tpc>
+              <pitch>56</pitch>
+              <tpc>22</tpc>
               </Note>
             </Chord>
           <Chord>
@@ -334,8 +318,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>523986010132</eid>
-              <pitch>55</pitch>
-              <tpc>15</tpc>
+              <pitch>56</pitch>
+              <tpc>22</tpc>
               </Note>
             </Chord>
           </voice>
@@ -345,8 +329,8 @@
             <durationType>quarter</durationType>
             <Note>
               <eid>532575944724</eid>
-              <pitch>43</pitch>
-              <tpc>15</tpc>
+              <pitch>44</pitch>
+              <tpc>22</tpc>
               </Note>
             </Chord>
           <Chord>
@@ -354,10 +338,6 @@
             <durationType>half</durationType>
             <Note>
               <eid>541165879316</eid>
-              <Accidental>
-                <subtype>accidentalSharp</subtype>
-                <eid>545460846609</eid>
-                </Accidental>
               <pitch>49</pitch>
               <tpc>21</tpc>
               </Note>
@@ -371,8 +351,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>554050781204</eid>
-              <pitch>55</pitch>
-              <tpc>15</tpc>
+              <pitch>56</pitch>
+              <tpc>22</tpc>
               </Note>
             </Chord>
           <Rest>
@@ -386,10 +366,6 @@
             <durationType>half</durationType>
             <Note>
               <eid>566935683092</eid>
-              <Accidental>
-                <subtype>accidentalSharp</subtype>
-                <eid>571230650385</eid>
-                </Accidental>
               <pitch>49</pitch>
               <tpc>21</tpc>
               </Note>

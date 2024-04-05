@@ -391,12 +391,8 @@
             <durationType>half</durationType>
             <Note>
               <eid>807453851668</eid>
-              <Accidental>
-                <subtype>accidentalNatural</subtype>
-                <eid>811748818961</eid>
-                </Accidental>
-              <pitch>48</pitch>
-              <tpc>14</tpc>
+              <pitch>49</pitch>
+              <tpc>21</tpc>
               </Note>
             </Chord>
           </voice>

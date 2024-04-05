@@ -20,26 +20,15 @@ class Dzwiek:
         """
 
         if nowa_oktawa_dzwieku not in range(0, 9) or not isinstance(nowa_oktawa_dzwieku, int):
-            print(nowa_oktawa_dzwieku)
             raise blad.BladTworzeniaDzwieku("Niepoprawna oktawa")
+
         try:
             self._nazwa_dzwieku = enum_nazwy_dzwiekow.NazwyDzwiekow(nowa_nazwa_dzwieku)
         except ValueError:
             raise blad.BladTworzeniaDzwieku("Niepoprawna nazwa")
         self._oktawa_dzwieku = nowa_oktawa_dzwieku
 
-    @classmethod
-    def dzwiek_z_kodu_midi(cls, podana_tonacja: tonacja.Tonacja, kod_midi: int) -> 'Dzwiek':
 
-        for nazwa_dzwieku in podana_tonacja.podaj_liste_nazw_dzwiekow():
-            if Dzwiek(0, nazwa_dzwieku).podaj_swoj_kod_midi() % 12 == kod_midi % 12:
-                for znak in nazwa_dzwieku[1:]:
-                    if znak == '#':
-                        kod_midi -= 1
-                    elif znak == 'b':
-                        kod_midi += 1
-                return Dzwiek((kod_midi // 12)-1, nazwa_dzwieku)
-        raise blad.BladTworzeniaDzwieku("W tonacji " + podana_tonacja.name + " nie istnieje o tym kodzie MIDI")
 
 
 
