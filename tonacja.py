@@ -7,6 +7,11 @@ import enum
 class Tonacja(enum.Enum):
     # Tonacje durowe
 
+    CES_DUR = {
+        "tryb": "+",
+        "symbol": "Cb",
+        "dzwieki": ['cb', 'db', 'eb', 'fb', 'gb', 'ab', 'hb']
+    }
     GES_DUR = {
         "tryb": "+",
         "symbol": "Gb",
