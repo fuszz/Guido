@@ -87,6 +87,10 @@ def info_z_pliku_w_wartosc_nuty(tag_chord: ET.Element) -> enum_wartosci_nut.Wart
     wartosc_nuty: int = SLOWNIK_WARTOSCI_NUT[dlugosc] + liczba_kropek
     return enum_wartosci_nut.WartosciNut(wartosc_nuty)
 
+def info_z_pliku_w_dzwiek(tag_chord: ET.Element, liczba_znakow_przykluczowych: int) -> dzwiek.Dzwiek:
+    kod_midi: int = tag_chord.find("./Note/pitch").text
+    print(kod_midi)
+
 
 def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
     pieciolinia_wyzsza: ET.Element = rodzic.find(ADRES_WYZSZEJ_PIECIOLINI)
@@ -108,9 +112,18 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
         tagi_chord_tenoru: list[ET.Element] = takty_nizszej_pieciolinii[numer_taktu].findall('./voice[1]/Chord')
         tagi_chord_basu: list[ET.Element] = takty_nizszej_pieciolinii[numer_taktu].findall('./voice[2]/Chord')
 
+        if len(tagi_chord_sopranu) != len(tagi_chord_altu) != len(tagi_chord_tenoru) != len(tagi_chord_basu):
+            raise blad.BladWczytywaniaZPliku("Różna liczba dźwięków w głosach")
+
         for numer_akordu in range(len(tagi_chord_sopranu)):
             print(numer_akordu)
             dlugosc_akordu: enum_wartosci_nut.WartosciNut = (info_z_pliku_w_wartosc_nuty(tagi_chord_sopranu[numer_akordu]))
+            info_z_pliku_w_dzwiek(tagi_chord_sopranu[numer_akordu], liczba_znakow_przykluczowych)
+            dzwiek_altu: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_altu[numer_akordu], liczba_znakow_przykluczowych)
+            dzwiek_tenoru: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_tenoru[numer_akordu], liczba_znakow_przykluczowych)
+            dzwiek_basu: dzwiek.Dzwiek = info_z_pliku_w_dzwiek(tagi_chord_basu[numer_akordu], liczba_znakow_przykluczowych)
+
+
             print(dlugosc_akordu.name)
 
 
