@@ -6,24 +6,6 @@ import tonacja
 import blad
 from enumerations import enum_metrum, enum_wartosci_nut
 
-""" MAŁA ŚCIĄGAWKA:
-
-src = 'przyklady\\przyklad0.mscx'
-tree = ET.parse(src)
-root = tree.getroot()
-
-# Sposób na wysupłanie konkretnych wartości z XMLa
-instrument = root.find(".//Score//Order//family")
-print(instrument.tag)
-print(instrument.text)
-print(instrument.attrib)
-
-
-# Powtarzające się nazwy:
-meta_tagi = root.findall(".//Score//metaTag")
-print([(x.tag, x.attrib, x.text) for x in meta_tagi])
-"""
-
 ADRES_INFO_O_METRUM_LICZNIK = "./Score/Staff/Measure/voice/TimeSig/sigN"
 ADRES_INFO_O_METRUM_MIANOWNIK = "./Score/Staff/Measure/voice/TimeSig/sigD"
 ADRES_WYZSZEJ_PIECIOLINI = './Score/Staff[@id="1"]'
@@ -137,7 +119,6 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
             nowa_partytura.dodaj_akord(
                 akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu, dlugosc_akordu))
         nowa_partytura.zakoncz_takt()
-
     return nowa_partytura
 
 
@@ -148,5 +129,4 @@ def wczytaj_z_pliku_mscx(adres: str) -> partytura.Partytura:
     rodzic = ET.parse(adres).getroot()
     nowa_partytura: partytura.Partytura = utworz_partyture(rodzic)
     return wypelnij_partyture_akordami(rodzic, nowa_partytura)
-
 

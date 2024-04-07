@@ -10,8 +10,16 @@ from typing import List, Union
 class Partytura:
 
     def __eq__(self, other):
-        return (type(self) is type(other) and self._._metrum == other._metrum and self._tonacja == other._tonacja
-        and self._liczba_taktow == other._liczba_taktow and self._lista_akordow == other._lista_akordow)
+        czy_identyczne_akordy = True
+        for i in range(len(self._lista_akordow)):
+            if self._lista_akordow[i] != other._lista_akordow[i]:
+                czy_identyczne_akordy = False
+
+        return (type(self) is type(other) and
+                self._metrum == other._metrum and
+                self._tonacja == other._tonacja and
+                self._liczba_taktow == other._liczba_taktow and
+                czy_identyczne_akordy)
 
     def __init__(self, nowa_tonacja: tonacja.Tonacja, nowe_metrum: enum_metrum.Metrum, nowa_liczba_taktow: int):
         """
