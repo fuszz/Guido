@@ -29,7 +29,7 @@ MAPA_TPC = {
 }
 
 
-def oblicz_ile_taktow(rodzic: ET.ElementTree) -> int:
+def oblicz_liczbe_taktow(rodzic: ET.ElementTree) -> int:
     """Funckja iteruje po zawartości tagu Staff id=1 i zlicza wystąpienia tagu Measure"""
     licznik: int = 0
     rodzic = rodzic.find(ADRES_WYZSZEJ_PIECIOLINI)
@@ -51,7 +51,7 @@ def utworz_partyture(rodzic: ET.ElementTree) -> partytura.Partytura:
         raise blad.BladWczytywaniaZPliku("Nieznany błąd pliku. Sprawdź plik")
 
     try:
-        nowa_liczba_taktow: int = oblicz_ile_taktow(rodzic)
+        nowa_liczba_taktow: int = oblicz_liczbe_taktow(rodzic)
         if nowa_liczba_taktow < 1:
             raise blad.BladWczytywaniaZPliku("Niepoprawna liczba taktów")
     except (blad.BladTworzeniaMetrum, ValueError, TypeError):
@@ -79,24 +79,23 @@ def info_z_pliku_w_wartosc_nuty(tag_chord: ET.Element) -> enum_wartosci_nut.Wart
     if dlugosc not in SLOWNIK_WARTOSCI_NUT.keys() or liczba_kropek > 1:
         raise blad.BladWczytywaniaZPliku("Niepoprawne wartości nut")
     wartosc_nuty: int = SLOWNIK_WARTOSCI_NUT[dlugosc] + liczba_kropek
+
     return enum_wartosci_nut.WartosciNut(wartosc_nuty)
 
 
-def info_z_pliku_w_dzwiek(tag_chord: ET.Element) -> dzwiek.Dzwiek:
+def wczytaj_dzwiek_z_pliku(tag_chord: ET.Element) -> dzwiek.Dzwiek:
     kod_midi: int = int(tag_chord.find("./Note/pitch").text)
     kod_tpc: int = int(tag_chord.find("./Note/tpc").text)
     return dzwiek.Dzwiek(kod_midi // 12 - 1, MAPA_TPC[kod_tpc])
 
 
 def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
+
     pieciolinia_wyzsza: ET.Element = rodzic.find(ADRES_WYZSZEJ_PIECIOLINI)
     pieciolinia_nizsza: ET.Element = rodzic.find(ADRES_NIZSZEJ_PIECIOLINI)
 
-    takty_wyzszej_pieciolinii: list[ET.Element] = [dziecko for dziecko in pieciolinia_wyzsza if
-                                                   dziecko.tag == "Measure"]
-    takty_nizszej_pieciolinii: list[ET.Element] = [dziecko for dziecko in pieciolinia_nizsza if
-                                                   dziecko.tag == "Measure"]
-    liczba_znakow_przykluczowych: int = int(rodzic.find(ADRES_LICZBA_ZNAKOW_PRZYKLUCZOWYCH).text)
+    takty_wyzszej_pieciolinii: list[ET.Element] = [dziecko for dziecko in pieciolinia_wyzsza if dziecko.tag == "Measure"]
+    takty_nizszej_pieciolinii: list[ET.Element] = [dziecko for dziecko in pieciolinia_nizsza if dziecko.tag == "Measure"]
 
     if len(takty_nizszej_pieciolinii) != len(takty_wyzszej_pieciolinii):
         raise blad.BladWczytywaniaZPliku("Różna liczba taktów w pięcioliniach")
@@ -112,12 +111,11 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
 
         for numer_akordu in range(len(tagi_chord_sopranu)):
             dlugosc_akordu = (info_z_pliku_w_wartosc_nuty(tagi_chord_sopranu[numer_akordu]))
-            dzwiek_sopranu = info_z_pliku_w_dzwiek(tagi_chord_sopranu[numer_akordu])
-            dzwiek_altu = info_z_pliku_w_dzwiek(tagi_chord_altu[numer_akordu])
-            dzwiek_tenoru = info_z_pliku_w_dzwiek(tagi_chord_tenoru[numer_akordu])
-            dzwiek_basu = info_z_pliku_w_dzwiek(tagi_chord_basu[numer_akordu])
-            nowa_partytura.dodaj_akord(
-                akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu, dlugosc_akordu))
+            dzwiek_sopranu = wczytaj_dzwiek_z_pliku(tagi_chord_sopranu[numer_akordu])
+            dzwiek_altu = wczytaj_dzwiek_z_pliku(tagi_chord_altu[numer_akordu])
+            dzwiek_tenoru = wczytaj_dzwiek_z_pliku(tagi_chord_tenoru[numer_akordu])
+            dzwiek_basu = wczytaj_dzwiek_z_pliku(tagi_chord_basu[numer_akordu])
+            nowa_partytura.dodaj_akord(akord.Akord(dzwiek_sopranu, dzwiek_altu, dzwiek_tenoru, dzwiek_basu, dlugosc_akordu))
         nowa_partytura.zakoncz_takt()
     return nowa_partytura
 
@@ -125,8 +123,10 @@ def wypelnij_partyture_akordami(rodzic: ET.ElementTree, nowa_partytura: partytur
 def wczytaj_z_pliku_mscx(adres: str) -> partytura.Partytura:
     """Wczytuje informacje podane w pliku mscx (zdekompresowany mscz) i zwraca je w postaci instancji klasy partytura.
     Zwraca takie same rodzaję błędów co odpowiadająca funkcja wczytaj_z_pliku_txt"""
-
-    rodzic = ET.parse(adres).getroot()
+    try:
+        rodzic = ET.parse(adres).getroot()
+    except ET.ParseError:
+        raise blad.BladWczytywaniaZPliku("Sprawdź format pliku. Czy to na pewno mscx?")
     nowa_partytura: partytura.Partytura = utworz_partyture(rodzic)
     return wypelnij_partyture_akordami(rodzic, nowa_partytura)
 

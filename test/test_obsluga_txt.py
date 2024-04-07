@@ -2,7 +2,7 @@ import unittest
 
 import blad
 import akord
-import obsluga_plikow_txt as obsluga_plikow
+import obsluga_txt as obsluga_plikow
 import partytura
 import tonacja
 from enumerations import enum_metrum, enum_wartosci_nut

@@ -5,8 +5,6 @@ from enumerations import enum_metrum
 from typing import List, Union
 
 
-# Napisane docstringi - 14.03.2024
-
 class Partytura:
 
     def __eq__(self, other):
