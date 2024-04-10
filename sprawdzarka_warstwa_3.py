@@ -1,8 +1,8 @@
-import sprawdzarka as spr
+import sprawdzarka_warstwa_4 as spr
 import partytura
-from enumerations import enum_przewroty as prz
+from enumerations.enum_przewroty import Przewrot
 import akord
-import obsluga_wyswietlania as ow
+
 
 # ================================================================================================
 # WARSTWA 3 - Sprawdzenie, czy kolejność akordów jest poprawna
@@ -21,14 +21,6 @@ def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> boo
         return False
     return True
 
-def wyswietl_czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:
-    print("Tonika jako pierwszy i ostatni akord: ", end='')
-    if czy_pierwsza_i_ostatnia_tonika(badana_partytura):
-        print(f"{ow.OK} TAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} NIE {ow.NORMALNY}")
-        return False
 
 def czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: partytura.Partytura) -> bool:
     """Sprawdza, czy ostateczne rozwiązanie (ostatnia tonika w partyturze) jest w innym niż drugi przewrocie. Jeśli tak,
@@ -36,16 +28,8 @@ def czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: partytu
     element listy akordów"""
 
     return (badana_partytura.podaj_liste_akordow()[-2].ustal_przewrot(badana_partytura.podaj_tonacje()) !=
-            prz.Przewrot.DRUGI)
+            Przewrot.DRUGI)
 
-def wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: partytura.Partytura) -> bool:
-    print("Ostateczne rozwiązanie w drugim przewrocie", end='')
-    if czy_pierwsza_i_ostatnia_tonika(badana_partytura):
-        print(f"{ow.OK} NIE {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} TAK {ow.NORMALNY}")
-        return False
 
 def sygn_subdominant_po_dominancie(badana_partytura: partytura.Partytura) -> list[(int, int)]:
     """Sprawdza, czy po dominancie nie występuje gdzieś subdominanta (co jest poważnym błędem).
@@ -75,17 +59,6 @@ def sygn_subdominant_po_dominancie(badana_partytura: partytura.Partytura) -> lis
     return lista_wynikowa
 
 
-def wyswietl_sygn_subdominant_po_dominancie(badana_partytura: partytura.Partytura) -> bool:
-    print("Subdominanty umieszczone bezpośrednio po dominancie: ", end='')
-    if not sygn_subdominant_po_dominancie(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.sygn_akordow_w_str(sygn_subdominant_po_dominancie(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
-
 def nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura: partytura.Partytura) -> list[int]:
     """Sprawdza, czy na mocnej części taktu (czyli na 1) nie ma trójdźwięku (tj. nie rozważamy D7)
      w słabym (tj. drugiem) przewrocie. Zwraca listę intów - numerów taktów (numeracja od 0), które zaczynają się
@@ -102,7 +75,7 @@ def nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura: partytura.Partytura) 
             czy_pierwszy_akord_taktu = False
 
             if (element.ustal_funkcje(badana_partytura.podaj_tonacje()) in spr.PRZEWIDZIANE_TROJDZWIEKI and
-                    element.ustal_przewrot(badana_partytura.podaj_tonacje()) == prz.Przewrot.DRUGI):
+                    element.ustal_przewrot(badana_partytura.podaj_tonacje()) == Przewrot.DRUGI):
                 lista_wynikowa.append(licznik_taktow)
 
         if element == "T":
@@ -110,18 +83,8 @@ def nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura: partytura.Partytura) 
             licznik_taktow += 1
     return lista_wynikowa
 
-def wyswietl_numery_taktow_gdzie_drugi_przewrot_na_raz(badana_partytura: partytura.Partytura) -> bool:
-    print("Takty, w których na \"raz\" występuje drugi przewrót akordu: ", end='')
-    if not nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.nr_taktow_w_str(nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
 
-def nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura: partytura.Partytura) -> list[int]:
+def nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura: partytura.Partytura) -> list[int]:
     """Sprawdza, czy funkcja nie jest przetrzymana przez kreskę taktową. Zwraca numer taktu, który zaczyna się na
     ten sam akord, co zakończył się akord poprzedni. Pusta lista świadczy o poprawności rozwiązania."""
     licznik_taktow = 0
@@ -142,28 +105,3 @@ def nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura: partytura.Partytura) -> 
                 lista_wynikowa.append(licznik_taktow)
         ostatni_akord = element
     return lista_wynikowa
-
-def wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura: partytura.Partytura) -> bool:
-    print("Takty, do których przez kreskę taktową przetrzymano funkcję ", end='')
-    if not nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.nr_taktow_w_str(nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
-
-def sprawdz_warstwe_3(badana_partytura: partytura.Partytura) -> bool:
-    czy_sprawdzenie_poprawne = True
-    if not wyswietl_sygn_subdominant_po_dominancie(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-    if not wyswietl_czy_pierwsza_i_ostatnia_tonika(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-    if not wyswietl_numery_taktow_gdzie_drugi_przewrot_na_raz(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-    if not wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-    if not wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-    return czy_sprawdzenie_poprawne

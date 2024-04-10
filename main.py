@@ -1,6 +1,6 @@
 import obsluga_mscx
 import obsluga_txt
-import sprawdzarka as spr
+import sprawdzarka_warstwa_4 as spr
 import partytura
 import sprawdzarka_warstwa_1
 import sprawdzarka_warstwa_3

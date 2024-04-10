@@ -1,11 +1,8 @@
-import akord
 import partytura
-import tonacja
 import blad
 import dzwiek
-import sprawdzarka as spr
+import sprawdzarka_warstwa_4 as spr
 import enumerations.enum_interwal as intr
-import obsluga_wyswietlania as ow
 
 
 # ================================================================
@@ -114,54 +111,3 @@ def sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: partytura.Party
         licznik_taktow += 1
 
     return lista_wynikowa
-
-
-
-def wyswietl_sygn_akordow_gdzie_glosy_poza_skalami(badana_partytura: partytura.Partytura) -> bool:
-    print("Dźwięki głosów poza skalami: ", end='')
-    if not sygn_i_glosy_akordow_gdzie_glosy_poza_skalami(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :",
-              ow.sygn_i_glosy_w_str(sygn_i_glosy_akordow_gdzie_glosy_poza_skalami(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
-
-
-def wyswietl_sygn_akordow_nietwarzacych_funkcji(badana_partytura: partytura.Partytura) -> bool:
-    print("Akordy, które nie tworzą funkcji: ", end='')
-    if not sygn_akordow_nietworzacych_funkcji(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :",
-              ow.sygn_akordow_w_str(sygn_akordow_nietworzacych_funkcji(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
-
-
-def wyswietl_sygnatura_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: partytura.Partytura) -> bool:
-    print("Akordy, w których przekroczono dopuszczalne odległości między głosami: ", end='')
-    if not sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura):
-        print(f"{ow.OK} BRAK {ow.NORMALNY}")
-        return True
-    else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.sygn_i_glosy_w_str(sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura)),
-              f"{ow.NORMALNY}")
-        return False
-
-def sprawdz_warstwe_2(badana_partytura: partytura.Partytura) -> bool:
-    czy_sprawdzenie_poprawne = True
-
-    if not wyswietl_sygn_akordow_nietwarzacych_funkcji(badana_partytura):
-        return False
-
-    if not wyswietl_sygn_akordow_gdzie_glosy_poza_skalami(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-
-    if not wyswietl_sygnatura_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura):
-        czy_sprawdzenie_poprawne = False
-
-    return czy_sprawdzenie_poprawne
