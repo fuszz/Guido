@@ -1,11 +1,9 @@
 import akord
-import blad
 import dzwiek
-import enumerations.enum_interwal as intr
-import enumerations.enum_przewroty as prz
+from enumerations.enum_mozliwe_interwaly import MozliweInterwaly
 import funkcja
 import partytura
-import tonacja
+from realny_interwal import RealnyInterwal
 
 # W RAZIE ROZBUDOWY PROGRAMU NALEŻY UZUPEŁNIĆ PONIŻSZE ZMIENNE GLOBALNE:
 PRZEWIDZIANE_TONIKI = [funkcja.Funkcja.TONIKA, funkcja.Funkcja.MOLL_TONIKA]
@@ -59,57 +57,19 @@ KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
     przerywać dalsze poszukiwanie błędów.
 """
 
-INTERWALY_DUR = [['1', '2', '3', '4', '5', '6', '7'],
-                 ['7', '1', '2', '3>', '4', '5', '6'],
-                 ['6>', '7', '1', '2>', '3>', '4', '5'],
-                 ['5', '6', '7<', '1', '2', '3', '4<'],
-                 ['4', '5', '6', '7', '1', '2', '3'],
-                 ['3>', '4', '5', '6>', '7', '1', '2'],
-                 ['2>', '3>', '4', '5>', '6', '7', '1']]
-
-INTERWALY_MOLL = [['1', '2', '3>', '4', '5', '6>', '7<'],
-                  ['7', '1', '2>', '3>', '4', '5>', '6'],
-                  ['6', '7', '1', '2', '3', '4', '5<'],
-                  ['5', '6', '7', '1', '2', '3>', '4<'],
-                  ['4', '5', '6>', '7', '1', '2>', '3'],
-                  ['3', '4<', '5', '6', '7<', '1', '2<'],
-                  ['2>', '3>', '4>', '5>', '6>', '7>', '1']]
-
-
-def podaj_interwal(dzwiek_a: dzwiek.Dzwiek, dzwiek_b: dzwiek.Dzwiek, badana_tonacja: tonacja.Tonacja) -> (int, intr.Interwal):
-    """
-    Podaje, jaki interwał leży pomiędzy dźwiękami a i b. Nieczuły na kolejność dźwięków. Dźwięki muszą znajdować się w
-    tonacji badana_tonacja, w przeciwnym razie podniesie BladDzwiekPozaTonacją.
-    :param dzwiek_a: dzwiek a, dzwiek.Dzwiek
-    :param dzwiek_b: dzwiek b, dzwiek.Dzwiek
-    :param badana_tonacja: tonacja, w ktorej leżą oba dźwięki, instancja tonacja.Tonacja.
-    :return: (int, Interwal), gdzie int jest liczbą pełnych oktaw znajdujących się między dźwiękami,
-    a Interwał to instancja klasy enum_interwal.Interwal.
-    """
-
-    if dzwiek_a.podaj_swoj_kod_midi() > dzwiek_b.podaj_swoj_kod_midi():
-        dzwiek_a, dzwiek_b = dzwiek_b, dzwiek_a
-    pelnych_oktaw = (dzwiek_b.podaj_swoj_kod_midi() - dzwiek_a.podaj_swoj_kod_midi()) // 12
-
-    stopien_a = dzwiek_a.podaj_swoj_stopien(badana_tonacja)
-    stopien_b = dzwiek_b.podaj_swoj_stopien(badana_tonacja)
-    symbol = INTERWALY_DUR[stopien_a][stopien_b] if badana_tonacja.czy_dur() else INTERWALY_MOLL[stopien_a][stopien_b]
-    return pelnych_oktaw, intr.Interwal.interwal_z_symbolu(symbol)
-
 
 def podaj_interwaly_w_akordzie(badany_akord: akord.Akord, badana_tonacja) -> \
-        ((int, intr.Interwal), (int, intr.Interwal), (int, intr.Interwal), (int, intr.Interwal),
-         (int, intr.Interwal), (int, intr.Interwal)):
+        ((int, MozliweInterwaly), (int, MozliweInterwaly), (int, MozliweInterwaly), (int, MozliweInterwaly),
+         (int, MozliweInterwaly), (int, MozliweInterwaly)):
     """Zwraca krotkę odległości pomiędzy głosami w następującej kolejności:
         S-A, S-T, S-B, A-T, A-B, T-B. Krotka ma postać par intów i Interwałów, gdzie int oznacza liczbę pełnych oktaw.
     """
-    return (podaj_interwal(badany_akord.podaj_sopran(), badany_akord.podaj_alt(), badana_tonacja),
-            podaj_interwal(badany_akord.podaj_sopran(), badany_akord.podaj_tenor(), badana_tonacja),
-            podaj_interwal(badany_akord.podaj_sopran(), badany_akord.podaj_bas(), badana_tonacja),
-            podaj_interwal(badany_akord.podaj_alt(), badany_akord.podaj_tenor(), badana_tonacja),
-            podaj_interwal(badany_akord.podaj_alt(), badany_akord.podaj_bas(), badana_tonacja),
-            podaj_interwal(badany_akord.podaj_tenor(), badany_akord.podaj_bas(), badana_tonacja))
-
+    return (RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_sopran(), badany_akord.podaj_alt(), badana_tonacja),
+            RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_sopran(), badany_akord.podaj_tenor(), badana_tonacja),
+            RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_sopran(), badany_akord.podaj_bas(), badana_tonacja),
+            RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_alt(), badany_akord.podaj_tenor(), badana_tonacja),
+            RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_alt(), badany_akord.podaj_bas(), badana_tonacja),
+            RealnyInterwal.stworz_z_dzwiekow(badany_akord.podaj_tenor(), badany_akord.podaj_bas(), badana_tonacja))
 
 
 # ===================================================================================================
@@ -146,8 +106,8 @@ def sygn_i_glosy_z_polaczeniem_kwintami_rownoleglymi(badana_partytura: partytura
         poprzednie_interwaly = podaj_interwaly_w_akordzie(poprzedni_akord, badana_partytura.podaj_tonacje())
         glosy_z_kwintami = ""
         for i in range(6):
-            if (obecne_interwaly[i][1] == intr.Interwal.KWINTA_CZYSTA and
-                    poprzednie_interwaly[i][1] == intr.Interwal.KWINTA_CZYSTA):
+            if (obecne_interwaly[i][1] == MozliweInterwaly.KWINTA_CZYSTA and
+                    poprzednie_interwaly[i][1] == MozliweInterwaly.KWINTA_CZYSTA):
                 glosy_z_kwintami += KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI[i]
 
         if glosy_z_kwintami:
@@ -178,8 +138,8 @@ def sygn_i_glosy_z_polaczeniem_oktawami_rownoleglymi(badana_partytura: partytura
         poprzednie_interwaly = podaj_interwaly_w_akordzie(poprzedni_akord, badana_partytura.podaj_tonacje())
         glosy_z_oktawami = ""
         for i in range(6):
-            if (obecne_interwaly[i][0] > 0 and obecne_interwaly[i][1] == intr.Interwal.PRYMA_CZYSTA and
-                    poprzednie_interwaly[i][0] > 0 and poprzednie_interwaly[i][1] == intr.Interwal.PRYMA_CZYSTA):
+            if (obecne_interwaly[i][0] > 0 and obecne_interwaly[i][1] == MozliweInterwaly.PRYMA_CZYSTA and
+                    poprzednie_interwaly[i][0] > 0 and poprzednie_interwaly[i][1] == MozliweInterwaly.PRYMA_CZYSTA):
                 glosy_z_oktawami += KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI[i]
 
         if glosy_z_oktawami:
@@ -235,8 +195,8 @@ def sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(badana_partytura: partyt
         dzwieki_obecnego_akordu = obecny_akord.podaj_krotke_dzwiekow_z_akordu()
         wadliwe_glosy = ""
         for i in range(4):
-            if podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
-                              badana_partytura.podaj_tonacje())[1].czy_interwal_zwiekszony:
+            if RealnyInterwal.stworz_z_dzwiekow(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
+                                                badana_partytura.podaj_tonacje()).podaj_interwal().czy_interwal_zwiekszony:
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
 
         if wadliwe_glosy:
@@ -265,13 +225,12 @@ def sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(badana_partytura: partytura.Par
         dzwieki_obecnego_akordu = obecny_akord.podaj_krotke_dzwiekow_z_akordu()
         wadliwe_glosy = ""
         for i in range(4):
-            ruch_w_glosie = podaj_interwal(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
-                                           badana_partytura.podaj_tonacje())
-            if ruch_w_glosie[0] > 0 or ruch_w_glosie[1] > intr.Interwal.SEKSTA_WIELKA:
+            ruch_w_glosie = RealnyInterwal.stworz_z_dzwiekow(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
+                                                             badana_partytura.podaj_tonacje())
+            if ruch_w_glosie.podaj_liczbe_oktaw() > 0 or ruch_w_glosie.podaj_interwal() > MozliweInterwaly.SEKSTA_WIELKA:
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
 
         if wadliwe_glosy:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
 
     return lista_wynikowa
-

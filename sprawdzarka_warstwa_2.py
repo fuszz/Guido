@@ -2,7 +2,7 @@ import partytura
 import blad
 import dzwiek
 import sprawdzarka_warstwa_4 as spr
-import enumerations.enum_interwal as intr
+from enumerations.enum_mozliwe_interwaly import MozliweInterwaly
 
 
 # ================================================================
@@ -98,7 +98,7 @@ def sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: partytura.Party
 
         if (spr.podaj_interwal(element.podaj_alt(), element.podaj_tenor(), badana_partytura.podaj_tonacje())[0] > 0 or
                 spr.podaj_interwal(element.podaj_alt(), element.podaj_tenor(), badana_partytura.podaj_tonacje())[1] >
-                intr.Interwal.SEKSTA_WIELKA):
+                MozliweInterwaly.SEKSTA_WIELKA):
             oznaczenia_glosow += "AT" + str(spr.podaj_interwal(element.podaj_alt(), element.podaj_tenor(),
                                                                badana_partytura.podaj_tonacje()))
 
