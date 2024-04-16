@@ -89,8 +89,9 @@ def nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura: party
     ten sam akord, co zakończył się akord poprzedni. Pusta lista świadczy o poprawności rozwiązania."""
     licznik_taktow = 0
     czy_poczatek_taktu = False
-    lista_wynikowa: list[int] = []
+    lista_wynikowa = []
     ostatni_akord: akord.Akord = badana_partytura.podaj_liste_akordow()[0]
+    tonacja_par = badana_partytura.podaj_tonacje()
 
     for element in badana_partytura.podaj_liste_akordow():
         if element == "T":
@@ -100,8 +101,7 @@ def nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura: party
 
         if czy_poczatek_taktu:
             czy_poczatek_taktu = False
-            if (element.ustal_funkcje(badana_partytura.podaj_tonacje()) ==
-                    ostatni_akord.ustal_funkcje(badana_partytura.podaj_tonacje())):
+            if element.ustal_funkcje(tonacja_par) == ostatni_akord.ustal_funkcje(tonacja_par):
                 lista_wynikowa.append(licznik_taktow)
         ostatni_akord = element
     return lista_wynikowa

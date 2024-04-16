@@ -1,18 +1,19 @@
 import unittest
 from partytura import Partytura
 from akord import Akord
-from enumerations.enum_nazwy_interwalow import NazwyInterwalow
+from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from enumerations.enum_wartosci_nut import WartosciNut
 from enumerations.enum_metrum import Metrum
 from dzwiek import Dzwiek
 import blad
 from tonacja import Tonacja
 import sprawdzarka_warstwa_4 as spr_w_4
+from interwal import Interwal
 
 
 class TestWarstwy4Sprawdzarki(unittest.TestCase):
 
-    def test_sygn_i_glosy_z_polaczeniem_kwintami_rownoleglymi_1(self):
+    def test_sygn_i_glosy_z_rownoleglosciami_o_interwal_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
         tonika = Akord(Dzwiek(4, "c"),
                        Dzwiek(4, "e"),
@@ -22,7 +23,8 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
         par.dodaj_akord(tonika)
         par.dodaj_akord(tonika)
         par.zakoncz_takt()
-        self.assertEqual([(0, 1, "ST,TB,")], spr_w_4.sygn_i_glosy_z_polaczeniem_kwintami_rownoleglymi(par))
+        self.assertEqual([(0, 1, "ST TB ")],
+                         spr_w_4.sygn_i_glosy_z_rownoleglosciami_o_interwal(par, NazwaInterwalu.KWINTA_CZYSTA))
 
     def test_sygn_i_glosy_z_polaczeniem_oktawami_rownoleglymi_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
@@ -34,7 +36,7 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
         par.dodaj_akord(tonika)
         par.dodaj_akord(tonika)
         par.zakoncz_takt()
-        self.assertEqual([(0, 1, "SB,")], spr_w_4.sygn_i_glosy_z_polaczeniem_oktawami_rownoleglymi(par))
+        self.assertEqual([], spr_w_4.sygn_i_glosy_z_rownoleglosciami_o_interwal(par, NazwaInterwalu.PRYMA_CZYSTA))
 
     def test_sygn_gdzie_ruch_glosow_w_tym_samym_kierunku_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)

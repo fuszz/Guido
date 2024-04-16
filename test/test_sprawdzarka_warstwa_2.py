@@ -77,8 +77,26 @@ class TestWarstwy2Sprawdzarki(unittest.TestCase):
                         Dzwiek(5, "g"),
                         WartosciNut.CWIERCNUTA)
         par.dodaj_akord(akord_b)
-        self.assertEqual([(2, 0, "SA (1, SEKUNDA_WIELKA), ")],
+        self.assertEqual([(2, 0, "SA (1, SEKUNDA_WIELKA) ")],
                          sprawdzarka.sygn_i_glosy_gdzie_przekroczone_odleglosci(par))
+
+    def test_sygn_i_glosy_gdzie_glosy_skrzyzowane_1(self):
+        par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 2)
+        akord_a = Akord(Dzwiek(4, "c"),
+                        Dzwiek(3, "e"),
+                        Dzwiek(2, "g"),
+                        Dzwiek(1, "c"),
+                        WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_a)
+        par.zakoncz_takt()
+        akord_b = Akord(Dzwiek(4, "c"),
+                        Dzwiek(5, "d"),
+                        Dzwiek(5, "f"),
+                        Dzwiek(5, "g"),
+                        WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(akord_b)
+        print()
+        self.assertEqual([(1, 0, 'SA AT TB ')], sprawdzarka.sygn_i_glosy_gdzie_glosy_skrzyzowane(par))
 
 
 if __name__ == '__main__':

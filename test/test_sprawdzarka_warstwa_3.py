@@ -1,4 +1,6 @@
 import unittest
+
+import sprawdzarka_warstwa_3
 from dzwiek import Dzwiek
 from akord import Akord
 from enumerations.enum_metrum import Metrum
@@ -115,6 +117,22 @@ class TestWarstwy3Sprawdzarki(unittest.TestCase):
         par.dodaj_akord(bez)
         par.zakoncz_takt()
         self.assertEqual([1], spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(par))
+
+    def test_nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(self):
+        par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 2)
+        par.dodaj_akord(Akord(Dzwiek(4, "c"),
+                              Dzwiek(4, "e"),
+                              Dzwiek(4, "g"),
+                              Dzwiek(4, "c"),
+                              WartosciNut.CWIERCNUTA))
+        par.zakoncz_takt()
+        par.dodaj_akord(Akord(Dzwiek(4, "c"),
+                              Dzwiek(4, "e"),
+                              Dzwiek(4, "g"),
+                              Dzwiek(4, "c"),
+                              WartosciNut.CWIERCNUTA))
+        par.zakoncz_takt()
+        self.assertEqual([1], sprawdzarka_warstwa_3.nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(par))
 
 
 if __name__ == '__main__':

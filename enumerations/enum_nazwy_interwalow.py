@@ -2,7 +2,7 @@ from enum import Enum, auto
 import blad
 
 
-class NazwyInterwalow(Enum):
+class NazwaInterwalu(Enum):
     PRYMA_CZYSTA = auto(), "1"
     SEKUNDA_MALA = auto(), "2>"
     SEKUNDA_WIELKA = auto(), "2"
@@ -21,7 +21,7 @@ class NazwyInterwalow(Enum):
     SEPTYMA_WIELKA = auto(), "7<"
 
     @classmethod
-    def interwal_z_symbolu(cls, symbol: str) -> 'NazwyInterwalow':
+    def interwal_z_symbolu(cls, symbol: str) -> 'NazwaInterwalu':
         for interwal in cls:
             if interwal.value[1] == symbol:
                 return interwal
@@ -44,7 +44,7 @@ class NazwyInterwalow(Enum):
 
     def czy_interwal_zwiekszony(self) -> bool:
         """Zwraca True, jeśli dana instancja jest interwałem zwiększonym. W przeciwnym razie zwraca False"""
-        if self.value[1] == '<' and self != NazwyInterwalow.SEPTYMA_WIELKA:
+        if self.value[1] == '<' and self != NazwaInterwalu.SEPTYMA_WIELKA:
             return True
         else:
             return False

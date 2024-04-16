@@ -1,6 +1,7 @@
 from tonacja import Tonacja
-from enumerations.enum_nazwy_interwalow import NazwyInterwalow
+from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from dzwiek import Dzwiek
+from akord import Akord
 
 INTERWALY_DUR = [['1', '2', '3', '4', '5', '6', '7'],
                  ['7', '1', '2', '3>', '4', '5', '6'],
@@ -24,25 +25,25 @@ class Interwal:
     def __eq__(self, other):
         return (type(self) == type(other) and
                 self._liczba_oktaw == other.podaj_liczbe_oktaw() and
-                self._interwal == other.podaj_interwal())
+                self._interwal == other.podaj_nazwe())
 
     def __lt__(self, other):
         return (type(self) == type(other) and
                 self._liczba_oktaw < other.podaj_liczbe_oktaw() or
                 (self._liczba_oktaw == other.podaj_liczbe_oktaw() and
-                 self._interwal < other.podaj_interwal()))
+                 self._interwal < other.podaj_nazwe()))
 
     def __gt__(self, other):
         return (type(self) == type(other) and
                 self._liczba_oktaw > other.podaj_liczbe_oktaw() or
                 (self._liczba_oktaw == other.podaj_liczbe_oktaw() and
-                 self._interwal > other.podaj_interwal()))
+                 self._interwal > other.podaj_nazwe()))
 
-    def __init__(self, liczba_oktaw: int, interwal: NazwyInterwalow):
+    def __init__(self, liczba_oktaw: int, interwal: NazwaInterwalu):
         self._liczba_oktaw = liczba_oktaw
-        self._interwal: NazwyInterwalow = interwal
+        self._interwal: NazwaInterwalu = interwal
 
-    def podaj_interwal(self) -> NazwyInterwalow:
+    def podaj_nazwe(self) -> NazwaInterwalu:
         return self._interwal
 
     def podaj_liczbe_oktaw(self) -> int:
@@ -69,13 +70,24 @@ class Interwal:
 
         symbol = INTERWALY_DUR[stopien_a][stopien_b] if badana_tonacja.czy_dur() else INTERWALY_MOLL[stopien_a][
             stopien_b]
-        return Interwal(pelnych_oktaw, NazwyInterwalow.interwal_z_symbolu(symbol))
+        return Interwal(pelnych_oktaw, NazwaInterwalu.interwal_z_symbolu(symbol))
 
     def __str__(self) -> str:
         return str(str(self._liczba_oktaw) + ", " + str(self._interwal.name))
 
     def czy_oktawa_czysta(self) -> bool:
-        return self._interwal == NazwyInterwalow.PRYMA_CZYSTA and self._liczba_oktaw > 0
+        return self._interwal == NazwaInterwalu.PRYMA_CZYSTA and self._liczba_oktaw > 0
 
-    def czy_kwinta_czyta(self) -> bool:
-        return self._interwal == NazwyInterwalow.KWINTA_CZYSTA
+    def czy_kwinta_czysta(self) -> bool:
+        return self._interwal == NazwaInterwalu.KWINTA_CZYSTA
+
+    @classmethod
+    def podaj_interwaly_w_akordzie(cls, akord: Akord, badana_tonacja) -> list['Interwal']:
+        """Zwraca krotkę interwałów (klasa Interwal) pomiędzy głosami w następującej kolejności: 
+        S-A, S-T, S-B, A-T, A-B, T-B."""
+        return [Interwal.stworz_z_dzwiekow(akord.podaj_sopran(), akord.podaj_alt(), badana_tonacja),
+                Interwal.stworz_z_dzwiekow(akord.podaj_sopran(), akord.podaj_tenor(), badana_tonacja),
+                Interwal.stworz_z_dzwiekow(akord.podaj_sopran(), akord.podaj_bas(), badana_tonacja),
+                Interwal.stworz_z_dzwiekow(akord.podaj_alt(), akord.podaj_tenor(), badana_tonacja),
+                Interwal.stworz_z_dzwiekow(akord.podaj_alt(), akord.podaj_bas(), badana_tonacja),
+                Interwal.stworz_z_dzwiekow(akord.podaj_tenor(), akord.podaj_bas(), badana_tonacja)]

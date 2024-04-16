@@ -156,15 +156,18 @@ class Akord:
             if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
                 return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
 
-    def podaj_krotke_dzwiekow_z_akordu(self) -> (Dzwiek, Dzwiek, Dzwiek, Dzwiek):
+    def podaj_krotke_dzwiekow(self) -> (Dzwiek, Dzwiek, Dzwiek, Dzwiek):
         """Zwraca dźwięki składowe akordu w postaci czteroelementowej krotki obiektów klasy Dźwięk w kolejności:
         (sopran, alt, tenor, bas)"""
         return self._sopran, self._alt, self._tenor, self._bas
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""
-        print(self._sopran.podaj_nazwe_dzwieku(), " ", self._sopran.podaj_oktawe(), '\t',
-              self._alt.podaj_nazwe_dzwieku(), " ", self._alt.podaj_oktawe(), '\t',
-              self._tenor.podaj_nazwe_dzwieku(), " ", self._tenor.podaj_oktawe(), '\t',
-              self._bas.podaj_nazwe_dzwieku(), " ", self._bas.podaj_oktawe(), '\t',
-              self._dlugosc.name)
+        if self == "T":
+            print("Koniec taktu")
+        else:
+            print(self._sopran.podaj_nazwe_dzwieku(), " ", self._sopran.podaj_oktawe(), '\t',
+                  self._alt.podaj_nazwe_dzwieku(), " ", self._alt.podaj_oktawe(), '\t',
+                  self._tenor.podaj_nazwe_dzwieku(), " ", self._tenor.podaj_oktawe(), '\t',
+                  self._bas.podaj_nazwe_dzwieku(), " ", self._bas.podaj_oktawe(), '\t',
+                  self._dlugosc.name)
