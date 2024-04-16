@@ -108,7 +108,7 @@ class Funkcja(enum.Enum):
         for skladnik_funkcji in self.value.keys():
             if self.value[skladnik_funkcji] == stopien:
                 return skladnik_funkcji
-        raise blad.BladStopienPozaFunkcja(f"{stopien} nie należy do funkcji {self.value["symbol"]}")
+        raise blad.BladStopienPozaFunkcja(f"{stopien} nie należy do funkcji {self.value[str('symbol')]}")
 
     def okresl_przewrot(self, stopien_basu: int) -> enum_przewroty.Przewrot:
         """

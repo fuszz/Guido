@@ -2,7 +2,7 @@ import enum
 
 
 class KodyMidi(enum.Enum):
-    "Typ wyliczeniowy, za pomocą którego wyliczane są bezwzględne kody dźwięków."
+    """Typ wyliczeniowy, za pomocą którego wyliczane są bezwzględne kody dźwięków."""
     C = 0
     D = 2
     E = 4

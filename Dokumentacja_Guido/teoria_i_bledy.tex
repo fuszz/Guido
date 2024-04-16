@@ -1,0 +1,104 @@
+\documentclass[dokumentacja.tex]{subfiles}
+
+\begin{document}
+\section{Rozpoznawane błędy: pojedyncze dźwięki i dźwięki jako składniki akordów}
+
+\subsection{Czy podane dźwięki zawierają się w skalach dla konkretnych głosów?}
+\subsubsection{Warunki wstępne}
+Poprawnie zakończone wczytanie partytury.
+\subsubsection{Dokładne informacje o teście}
+Metoda testuje, czy bezwzględne kody dźwięków znajdują się w zakresie pomiędzy kresami skali. W tym celu wykorzystywane są metody \texttt{akord.podaj\_<żądany głos>()} oraz \texttt{dzwiek.podaj\_swoj\_kod\_bezwzgledny()}. \\ Skale poszczególnych głosów (za: K. Sikorski, Harmonia cz. I, PWM 1996):
+\begin{itemize}
+    \item \textbf{Sopran} - skala od c razkreślnego (\texttt{c4}, kod bezwzględny: 48) do a dwukreślnego (\texttt{a5}, kod bezwzględny: 69)
+    \item \textbf{Alt} - skala od f małego (\texttt{f3}, kod bezwzględny: 41) do d dwukreślnego (\texttt{d5}, kod bezwzględny: 62) 
+    \item \textbf{Tenor} - skala od c małego (\texttt{c3}, kod bezwzględny: 36) do a razkreślnego (\texttt{a4}, kod bezwzględny: 57)
+    \item \textbf{Bas} - skala od f wielkiego (\texttt{f2}, kod bezwzględny: 29) do d razkreślnego (\texttt{d4}, kod bezwzględny: 50)
+\end{itemize}
+Warto zauważyć, że skala sopranu jest taka sama jak tenoru, tyle, że o oktawę wyżej. Podobnie sprawy mają się z altem i basem. Ponadto skale altu i basu leżą o kwintę czystą niżej niż skale, odpowiednio, sopranu i tenoru.
+
+\subsubsection{Informacje wyjściowe}
+Czteroelementowa lista z elementami typu wyliczeniowego  \texttt{DzwiekiWSkalach}.\\ Pierwszy (indeks = 0) element listy przekazuje informację o dźwięku w sopranie, a ostatni \\(indeks = 3) o dźwięku w basie.
+
+\subsection{Czy głosy się nie krzyżują?}
+\subsubsection{Warunki wstępne}
+Poprawnie wczytana partytura.
+\subsubsection{Dokładne informacje o teście}
+Funkcja wykorzystuje kody bezwzględne stopni funkcji i zwraca informację o ewentualnym skrzyżowaniu głosów.
+\subsubsection{Informacje wyjściowe}
+Lista typu enum \texttt{KrzyzowaniaGlosow}. Liczba elementów od 0 do 6, przy czym akord jest poprawny wyłączenie wówczas, gdy funkcja zwraca pustą listę.
+
+\subsection{Czy podane dźwięki są stopniami w podanej tonacji?}
+\subsubsection{Warunki wstępne}
+Poprawnie wczytana partytura.
+\subsubsection{Dokładne informacje o teście}
+Funkcja wywołuje dla każdego z dźwięków jego metodę \texttt{podaj\_swoj\_stopien(odpytywana\_tonacja: Tonacja)}. Rzuca ona błąd ValueError, gdy taki dźwięk nie występuje w tonacji. Metoda w razie przechwycenia ValueError informuje o określonym głosie.
+\subsubsection{Informacje wyjściowe}
+Lista typu wyliczeniowego \texttt{NiepoprawneStopnie}. Lista może zawierać od 0 (wówczas akord nie zawiera błędnych dźwięków) do 4 (wszystkie stopnie są spoza tonacji) elementów.
+
+\section{Rozpoznawane błędy: poprawność akordów}
+
+\subsection{Czy podane składniki stanowią poprawną funkcję?}
+\subsubsection{Warunki wstępne}
+Wszystkie dźwięki akordu są poprawnymi stopniami tonacji.
+\subsubsection{Dokładne informacje o teście}
+Jeżeli podane dźwięki tworzą jakąś sensowną funkcję, zwraca true. Jeśli nie - zwraca False.
+\subsubsection{Informacje wyjściowe}
+Zmienna logiczna (True/False). True na wyjściu testu wyklucza akord z dalszych badań. 
+
+
+\subsection{Czy dwojenia w akordach są poprawne?}
+\subsubsection{Warunki wstępne}
+Składniki stanowią poprawną funkcję. 
+\subsubsection{Dokładne informacje o teście}
+To, jakie dwojenia są uznawane za poprawne, zależy od przewrotu. Co do zasady:
+\begin{itemize}
+    \item W postaci zasadniczej dwoimy wyłącznie prymę
+    \item W pierwszym przewrocie - prymę lub kwintę
+    \item W drugim przewrocie - kwintę
+    \item W trzecim przewrocie (w przypadku dominanty septymowej) nie dwoimi żadnego składnika, bo dominatna posiada 4 stopnie. 
+\end{itemize}
+W wyjątkowych sytuacjach dopuszcza się inne dwojenia, np. w pierwszym przewrocie dopuszcza się zdwojenie tercji, o ile pochód melodyczny w sopranie lub basie tworzy trójdźwięk. Takich wyjątków, w nauce harmonii, znajduje się bardzo wiele, w związku z czym, dla uproszczenia, ograniczono się do podstawowych zasad, które w zupełności wystarczają do nauki podstaw harmonii.
+\subsubsection{Informacje wyjściowe}
+Typ logiczny dwuwartościowy (True/False).
+
+
+\section{Rozpoznawane błędy: umiejscowienie akordów w partyturze}
+
+\subsection{Czy takty mają poprawne długości?}
+\subsubsection{Warunki wstępne}
+brak
+\subsubsection{Dokładne informacje o teście}
+brak
+\subsubsection{Informacje wyjściowe}
+brak
+
+
+\subsection{Czy funkcje znajdują się na poprawnych miejscach względem innych funkcji?}
+\subsubsection{Warunki wstępne}
+brak
+\subsubsection{Dokładne informacje o teście}
+brak
+\subsubsection{Informacje wyjściowe}
+brak
+
+
+\subsection{Czy funkcje znajdują się na poprawnych miejscach względem podanego metrum?}
+\subsubsection{Warunki wstępne}
+brak
+\subsubsection{Dokładne informacje o teście}
+brak
+\subsubsection{Informacje wyjściowe}
+brak
+
+
+\section{Rozpoznawane błędy: poprawność połączeń akordów}
+Do ogarnięcia później
+\subsection{Czy takty mają poprawne długości?}
+\subsubsection{Warunki wstępne}
+brak
+\subsubsection{Dokładne informacje o teście}
+brak
+\subsubsection{Informacje wyjściowe}
+brak
+
+\end{document}

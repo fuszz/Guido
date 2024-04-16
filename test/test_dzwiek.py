@@ -15,27 +15,27 @@ class MyTestCase(unittest.TestCase):
 
     def test_konstruktora_2(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
-            d = dzwiek.Dzwiek(2, 'cbbb')
+            dzwiek.Dzwiek(2, 'cbbb')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa")
 
     def test_konstruktora_3(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
-            d = dzwiek.Dzwiek(2, '###')
+            dzwiek.Dzwiek(2, '###')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna nazwa")
 
     def test_konstruktora_4(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
-            d = dzwiek.Dzwiek(10, 'c')
+            dzwiek.Dzwiek(10, 'c')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
 
     def test_konstruktora_5(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
-            d = dzwiek.Dzwiek("###", 'c')
+            dzwiek.Dzwiek("###", 'c')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
 
     def test_konstruktora_6(self):
         with self.assertRaises(blad.BladTworzeniaDzwieku) as context:
-            d = dzwiek.Dzwiek(-100, 'c')
+            dzwiek.Dzwiek(-100, 'c')
         self.assertEqual(str(context.exception), "Błąd tworzenia dźwięku: Niepoprawna oktawa")
 
     def test_podaj_oktawe1(self):
@@ -48,35 +48,35 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_swoj_stopien_1(self):
         d = dzwiek.Dzwiek(1, 'c')
-        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')), 0)
+        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')), 0)
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')))
+                          lambda: d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_wzgledny_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
+                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_wzgledny_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')))
+                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')), 8)
+        self.assertEqual(d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')), 8)
 
     def test_spojnosci_oktawy_i_kodu_wzglednego_1(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_oktawe(), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')) // 7)
+        self.assertEqual(d.podaj_oktawe(), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) // 7)
 
     def test_spojnosci_oktawy_i_kodu_wzglednego_2(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.tonacja_z_symbolu('C')),
-                         d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.tonacja_z_symbolu('C')) % 7)
+        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')),
+                         d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) % 7)
 
     def test_kodu_midi_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')

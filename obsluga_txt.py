@@ -29,7 +29,7 @@ def utworz_partyture(plik: TextIO) -> partytura.Partytura:
 
     try:
         linia: str = plik.readline().replace('\n', '').replace(' ', '')
-        nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja.tonacja_z_symbolu(linia)
+        nowa_tonacja: tonacja.Tonacja = tonacja.Tonacja.stworz_z_symbolu(linia)
     except blad.BladTworzeniaTonacji:
         raise blad.BladWczytywaniaZPliku("Niepoprawna nazwa tonacji")
     except IOError:

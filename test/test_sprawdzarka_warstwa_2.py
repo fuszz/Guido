@@ -77,7 +77,7 @@ class TestWarstwy2Sprawdzarki(unittest.TestCase):
                         Dzwiek(5, "g"),
                         WartosciNut.CWIERCNUTA)
         par.dodaj_akord(akord_b)
-        self.assertEqual([(2, 0, "SA(1, <Interwal.SEKUNDA_WIELKA: (3, \'2\')>)")],
+        self.assertEqual([(2, 0, "SA (1, SEKUNDA_WIELKA), ")],
                          sprawdzarka.sygn_i_glosy_gdzie_przekroczone_odleglosci(par))
 
 

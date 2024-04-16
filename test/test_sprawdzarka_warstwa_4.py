@@ -1,7 +1,7 @@
 import unittest
 from partytura import Partytura
 from akord import Akord
-from enumerations.enum_mozliwe_interwaly import MozliweInterwaly
+from enumerations.enum_nazwy_interwalow import NazwyInterwalow
 from enumerations.enum_wartosci_nut import WartosciNut
 from enumerations.enum_metrum import Metrum
 from dzwiek import Dzwiek
@@ -11,7 +11,6 @@ import sprawdzarka_warstwa_4 as spr_w_4
 
 
 class TestWarstwy4Sprawdzarki(unittest.TestCase):
-
 
     def test_sygn_i_glosy_z_polaczeniem_kwintami_rownoleglymi_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)

@@ -167,7 +167,7 @@ class Tonacja(enum.Enum):
         return type(self) is type(other) and self.name == other.name
 
     @classmethod
-    def tonacja_z_symbolu(cls, symbol_tonacji: str) -> 'Tonacja':
+    def stworz_z_symbolu(cls, symbol_tonacji: str) -> 'Tonacja':
         """
         Konstruktor inicjuje instancję klasy Tonacja. Rzuca BladTworzeniaTonacji(), gdy nazwa tonacji jest niepoprawna.
         """

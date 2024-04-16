@@ -79,6 +79,7 @@ class MyTestCase(unittest.TestCase):
                                    dzwiek.Dzwiek(3, "c#"),
                                    enumerations.enum_wartosci_nut.WartosciNut.POLNUTA))
         p2 = obsluga_mscx.wczytaj_z_pliku_mscx('../przyklady/mscx/partytura_1.mscx')
+        self.assertEqual(p1, p2)
 
     def test_poprawnosci_wczytywania_akordow_3(self):
         p1 = partytura.Partytura(tonacja.Tonacja.DES_DUR, enumerations.enum_metrum.Metrum.TRZY_CZWARTE, 3)
@@ -111,6 +112,7 @@ class MyTestCase(unittest.TestCase):
                                    enumerations.enum_wartosci_nut.WartosciNut.POLNUTA))
         p2 = obsluga_mscx.wczytaj_z_pliku_mscx('../przyklady/mscx/partytura_3.mscx')
         self.assertEqual(p1, p2)
+
 
 if __name__ == '__main__':
     unittest.main()

@@ -8,8 +8,10 @@ from enumerations import enum_kody_midi, enum_nazwy_dzwiekow
 class Dzwiek:
 
     def __eq__(self, other):
-        return type(self) is type(
-            other) and self._nazwa_dzwieku == other._nazwa_dzwieku and self._oktawa_dzwieku == other._oktawa_dzwieku
+        return (isinstance(self, type(other))
+                and self._nazwa_dzwieku == other.podaj_nazwe_dzwieku()
+                and self._oktawa_dzwieku == other.podaj_oktawe()
+                )
 
     def __init__(self, nowa_oktawa_dzwieku: int, nowa_nazwa_dzwieku: str):
         """
