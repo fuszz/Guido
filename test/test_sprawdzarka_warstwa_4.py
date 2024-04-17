@@ -39,8 +39,12 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
                           WartosciNut.CWIERCNUTA)
         par.dodaj_akord(tonika)
         par.dodaj_akord(dominanta)
+        par.dodaj_akord(tonika)
         par.zakoncz_takt()
-        self.assertEqual([(0, 1, "SB ")], spr_w_4.sygn_i_glosy_z_rownoleglosciami(par, NazwaInterwalu.PRYMA_CZYSTA))
+        par.dodaj_akord(dominanta)
+        par.zakoncz_takt()
+        self.assertEqual([(0, 1, "SB "), (0, 2, "SB "), (1, 0, "SB ")],
+                         spr_w_4.sygn_i_glosy_z_rownoleglosciami(par, NazwaInterwalu.PRYMA_CZYSTA))
 
     def test_sygn_i_glosy_z_rownoleglosciami_o_interwal_3(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
@@ -84,7 +88,19 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
                               Dzwiek(0, "e"),
                               Dzwiek(0, "c"),
                               WartosciNut.CWIERCNUTA))
-        self.assertEqual([(0, 1), (0, 3)], spr_w_4.sygn_gdzie_ruch_glosow_w_tym_samym_kierunku(par))
+        par.zakoncz_takt()
+        par.dodaj_akord(Akord(Dzwiek(2, "c"),
+                              Dzwiek(3, "d"),
+                              Dzwiek(1, "e"),
+                              Dzwiek(3, "c"),
+                              WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(Akord(Dzwiek(0, "c"),
+                              Dzwiek(0, "d"),
+                              Dzwiek(0, "e"),
+                              Dzwiek(0, "c"),
+                              WartosciNut.CWIERCNUTA))
+        self.assertEqual([(0, 1), (0, 3), (1, 0), (1, 1)], spr_w_4.sygn_gdzie_ruch_glosow_w_tym_samym_kierunku(par))
 
     def test_sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
@@ -99,7 +115,19 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
                               Dzwiek(3, "h"),
                               Dzwiek(3, "h"),
                               WartosciNut.CWIERCNUTA))
-        self.assertEqual([(0, 1, "SATB")], spr_w_4.sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(par))
+        par.dodaj_akord(Akord(Dzwiek(1, "f"),
+                              Dzwiek(1, "f"),
+                              Dzwiek(2, "f"),
+                              Dzwiek(2, "f"),
+                              WartosciNut.CWIERCNUTA))
+
+        par.dodaj_akord(Akord(Dzwiek(2, "h"),
+                              Dzwiek(2, "h"),
+                              Dzwiek(3, "h"),
+                              Dzwiek(3, "h"),
+                              WartosciNut.CWIERCNUTA))
+        self.assertEqual([(0, 1, "SATB"), (0, 2, "SATB"), (0, 3, "SATB")],
+                         spr_w_4.sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(par))
 
     def test_sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
