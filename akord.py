@@ -140,7 +140,7 @@ class Akord:
         return self.ustal_funkcje(badana_tonacja).stopien_tonacji_w_skladnik_funkcji(
             self._sopran.podaj_swoj_stopien(badana_tonacja))
 
-    def ustal_zdwojony_dzwiek_jako_skladnik_funkcji(self, badana_tonacja: Tonacja) -> (
+    def podaj_zdwojony_skladnik(self, badana_tonacja: Tonacja) -> (
             ZdwojonySkladnikFunkcji):
         """
             Jeśli akord nie stanowi w badanej tonacji funkcji - podnosi BladStopienPozaFukcja.

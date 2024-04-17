@@ -249,7 +249,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'g')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.C_DUR),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.C_DUR),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA)
 
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_2(self):
@@ -259,7 +259,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'h')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.C_DUR),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.C_DUR),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.TERCJA)
 
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_3(self):
@@ -269,7 +269,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'h')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.C_DUR),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.C_DUR),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.KWINTA)
 
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_4(self):
@@ -279,7 +279,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'e')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.A_MOLL),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.A_MOLL),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA)
 
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_5(self):
@@ -289,7 +289,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'e')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.A_MOLL),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.A_MOLL),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.KWINTA)
 
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_6(self):
@@ -299,7 +299,7 @@ class TestyKlasyAKord(unittest.TestCase):
         d_s = dzwiek.Dzwiek(4, 'c')
         wartosc = enum_wartosci_nut.WartosciNut(2)
         nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-        self.assertEqual(nowy_akord.ustal_zdwojony_dzwiek_jako_skladnik_funkcji(tonacja.Tonacja.A_MOLL),
+        self.assertEqual(nowy_akord.podaj_zdwojony_skladnik(tonacja.Tonacja.A_MOLL),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.TERCJA)
 
 

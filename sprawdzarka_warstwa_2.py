@@ -5,6 +5,8 @@ from dzwiek import Dzwiek
 from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from akord import Akord
 from tonacja import Tonacja
+from enumerations.enum_zdwojony_skladnik_funkcji import ZdwojonySkladnikFunkcji
+from enumerations.enum_przewroty import Przewrot
 
 # ================================================================
 # Warstwa 2 - błędy pionowe
@@ -112,12 +114,11 @@ def sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: Partytura) -> l
     tonacja = badana_partytura.podaj_tonacje()
 
     for element in badana_partytura.podaj_liste_akordow():
-        wynik_glosow = ""
         if element == "T":
             licznik_taktow += 1
             licznik_akordow = 0
             continue
-        wynik_glosow = glosy_akordu_przekraczajace_odleglosci(element, badana_partytura.podaj_tonacje())
+        wynik_glosow = glosy_akordu_przekraczajace_odleglosci(element, tonacja)
         if wynik_glosow:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wynik_glosow))
         licznik_taktow += 1
@@ -152,4 +153,57 @@ def sygn_i_glosy_gdzie_glosy_skrzyzowane(badana_partytura: Partytura) -> list[(i
         skrzyzowane_w_akordzie = glosy_akordu_ktore_sa_skrzyzowane(akord)
         if skrzyzowane_w_akordzie:
             lista_wynikowa.append((nr_taktu, nr_akordu, skrzyzowane_w_akordzie))
+    return lista_wynikowa
+
+
+def sygn_gdzie_zdwojono_tercje(badana_partytura: Partytura) -> list[(int, int)]:
+    """Zwraca sygnatury akordów, w których zdwojonym składnikiem jest tercja."""
+    nr_taktu = 0
+    nr_akordu = 0
+    tonacja = badana_partytura.podaj_tonacje()
+    lista_wynikowa = []
+    for akord in badana_partytura.podaj_liste_akordow():
+        if akord == "T":
+            nr_taktu += 1
+            nr_akordu = 0
+            continue
+
+        if akord.podaj_zdwojony_skladnik(tonacja) == ZdwojonySkladnikFunkcji.TERCJA:
+            lista_wynikowa.append((nr_taktu, nr_akordu))
+    return lista_wynikowa
+
+
+def sygn_gdzie_bez_przewrotu_zdwojono_kwinte(badana_partytura: Partytura) -> list[(int, int)]:
+    """Zwraca sygnatury akordów bez przewrotu, w których zdwojonym składnikiem jest kwinta."""
+    nr_taktu = 0
+    nr_akordu = 0
+    tonacja = badana_partytura.podaj_tonacje()
+    lista_wynikowa = []
+    for akord in badana_partytura.podaj_liste_akordow():
+        if akord == "T":
+            nr_taktu += 1
+            nr_akordu = 0
+            continue
+
+        if (akord.ustal_przewrot(tonacja) == Przewrot.POSTAC_ZASADNICZA and
+                akord.podaj_zdwojony_skladnik(tonacja) == ZdwojonySkladnikFunkcji.KWINTA):
+            lista_wynikowa.append((nr_taktu, nr_akordu))
+    return lista_wynikowa
+
+
+def sygn_gdzie_w_drugim_przewrocie_zdwojono_pryme(badana_partytura: Partytura) -> list[(int, int)]:
+    """Zwraca sygnatury akordów w drugim przewrocie, w których zdwojonym składnikiem jest pryma."""
+    nr_taktu = 0
+    nr_akordu = 0
+    tonacja = badana_partytura.podaj_tonacje()
+    lista_wynikowa = []
+    for akord in badana_partytura.podaj_liste_akordow():
+        if akord == "T":
+            nr_taktu += 1
+            nr_akordu = 0
+            continue
+
+        if (akord.ustal_przewrot(tonacja) == Przewrot.DRUGI and
+                akord.podaj_zdwojony_skladnik(tonacja) == ZdwojonySkladnikFunkcji.PRYMA):
+            lista_wynikowa.append((nr_taktu, nr_akordu))
     return lista_wynikowa
