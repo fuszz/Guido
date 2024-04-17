@@ -156,10 +156,17 @@ class Akord:
             if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
                 return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
 
-    def podaj_krotke_dzwiekow(self) -> (Dzwiek, Dzwiek, Dzwiek, Dzwiek):
+    def podaj_krotke_skladnikow(self) -> (Dzwiek, Dzwiek, Dzwiek, Dzwiek):
         """Zwraca dźwięki składowe akordu w postaci czteroelementowej krotki obiektów klasy Dźwięk w kolejności:
         (sopran, alt, tenor, bas)"""
         return self._sopran, self._alt, self._tenor, self._bas
+
+    def podaj_kody_midi_skladnikow(self) -> (int, int, int, int):
+        """ Zwraca krotkę kodów midi składników akordu w kolejności SATB"""
+        return (self._sopran.podaj_swoj_kod_midi(),
+                self._alt.podaj_swoj_kod_midi(),
+                self._tenor.podaj_swoj_kod_midi(),
+                self._bas.podaj_swoj_kod_midi())
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""

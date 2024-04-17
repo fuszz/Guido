@@ -23,20 +23,41 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
         par.dodaj_akord(tonika)
         par.dodaj_akord(tonika)
         par.zakoncz_takt()
-        self.assertEqual([(0, 1, "ST TB ")],
-                         spr_w_4.sygn_i_glosy_z_rownoleglosciami_o_interwal(par, NazwaInterwalu.KWINTA_CZYSTA))
+        self.assertEqual([], spr_w_4.sygn_i_glosy_z_rownoleglosciami(par, NazwaInterwalu.KWINTA_CZYSTA))
 
-    def test_sygn_i_glosy_z_polaczeniem_oktawami_rownoleglymi_1(self):
+    def test_sygn_i_glosy_z_rownoleglosciami_o_interwal_2(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
-        tonika = Akord(Dzwiek(4, "c"),
+        tonika = Akord(Dzwiek(5, "c"),
                        Dzwiek(4, "e"),
                        Dzwiek(4, "g"),
-                       Dzwiek(5, "c"),
+                       Dzwiek(4, "c"),
                        WartosciNut.CWIERCNUTA)
+        dominanta = Akord(Dzwiek(6, "g"),
+                          Dzwiek(4, "h"),
+                          Dzwiek(5, "d"),
+                          Dzwiek(5, "g"),
+                          WartosciNut.CWIERCNUTA)
         par.dodaj_akord(tonika)
-        par.dodaj_akord(tonika)
+        par.dodaj_akord(dominanta)
         par.zakoncz_takt()
-        self.assertEqual([], spr_w_4.sygn_i_glosy_z_rownoleglosciami_o_interwal(par, NazwaInterwalu.PRYMA_CZYSTA))
+        self.assertEqual([(0, 1, "SB ")], spr_w_4.sygn_i_glosy_z_rownoleglosciami(par, NazwaInterwalu.PRYMA_CZYSTA))
+
+    def test_sygn_i_glosy_z_rownoleglosciami_o_interwal_3(self):
+        par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
+        tonika = Akord(Dzwiek(5, "g"),
+                       Dzwiek(4, "e"),
+                       Dzwiek(4, "c"),
+                       Dzwiek(3, "c"),
+                       WartosciNut.CWIERCNUTA)
+        dominanta = Akord(Dzwiek(6, "d"),
+                          Dzwiek(4, "h"),
+                          Dzwiek(5, "g"),
+                          Dzwiek(4, "g"),
+                          WartosciNut.CWIERCNUTA)
+        par.dodaj_akord(tonika)
+        par.dodaj_akord(dominanta)
+        par.zakoncz_takt()
+        self.assertEqual([(0, 1, "ST SB ")], spr_w_4.sygn_i_glosy_z_rownoleglosciami(par, NazwaInterwalu.KWINTA_CZYSTA))
 
     def test_sygn_gdzie_ruch_glosow_w_tym_samym_kierunku_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)

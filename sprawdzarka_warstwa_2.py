@@ -85,7 +85,7 @@ def glosy_akordu_przekraczajace_odleglosci(badany_akord: Akord, tonacja: Tonacja
     """ Zwraca informacje o parach głosów, między którymi interwały są zbyt duże. Wynikiem jest string.
     Np. "SA(<interwał>) """
 
-    (dzwiek_s, dzwiek_a, dzwiek_t, dzwiek_b) = badany_akord.podaj_krotke_dzwiekow()
+    (dzwiek_s, dzwiek_a, dzwiek_t, dzwiek_b) = badany_akord.podaj_krotke_skladnikow()
     interwal_sa = Interwal.stworz_z_dzwiekow(dzwiek_s, dzwiek_a, tonacja)
     interwal_at = Interwal.stworz_z_dzwiekow(dzwiek_a, dzwiek_t, tonacja)
     interwal_tb = Interwal.stworz_z_dzwiekow(dzwiek_t, dzwiek_b, tonacja)
