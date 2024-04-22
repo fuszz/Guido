@@ -121,16 +121,16 @@ def sygn_gdzie_ruch_glosow_w_tym_samym_kierunku(partytura: Partytura) -> list[(i
     lista_wynikowa = []
     licznik_akordow = 1
     licznik_taktow = 0
-    
+
     poprzedni_akord = partytura.podaj_liste_akordow()[0]
     for akord in partytura.podaj_liste_akordow()[1:]:
         if akord == "T":
             licznik_taktow += 1
             licznik_akordow = 0
             continue
-        midi_dzwiekow_poprzedniego_ak =poprzedni_akord.podaj_kody_midi_skladnikow()
+        midi_dzwiekow_poprzedniego_ak = poprzedni_akord.podaj_kody_midi_skladnikow()
         midi_dzwiekow_obecnego_ak = akord.podaj_kody_midi_skladnikow()
-        
+
         if (all(d1 > d2 for d1, d2 in zip(midi_dzwiekow_poprzedniego_ak, midi_dzwiekow_obecnego_ak)) or
                 all(d1 < d2 for d1, d2 in zip(midi_dzwiekow_poprzedniego_ak, midi_dzwiekow_obecnego_ak))):
             lista_wynikowa.append((licznik_taktow, licznik_akordow))
@@ -160,7 +160,7 @@ def sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(partytura: Partytura) ->
         dzwieki_ob_ak = akord.podaj_krotke_skladnikow()
         wadliwe_glosy = ""
         for i in range(4):
-            if Interwal.stworz_z_dzwiekow(dzwieki_poprz_ak[i], dzwieki_ob_ak[i], 
+            if Interwal.stworz_z_dzwiekow(dzwieki_poprz_ak[i], dzwieki_ob_ak[i],
                                           tonacja).podaj_nazwe().czy_interwal_zwiekszony:
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
         if wadliwe_glosy:
@@ -199,3 +199,46 @@ def sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(partytura: Partytura) -> list[(
         licznik_akordow += 1
         poprzedni_akord = akord
     return lista_wynikowa
+
+
+def czy_rozwiazanie_dominanty_jest_poprawne(dominanta: Akord, rozwiazanie: Akord) -> bool:
+    return True
+
+
+def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord) -> bool:
+    return True
+
+
+def sygn_niepoprawnych_rozwiazan_dominant(partytura: Partytura) -> list[(int, int)]:
+    nr_taktu = 0
+    nr_akordu = 0
+    lista_wyjsciowa: list[(int, int)] = []
+    poprzedni_akord: Akord = partytura.podaj_liste_akordow()[0]
+    czy_poprzednia_dominanta: bool = False
+    czy_poprzednia_dominanta_septymowa: bool = False
+
+    for akord in partytura.podaj_liste_akordow():
+        if akord == "T":
+            nr_taktu += 1
+            nr_akordu = 0
+            continue
+
+        if akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA:
+            czy_poprzednia_dominanta = True
+
+        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA_SEPTYMOWA:
+            czy_poprzednia_dominanta_septymowa = True
+
+        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.TONIKA:
+            if czy_poprzednia_dominanta:
+                czy_poprzednia_dominanta = False
+                czy_rozwiazanie_dominanty_jest_poprawne(poprzedni_akord, akord)
+
+            elif czy_poprzednia_dominanta_septymowa:
+                czy_poprzednia_dominanta_septymowa = False
+                czy_rozwiazanie_d7_jest_poprawne(poprzedni_akord, akord)
+
+        poprzedni_akord = akord
+        nr_akordu += 1
+
+    return lista_wyjsciowa
