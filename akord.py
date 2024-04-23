@@ -76,21 +76,6 @@ class Akord:
         """
         return self._bas
 
-    def czy_dzwieki_w_tonacji(self, badana_tonacja: Tonacja) -> bool:
-        """
-        Zwraca True, jeśli wszystkie dźwięki akordu znajdują się w tonacji. W przeciwnym razie zwraca False.
-        :param badana_tonacja: Tonacja
-        :return: bool
-        """
-        try:
-            self._sopran.podaj_swoj_stopien(badana_tonacja)
-            self._alt.podaj_swoj_stopien(badana_tonacja)
-            self._tenor.podaj_swoj_stopien(badana_tonacja)
-            self._bas.podaj_swoj_stopien(badana_tonacja)
-        except blad.BladDzwiekPozaTonacja:
-            return False
-        return True
-
     def podaj_liste_stopni_dzwiekow_akordu(self, badana_tonacja: Tonacja) -> list[int]:
         """
         Zwraca listę stopni dźwięków poszczególnych głosów względem danej tonacji w kolejności sopran, alt, tenor, bas.
@@ -100,9 +85,6 @@ class Akord:
         :param badana_tonacja: Tonacja
         :return: list[int]
         """
-        if not self.czy_dzwieki_w_tonacji(badana_tonacja):
-            raise blad.BladDzwiekPozaTonacja("Dźwięk nie jest stopniem tonacji")
-
         return [
             self._sopran.podaj_swoj_stopien(badana_tonacja),
             self._alt.podaj_swoj_stopien(badana_tonacja),

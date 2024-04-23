@@ -21,7 +21,7 @@ class NazwaInterwalu(Enum):
     SEPTYMA_WIELKA = auto(), "7<"
 
     @classmethod
-    def interwal_z_symbolu(cls, symbol: str) -> 'NazwaInterwalu':
+    def stworz_z_symbolu(cls, symbol: str) -> 'NazwaInterwalu':
         for interwal in cls:
             if interwal.value[1] == symbol:
                 return interwal
@@ -42,10 +42,9 @@ class NazwaInterwalu(Enum):
     def __ge__(self, other):
         return type(self) is type(other) and self.value[0] >= other.value[0]
 
-    def czy_interwal_zwiekszony(self) -> bool:
+    def czy_zwiekszony(self) -> bool:
         """Zwraca True, jeśli dana instancja jest interwałem zwiększonym. W przeciwnym razie zwraca False"""
-        if self.value[1] == '<' and self != NazwaInterwalu.SEPTYMA_WIELKA:
-            print("*")
+        if self.value[1][-1] == '<' and self != NazwaInterwalu.SEPTYMA_WIELKA:
             return True
         else:
             return False

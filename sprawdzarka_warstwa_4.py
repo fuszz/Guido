@@ -7,60 +7,9 @@ from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from enumerations.enum_skladnik_funkcji import SkladnikFunkcji
 
 # W RAZIE ROZBUDOWY PROGRAMU NALEŻY UZUPEŁNIĆ PONIŻSZE ZMIENNE GLOBALNE:
-PRZEWIDZIANE_TONIKI = [Funkcja.TONIKA, Funkcja.MOLL_TONIKA]
-PRZEWIDZIANE_SUBDOMINANTY = [Funkcja.SUBDOMINANTA, Funkcja.MOLL_SUBDOMINANTA]
-PRZEWIDZIANE_DOMINANTY = [Funkcja.DOMINANTA, Funkcja.DOMINANTA_SEPTYMOWA]
-PRZEWIDZIANE_TROJDZWIEKI = [Funkcja.TONIKA, Funkcja.MOLL_TONIKA, Funkcja.SUBDOMINANTA, Funkcja.MOLL_SUBDOMINANTA,
-                            Funkcja.DOMINANTA]
-PRZEWIDZIANE_CZTERODZWIEKI = [Funkcja.DOMINANTA_SEPTYMOWA]
 KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI = ["SA", "ST", "SB", "AT", "AB", "TB"]
 KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
 
-""" Moduł sprawdzarki będzie opierać sie na czterech (?) warstwach sprawdzania poprawności partytury. Będą to:
-    1. Sprawdzenie, czy wprowadzone dane są kompletne i czy dane nie zostały uszkodzone. Należą tu:
-        a. Czy wprowadzono zadeklarowaną w partyturze liczbę taktów - OK
-        b. Czy pojemność poszczególnych taktów odpowiada wymogom obranego metrum - OK
-        a. Czy w partyturze nie występują dźwięki obce - OK
-        itp.
-        
-    2. Sprawdzenie, czy w partyturze nie ma pionowych błędów, czyli takich, które nie dotyczą kolejności 
-       ani łączenia akordów ze sobą. A zatem:
-
-        b. Czy w partyturze nie występują krzyżowania głosów - OK
-        c. Czy w poszczególnych głosach dźwięki pozostają w swoich skalach - OK
-        d. Czy dźwięki tworzą w podanej tonacji sensowne funkcje harmoniczne  - OK
-        e. Czy nie są przekroczone odległości pomiędzy głosami - OK
-        f. ...
-        itp.
-        
-    3. Sprawdzenie, czy kolejność akordów jest poprawna, ale na razie bez wnikania w sposób łączenia ich ze sobą. 
-       Tutaj analizujemy
-       a. Czy w partyturze na pierwszym i ostatnim miejscu występuje akord toniczny - OK
-       b. Czy w partyturze po dominancie nie występuje subdominanta - OK
-       c. Czy w partyturze na mocnej części taktu (na "raz") nie występuje akord w słabym (drugim) przewrocie - OK
-       d. Czy w partyturze nie przetrzymano akordu przez kreskę taktową (błąd!) - OK
-       e. Czy ostateczne rozwiązanie nie jest w drugim (słabym) przewrocie - OK
-       itd.
-       
-    4. Sprawdzenie poprawności łączeń akordów. Będą to:
-        a. Sprawdzenie, czy w partyturze występują kwinty równoległe - OK
-        b. Sprawdzenie, czy są oktawy równoległe - OK
-        c. Sprawdzenie, czy nie ma ruchu wszystkich głosów w tym samym kierunku - OK
-        d. Sprawdzenie, czy nie występują skoki o zbyt duży interwał - OK
-        e. Sprawdzenie, czy nie występuje ruch o interwał zwiększony - OK
-        f. ...
-        itp.
-        
-    Jeśli we wcześniejszych warstwach testy wykażą błędy, sprawdzanie zakończy się, bo niemożliwe będzie osiągnięcie
-    pozytywnych wyników w testach późniejszych, co wynika z prawideł harmonii. Użytkownik będzie informowany 
-    o występowaniu poszczególnych błędów. Niektóre funkcje, w razie wystąpienia błędów, z tego samego powodu będą 
-    przerywać dalsze poszukiwanie błędów.
-"""
-
-
-# ===================================================================================================
-# Warstwa 4 - sprawdzenie poprawności połączeń akordów
-# ===================================================================================================
 
 def id_niesprawdzanych_interwalow(poprzedni_akord: Akord, akord: Akord) -> list[int]:
     """Zwraca listę indeksów interwałów wg tablicy KOLEJNOSC_INTERWALOW, których nie sprawdzamy pod kątem

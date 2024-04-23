@@ -70,7 +70,7 @@ class Interwal:
 
         symbol = INTERWALY_DUR[stopien_a][stopien_b] if badana_tonacja.czy_dur() else INTERWALY_MOLL[stopien_a][
             stopien_b]
-        return Interwal(pelnych_oktaw, NazwaInterwalu.interwal_z_symbolu(symbol))
+        return Interwal(pelnych_oktaw, NazwaInterwalu.stworz_z_symbolu(symbol))
 
     def __str__(self) -> str:
         return str(str(self._liczba_oktaw) + ", " + str(self._interwal.name))
@@ -93,4 +93,4 @@ class Interwal:
                 Interwal.stworz_z_dzwiekow(akord.podaj_tenor(), akord.podaj_bas(), badana_tonacja)]
 
     def czy_zwiekszony(self) -> bool:
-        return self._interwal.czy_interwal_zwiekszony()
+        return self._interwal.czy_zwiekszony()

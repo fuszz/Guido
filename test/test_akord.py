@@ -231,17 +231,6 @@ class TestyKlasyAKord(unittest.TestCase):
         self.assertRaises(blad.BladDzwiekPozaTonacja,
                           lambda: nowy_akord.ustal_pozycje(tonacja.Tonacja.stworz_z_symbolu('D')))
 
-    def test_czy_dzwieki_w_tonacji(self):
-        d_b = dzwiek.Dzwiek(2, 'a')
-        d_t = dzwiek.Dzwiek(3, 'h')
-        d_a = dzwiek.Dzwiek(4, 'c')
-        d_s = dzwiek.Dzwiek(4, 'd')
-        wartosc = enum_wartosci_nut.WartosciNut(2)
-        nowy_akord = akord.Akord(d_s, d_a, d_t, d_b, wartosc)
-
-        self.assertTrue(nowy_akord.czy_dzwieki_w_tonacji(tonacja.Tonacja.stworz_z_symbolu("C")))
-        self.assertFalse(nowy_akord.czy_dzwieki_w_tonacji(tonacja.Tonacja.stworz_z_symbolu("C#")))
-
     def test_ustal_zdwojony_dzwiek_jako_skladnik_funkcji_1(self):
         d_b = dzwiek.Dzwiek(2, 'c')
         d_t = dzwiek.Dzwiek(3, 'e')

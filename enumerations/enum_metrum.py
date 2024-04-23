@@ -11,7 +11,7 @@ class Metrum(enum.Enum):
     def _missing_(cls, value):
         raise blad.BladTworzeniaMetrum(f'{value} nie jest prawidłową wartością dla {cls.__name__}')
 
-    def podaj_pozadana_wartosc_nut_w_takcie(self) -> int:
+    def podaj_sume_wartosc_nut(self) -> int:
         """
         Funkcja zwraca sumę wartości wartości nut wg typu WartosciNut dla każdego z przewidzianych metrum jako int
         """

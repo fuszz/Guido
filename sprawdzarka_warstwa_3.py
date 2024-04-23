@@ -1,23 +1,23 @@
-import sprawdzarka_warstwa_4 as spr
 import partytura
 from enumerations.enum_przewroty import Przewrot
 import akord
+from funkcja import Funkcja
 
+PRZEWIDZIANE_TONIKI = [Funkcja.TONIKA, Funkcja.MOLL_TONIKA]
+PRZEWIDZIANE_SUBDOMINANTY = [Funkcja.SUBDOMINANTA, Funkcja.MOLL_SUBDOMINANTA]
+PRZEWIDZIANE_DOMINANTY = [Funkcja.DOMINANTA, Funkcja.DOMINANTA_SEPTYMOWA]
 
-# ================================================================================================
-# WARSTWA 3 - Sprawdzenie, czy kolejność akordów jest poprawna
-# ================================================================================================
 
 def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> bool:
     """Sprawdza, czy pierwszym i ostatnim akordem parytury jest tonika.
     Jeśli tak, zwraca True. W przeciwnym razie false"""
 
     if badana_partytura.podaj_liste_akordow()[0].ustal_funkcje(
-            badana_partytura.podaj_tonacje()) not in spr.PRZEWIDZIANE_TONIKI:
+            badana_partytura.podaj_tonacje()) not in PRZEWIDZIANE_TONIKI:
         return False
 
     if badana_partytura.podaj_liste_akordow()[-2].ustal_funkcje(
-            badana_partytura.podaj_tonacje()) not in spr.PRZEWIDZIANE_TONIKI:
+            badana_partytura.podaj_tonacje()) not in PRZEWIDZIANE_TONIKI:
         return False
     return True
 
@@ -49,8 +49,8 @@ def sygn_subdominant_po_dominancie(badana_partytura: partytura.Partytura) -> lis
             licznik_akordow = 0
             continue
 
-        if (element.ustal_funkcje(badana_partytura.podaj_tonacje()) in spr.PRZEWIDZIANE_SUBDOMINANTY and
-                ostatni_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) in spr.PRZEWIDZIANE_DOMINANTY):
+        if (element.ustal_funkcje(badana_partytura.podaj_tonacje()) in PRZEWIDZIANE_SUBDOMINANTY and
+                ostatni_akord.ustal_funkcje(badana_partytura.podaj_tonacje()) in PRZEWIDZIANE_DOMINANTY):
             lista_wynikowa.append((licznik_taktow, licznik_akordow))
 
         licznik_akordow += 1
@@ -70,12 +70,9 @@ def nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura: partytura.Partytura) 
     czy_pierwszy_akord_taktu: bool = True
 
     for element in badana_partytura.podaj_liste_akordow():
-
         if czy_pierwszy_akord_taktu:
             czy_pierwszy_akord_taktu = False
-
-            if (element.ustal_funkcje(badana_partytura.podaj_tonacje()) in spr.PRZEWIDZIANE_TROJDZWIEKI and
-                    element.ustal_przewrot(badana_partytura.podaj_tonacje()) == Przewrot.DRUGI):
+            if element.ustal_przewrot(badana_partytura.podaj_tonacje()) == Przewrot.DRUGI:
                 lista_wynikowa.append(licznik_taktow)
 
         if element == "T":
