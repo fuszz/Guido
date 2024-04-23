@@ -6,6 +6,7 @@ from partytura import Partytura
 from interwal import Interwal
 from tonacja import Tonacja
 from enumerations.enum_nazwy_interwalow import NazwaInterwalu
+from enumerations.enum_skladnik_funkcji import SkladnikFunkcji
 
 # W RAZIE ROZBUDOWY PROGRAMU NALEŻY UZUPEŁNIĆ PONIŻSZE ZMIENNE GLOBALNE:
 PRZEWIDZIANE_TONIKI = [Funkcja.TONIKA, Funkcja.MOLL_TONIKA]
@@ -201,21 +202,52 @@ def sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(partytura: Partytura) -> list[(
     return lista_wynikowa
 
 
-def czy_rozwiazanie_dominanty_jest_poprawne(dominanta: Akord, rozwiazanie: Akord) -> bool:
+def czy_rozwiazanie_dominanty_jest_poprawne(dominanta: Akord, rozwiazanie: Akord, tonacja: Tonacja) -> bool:
+    """Zwraca True, jeśli poprawnie rozwiązano dominantę i False, gdy rozwiązanie nie jest poprawne"""
+    for (dzwiek_dominanty, dzwiek_rozwiazania) in zip(dominanta.podaj_krotke_skladnikow(),
+                                                      rozwiazanie.podaj_krotke_skladnikow()):
+        if (Funkcja.DOMINANTA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+                SkladnikFunkcji.TERCJA_WIELKA):
+            if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                return False
+            elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                return False
     return True
 
 
-def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord) -> bool:
+def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord, tonacja: Tonacja) -> bool:
+    """Zwraca True, jeśli poprawnie rozwiązano dominantę septymową i False, gdy rozwiązanie nie jest poprawne"""
+    for (dzwiek_dominanty, dzwiek_rozwiazania) in zip(d7.podaj_krotke_skladnikow(),
+                                                      rozwiazanie.podaj_krotke_skladnikow()):
+        if (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+                SkladnikFunkcji.TERCJA_WIELKA):
+            if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                return False
+            elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                return False
+        elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+                SkladnikFunkcji.SEPTYMA):
+            if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.TERCJA_WIELKA):
+                return False
+            elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
+                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.TERCJA_MALA):
+                return False
     return True
 
 
 def sygn_niepoprawnych_rozwiazan_dominant(partytura: Partytura) -> list[(int, int)]:
+    """Zwraca listę sygnatur niepoprawnych rozwiązań dominant"""
     nr_taktu = 0
     nr_akordu = 0
     lista_wyjsciowa: list[(int, int)] = []
     poprzedni_akord: Akord = partytura.podaj_liste_akordow()[0]
     czy_poprzednia_dominanta: bool = False
-    czy_poprzednia_dominanta_septymowa: bool = False
+    tonacja_partytury = partytura.podaj_tonacje()
 
     for akord in partytura.podaj_liste_akordow():
         if akord == "T":
@@ -226,17 +258,38 @@ def sygn_niepoprawnych_rozwiazan_dominant(partytura: Partytura) -> list[(int, in
         if akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA:
             czy_poprzednia_dominanta = True
 
-        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA_SEPTYMOWA:
+        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.TONIKA and czy_poprzednia_dominanta:
+            czy_poprzednia_dominanta = False
+            czy_rozwiazanie_dominanty_jest_poprawne(poprzedni_akord, akord, tonacja_partytury)
+
+        poprzedni_akord = akord
+        nr_akordu += 1
+
+    return lista_wyjsciowa
+
+
+def sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura: Partytura) -> list[(int, int)]:
+    """Zwraca listę sygnatur niepoprawnych rozwiązań dominant septymowych"""
+    nr_taktu = 0
+    nr_akordu = 0
+    lista_wyjsciowa: list[(int, int)] = []
+
+    poprzedni_akord: Akord = partytura.podaj_liste_akordow()[0]
+    czy_poprzednia_dominanta_septymowa: bool = False
+    tonacja_partytury = partytura.podaj_tonacje()
+
+    for akord in partytura.podaj_liste_akordow():
+        if akord == "T":
+            nr_taktu += 1
+            nr_akordu = 0
+            continue
+
+        if akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA_SEPTYMOWA:
             czy_poprzednia_dominanta_septymowa = True
 
-        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.TONIKA:
-            if czy_poprzednia_dominanta:
-                czy_poprzednia_dominanta = False
-                czy_rozwiazanie_dominanty_jest_poprawne(poprzedni_akord, akord)
-
-            elif czy_poprzednia_dominanta_septymowa:
-                czy_poprzednia_dominanta_septymowa = False
-                czy_rozwiazanie_d7_jest_poprawne(poprzedni_akord, akord)
+        elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.TONIKA and czy_poprzednia_dominanta_septymowa:
+            czy_poprzednia_dominanta_septymowa = False
+            czy_rozwiazanie_d7_jest_poprawne(poprzedni_akord, akord, tonacja_partytury)
 
         poprzedni_akord = akord
         nr_akordu += 1

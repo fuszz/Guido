@@ -137,7 +137,7 @@ class Akord:
         :param badana_tonacja: Tonacja - wobec której ustalamy przewrót akordu
         :return: Przewrot
         """
-        return self.ustal_funkcje(badana_tonacja).stopien_tonacji_w_skladnik_funkcji(
+        return self.ustal_funkcje(badana_tonacja).stopien_tonacji_w_skladnik(
             self._sopran.podaj_swoj_stopien(badana_tonacja))
 
     def podaj_zdwojony_skladnik(self, badana_tonacja: Tonacja) -> (
@@ -154,7 +154,7 @@ class Akord:
             return ZdwojonySkladnikFunkcji.BRAK
         for stopien in self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja):
             if self.podaj_liste_stopni_dzwiekow_akordu(badana_tonacja).count(stopien) == 2:
-                return funkcja_akordu.dwojenie_jako_skladnik_funkcji(stopien)
+                return funkcja_akordu.podaj_dwojenie_jako_skladnik(stopien)
 
     def podaj_krotke_skladnikow(self) -> (Dzwiek, Dzwiek, Dzwiek, Dzwiek):
         """Zwraca dźwięki składowe akordu w postaci czteroelementowej krotki obiektów klasy Dźwięk w kolejności:

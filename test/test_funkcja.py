@@ -64,13 +64,13 @@ class TestyFunkcja(unittest.TestCase):
 
     def test_stopien_tonacji_w_skladnik_funkcji(self):
         """ Testuje metodę dla poprawnych danych """
-        self.assertEqual(f.Funkcja.TONIKA.stopien_tonacji_w_skladnik_funkcji(0),
+        self.assertEqual(f.Funkcja.TONIKA.stopien_tonacji_w_skladnik(0),
                          enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
-        self.assertEqual(f.Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik_funkcji(0),
+        self.assertEqual(f.Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(0),
                          enum_skladnik_funkcji.SkladnikFunkcji.PRYMA)
-        self.assertEqual(f.Funkcja.DOMINANTA.stopien_tonacji_w_skladnik_funkcji(1),
+        self.assertEqual(f.Funkcja.DOMINANTA.stopien_tonacji_w_skladnik(1),
                          enum_skladnik_funkcji.SkladnikFunkcji.KWINTA)
-        self.assertEqual(f.Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik_funkcji(3),
+        self.assertEqual(f.Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(3),
                          enum_skladnik_funkcji.SkladnikFunkcji.SEPTYMA)
 
     def test_stopien_tonacji_w_skladnik_funkcji_bledy(self):
@@ -79,22 +79,22 @@ class TestyFunkcja(unittest.TestCase):
             2. Wartości stopien_basu, które nie występują w przywoływanej funkcji"""
 
         with self.assertRaises(blad.BladNiepoprawneArgumenty) as context:
-            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik_funkcji("a")
+            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik("a")
         self.assertEqual(str(context.exception), "Niepoprawne argumenty: funkcja.okresl_przewrot():"
                                                  " stopień musi być intem")
 
         with self.assertRaises(blad.BladNiepoprawneArgumenty) as context:
-            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik_funkcji(1.0)
+            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik(1.0)
         self.assertEqual(str(context.exception), "Niepoprawne argumenty: funkcja.okresl_przewrot():"
                                                  " stopień musi być intem")
 
         with self.assertRaises(blad.BladNiepoprawneArgumenty) as context:
-            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik_funkcji(100)
+            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik(100)
         self.assertEqual(str(context.exception), "Niepoprawne argumenty: funkcja.okresl_przewrot():"
                                                  " stopień musi być w [0, 6]")
 
         with self.assertRaises(blad.BladStopienPozaFunkcja) as context:
-            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik_funkcji(3)
+            f.Funkcja.TONIKA.stopien_tonacji_w_skladnik(3)
         self.assertEqual(str(context.exception), "3 nie należy do funkcji T")
 
         with self.assertRaises(blad.BladStopienPozaFunkcja) as context:
@@ -170,29 +170,29 @@ class TestyFunkcja(unittest.TestCase):
         self.assertEqual(str(context.exception), "3 nie należy do funkcji mT")
 
     def test_dwojenie_jako_skladnik_funkcji(self):
-        self.assertEqual(f.Funkcja.TONIKA.dwojenie_jako_skladnik_funkcji(0),
+        self.assertEqual(f.Funkcja.TONIKA.podaj_dwojenie_jako_skladnik(0),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA)
-        self.assertEqual(f.Funkcja.MOLL_SUBDOMINANTA.dwojenie_jako_skladnik_funkcji(0),
+        self.assertEqual(f.Funkcja.MOLL_SUBDOMINANTA.podaj_dwojenie_jako_skladnik(0),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.KWINTA)
-        self.assertEqual(f.Funkcja.DOMINANTA_SEPTYMOWA.dwojenie_jako_skladnik_funkcji(0),
+        self.assertEqual(f.Funkcja.DOMINANTA_SEPTYMOWA.podaj_dwojenie_jako_skladnik(0),
                          enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK)
 
     def test_dwojenie_jako_skladnik_funkcji_bledy(self):
         with self.assertRaises(blad.BladNiepoprawneArgumenty) as context:
-            f.Funkcja.TONIKA.dwojenie_jako_skladnik_funkcji("a")
+            f.Funkcja.TONIKA.podaj_dwojenie_jako_skladnik("a")
         self.assertEqual(str(context.exception), "Niepoprawne argumenty: funkcja.okresl_przewrot():"
                                                  " stopień musi być intem")
 
         with self.assertRaises(blad.BladNiepoprawneArgumenty) as context:
-            f.Funkcja.TONIKA.dwojenie_jako_skladnik_funkcji(10)
+            f.Funkcja.TONIKA.podaj_dwojenie_jako_skladnik(10)
         self.assertEqual(str(context.exception), "Niepoprawne argumenty: funkcja.okresl_przewrot():"
                                                  " stopień musi być w [0, 6]")
         with self.assertRaises(blad.BladStopienPozaFunkcja) as context:
-            f.Funkcja.TONIKA.dwojenie_jako_skladnik_funkcji(3)
+            f.Funkcja.TONIKA.podaj_dwojenie_jako_skladnik(3)
         self.assertEqual(str(context.exception), "3 nie należy do funkcji T")
 
         with self.assertRaises(blad.BladStopienPozaFunkcja) as context:
-            f.Funkcja.TONIKA.dwojenie_jako_skladnik_funkcji(5)
+            f.Funkcja.TONIKA.podaj_dwojenie_jako_skladnik(5)
         self.assertEqual(str(context.exception), "5 nie należy do funkcji T")
 
 

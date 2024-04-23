@@ -93,7 +93,7 @@ class Funkcja(enum.Enum):
         else:
             return True
 
-    def stopien_tonacji_w_skladnik_funkcji(self, stopien: int) -> enum_skladnik_funkcji.SkladnikFunkcji:
+    def stopien_tonacji_w_skladnik(self, stopien: int) -> enum_skladnik_funkcji.SkladnikFunkcji:
         """
         Zwraca składnik funkcji (enum, SkladnikFunkcji), który odpowiada podanemu stopniu tonacji.
         Zwraca błąd BladStopienPozaFunkcja, jeśli podany stopień tonacji nie jest składnikiem podanej funkcji.
@@ -118,7 +118,7 @@ class Funkcja(enum.Enum):
         :param stopien_basu: int - stopien basu (już w danej tonacji)
         :return: enum_przewroty.Przewrot
         """
-        skladnik: enum_skladnik_funkcji.SkladnikFunkcji = self.stopien_tonacji_w_skladnik_funkcji(stopien_basu)
+        skladnik: enum_skladnik_funkcji.SkladnikFunkcji = self.stopien_tonacji_w_skladnik(stopien_basu)
         if skladnik == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA:
             return enum_przewroty.Przewrot.POSTAC_ZASADNICZA
         elif skladnik in (enum_skladnik_funkcji.SkladnikFunkcji.TERCJA_MALA,
@@ -129,7 +129,7 @@ class Funkcja(enum.Enum):
         elif skladnik == enum_skladnik_funkcji.SkladnikFunkcji.SEPTYMA:
             return enum_przewroty.Przewrot.TRZECI
 
-    def dwojenie_jako_skladnik_funkcji(self, stopien: int) -> enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji:
+    def podaj_dwojenie_jako_skladnik(self, stopien: int) -> enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji:
         """
         Zwraca w postaci ZdwojonySkladnikFunkcji info o zdwojonym w akordzie składniku funkcji
         :param stopien: int z [0, 6]- stopień, który występuje w akordzie dwukrotnie. W przypadku D7 nie ma znaczenia.
@@ -138,7 +138,7 @@ class Funkcja(enum.Enum):
         if self == Funkcja.DOMINANTA_SEPTYMOWA:
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.BRAK
 
-        skladnik = self.stopien_tonacji_w_skladnik_funkcji(stopien)
+        skladnik = self.stopien_tonacji_w_skladnik(stopien)
 
         if skladnik == enum_skladnik_funkcji.SkladnikFunkcji.PRYMA:
             return enum_zdwojony_skladnik_funkcji.ZdwojonySkladnikFunkcji.PRYMA

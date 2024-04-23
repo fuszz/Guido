@@ -5,10 +5,8 @@ from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from enumerations.enum_wartosci_nut import WartosciNut
 from enumerations.enum_metrum import Metrum
 from dzwiek import Dzwiek
-import blad
 from tonacja import Tonacja
 import sprawdzarka_warstwa_4 as spr_w_4
-from interwal import Interwal
 
 
 class TestWarstwy4Sprawdzarki(unittest.TestCase):
@@ -143,6 +141,110 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
                               Dzwiek(3, "h"),
                               WartosciNut.CWIERCNUTA))
         self.assertEqual([(0, 1, "SATB")], spr_w_4.sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(par))
+
+    def test_czy_rozwiazanie_dominanty_jest_poprawne_1(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "g"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "c"),
+                       Dzwiek(4, "e"),
+                       Dzwiek(4, "g"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertTrue(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_DUR))
+
+    def test_czy_rozwiazanie_dominanty_jest_poprawne_2(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "g"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "e"),
+                       Dzwiek(4, "c"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertFalse(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_DUR))
+
+    def test_czy_rozwiazanie_dominanty_jest_poprawne_3(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "g"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "c"),
+                       Dzwiek(4, "eb"),
+                       Dzwiek(4, "g"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertTrue(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_MOLL))
+
+    def test_czy_rozwiazanie_dominanty_jest_poprawne_4(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "g"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "eb"),
+                       Dzwiek(4, "c"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertFalse(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_MOLL))
+
+    def test_czy_rozwiazanie_d7_jest_poprawne_1(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "f"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "e"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertTrue(spr_w_4.czy_rozwiazanie_d7_jest_poprawne(dominanta, tonika, Tonacja.C_DUR))
+
+    def test_czy_rozwiazanie_d7_jest_poprawne_2(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "f"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "e"),
+                       Dzwiek(4, "c"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertFalse(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_DUR))
+
+    def test_czy_rozwiazanie_d7_jest_poprawne_3(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "f"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "eb"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertTrue(spr_w_4.czy_rozwiazanie_d7_jest_poprawne(dominanta, tonika, Tonacja.C_MOLL))
+
+    def test_czy_rozwiazanie_d7_jest_poprawne_4(self):
+        dominanta = Akord(Dzwiek(3, "g"),
+                          Dzwiek(3, "h"),
+                          Dzwiek(4, "d"),
+                          Dzwiek(4, "f"),
+                          WartosciNut.CWIERCNUTA)
+        tonika = Akord(Dzwiek(3, "c"),
+                       Dzwiek(4, "g"),
+                       Dzwiek(4, "eb"),
+                       Dzwiek(4, "c"),
+                       WartosciNut.CWIERCNUTA)
+        self.assertFalse(spr_w_4.czy_rozwiazanie_dominanty_jest_poprawne(dominanta, tonika, Tonacja.C_MOLL))
 
 
 if __name__ == '__main__':
