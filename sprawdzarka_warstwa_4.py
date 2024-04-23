@@ -79,8 +79,8 @@ def sygn_gdzie_ruch_glosow_w_tym_samym_kierunku(partytura: Partytura) -> list[(i
             licznik_taktow += 1
             licznik_akordow = 0
             continue
-        midi_dzwiekow_poprzedniego_ak = poprzedni_akord.podaj_kody_midi_skladnikow()
-        midi_dzwiekow_obecnego_ak = akord.podaj_kody_midi_skladnikow()
+        midi_dzwiekow_poprzedniego_ak = poprzedni_akord.podaj_krotke_kodow_midi_skladnikow()
+        midi_dzwiekow_obecnego_ak = akord.podaj_krotke_kodow_midi_skladnikow()
 
         if (all(d1 > d2 for d1, d2 in zip(midi_dzwiekow_poprzedniego_ak, midi_dzwiekow_obecnego_ak)) or
                 all(d1 < d2 for d1, d2 in zip(midi_dzwiekow_poprzedniego_ak, midi_dzwiekow_obecnego_ak))):
@@ -155,13 +155,13 @@ def czy_rozwiazanie_dominanty_jest_poprawne(dominanta: Akord, rozwiazanie: Akord
     """Zwraca True, jeśli poprawnie rozwiązano dominantę i False, gdy rozwiązanie nie jest poprawne"""
     for (dzwiek_dominanty, dzwiek_rozwiazania) in zip(dominanta.podaj_krotke_skladnikow(),
                                                       rozwiazanie.podaj_krotke_skladnikow()):
-        if (Funkcja.DOMINANTA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+        if (Funkcja.DOMINANTA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_stopien_w_tonacji(tonacja)) ==
                 SkladnikFunkcji.TERCJA_WIELKA):
             if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
             elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
     return True
 
@@ -170,21 +170,21 @@ def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord, tonacja: Ton
     """Zwraca True, jeśli poprawnie rozwiązano dominantę septymową i False, gdy rozwiązanie nie jest poprawne"""
     for (dzwiek_dominanty, dzwiek_rozwiazania) in zip(d7.podaj_krotke_skladnikow(),
                                                       rozwiazanie.podaj_krotke_skladnikow()):
-        if (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+        if (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_stopien_w_tonacji(tonacja)) ==
                 SkladnikFunkcji.TERCJA_WIELKA):
             if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
             elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
-        elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
+        elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_stopien_w_tonacji(tonacja)) ==
               SkladnikFunkcji.SEPTYMA):
             if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.TERCJA_WIELKA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.TERCJA_WIELKA):
                 return False
             elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
-                    dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.TERCJA_MALA):
+                    dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.TERCJA_MALA):
                 return False
     return True
 

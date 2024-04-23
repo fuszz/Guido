@@ -21,8 +21,8 @@ def czy_dzwiek_w_skali(badany_dzwiek: Dzwiek, granica_dolna: Dzwiek, granica_gor
     """Sprawdza, czy badany_dzwiek leży nie niżej niż  dźwięk granica_dolna i nie wyżej niż dźwięk granica_górna.
     Zwraca True, jeśli dźwięk leży w skali i False, gdy ją przekracza"""
 
-    return (granica_dolna.podaj_swoj_kod_midi() <= badany_dzwiek.podaj_swoj_kod_midi() <=
-            granica_gorna.podaj_swoj_kod_midi())
+    return (granica_dolna.podaj_kod_midi() <= badany_dzwiek.podaj_kod_midi() <=
+            granica_gorna.podaj_kod_midi())
 
 
 def sygn_i_glosy_akordow_gdzie_glosy_poza_skalami(badana_partytura: Partytura) -> list[(int, int, str)]:
@@ -129,11 +129,11 @@ def glosy_akordu_ktore_sa_skrzyzowane(badany_akord: Akord) -> str:
     """ Zwraca informację o parach głosów, które są skrzyżowane. Sprawdza jedynie, czy Sopran nie krzyżuje się z Altem,
     Alt z Tenorem a Tenor z Basem. Wynikiem jest string. np. "SA AT" """
     wynik = ""
-    if badany_akord.podaj_sopran().podaj_swoj_kod_midi() < badany_akord.podaj_alt().podaj_swoj_kod_midi():
+    if badany_akord.podaj_sopran().podaj_kod_midi() < badany_akord.podaj_alt().podaj_kod_midi():
         wynik += "SA "
-    if badany_akord.podaj_alt().podaj_swoj_kod_midi() < badany_akord.podaj_tenor().podaj_swoj_kod_midi():
+    if badany_akord.podaj_alt().podaj_kod_midi() < badany_akord.podaj_tenor().podaj_kod_midi():
         wynik += "AT "
-    if badany_akord.podaj_tenor().podaj_swoj_kod_midi() < badany_akord.podaj_bas().podaj_swoj_kod_midi():
+    if badany_akord.podaj_tenor().podaj_kod_midi() < badany_akord.podaj_bas().podaj_kod_midi():
         wynik += "TB "
     return wynik
 

@@ -86,10 +86,10 @@ class Akord:
         :return: list[int]
         """
         return [
-            self._sopran.podaj_swoj_stopien(badana_tonacja),
-            self._alt.podaj_swoj_stopien(badana_tonacja),
-            self._tenor.podaj_swoj_stopien(badana_tonacja),
-            self._bas.podaj_swoj_stopien(badana_tonacja)
+            self._sopran.podaj_stopien_w_tonacji(badana_tonacja),
+            self._alt.podaj_stopien_w_tonacji(badana_tonacja),
+            self._tenor.podaj_stopien_w_tonacji(badana_tonacja),
+            self._bas.podaj_stopien_w_tonacji(badana_tonacja)
         ]
 
     def ustal_funkcje(self, badana_tonacja: Tonacja) -> Funkcja:
@@ -110,7 +110,7 @@ class Akord:
         :param badana_tonacja: Tonacja - wobec której ustalamy przewrót akordu
         :return: Przewrot
         """
-        return self.ustal_funkcje(badana_tonacja).okresl_przewrot(self._bas.podaj_swoj_stopien(badana_tonacja))
+        return self.ustal_funkcje(badana_tonacja).okresl_przewrot(self._bas.podaj_stopien_w_tonacji(badana_tonacja))
 
     def ustal_pozycje(self, badana_tonacja: Tonacja) -> SkladnikFunkcji:
         """
@@ -120,7 +120,7 @@ class Akord:
         :return: Przewrot
         """
         return self.ustal_funkcje(badana_tonacja).stopien_tonacji_w_skladnik(
-            self._sopran.podaj_swoj_stopien(badana_tonacja))
+            self._sopran.podaj_stopien_w_tonacji(badana_tonacja))
 
     def podaj_zdwojony_skladnik(self, badana_tonacja: Tonacja) -> (
             ZdwojonySkladnikFunkcji):
@@ -143,20 +143,20 @@ class Akord:
         (sopran, alt, tenor, bas)"""
         return self._sopran, self._alt, self._tenor, self._bas
 
-    def podaj_kody_midi_skladnikow(self) -> (int, int, int, int):
+    def podaj_krotke_kodow_midi_skladnikow(self) -> (int, int, int, int):
         """ Zwraca krotkę kodów midi składników akordu w kolejności SATB"""
-        return (self._sopran.podaj_swoj_kod_midi(),
-                self._alt.podaj_swoj_kod_midi(),
-                self._tenor.podaj_swoj_kod_midi(),
-                self._bas.podaj_swoj_kod_midi())
+        return (self._sopran.podaj_kod_midi(),
+                self._alt.podaj_kod_midi(),
+                self._tenor.podaj_kod_midi(),
+                self._bas.podaj_kod_midi())
 
     def wyswietl_akord(self):
         """ FUNKCJA TESTOWA. DO WYWALENIA."""
         if self == "T":
             print("Koniec taktu")
         else:
-            print(self._sopran.podaj_nazwe_dzwieku(), " ", self._sopran.podaj_oktawe(), '\t',
-                  self._alt.podaj_nazwe_dzwieku(), " ", self._alt.podaj_oktawe(), '\t',
-                  self._tenor.podaj_nazwe_dzwieku(), " ", self._tenor.podaj_oktawe(), '\t',
-                  self._bas.podaj_nazwe_dzwieku(), " ", self._bas.podaj_oktawe(), '\t',
+            print(self._sopran.podaj_nazwe(), " ", self._sopran.podaj_oktawe(), '\t',
+                  self._alt.podaj_nazwe(), " ", self._alt.podaj_oktawe(), '\t',
+                  self._tenor.podaj_nazwe(), " ", self._tenor.podaj_oktawe(), '\t',
+                  self._bas.podaj_nazwe(), " ", self._bas.podaj_oktawe(), '\t',
                   self._dlugosc.name)

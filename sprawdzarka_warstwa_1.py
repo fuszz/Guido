@@ -36,10 +36,10 @@ def czy_w_akordzie_sa_dzwieki_obce(badany_akord: akord.Akord, badana_tonacja: to
     w przeciwnym razie - zwraca False.
     """
     try:
-        badany_akord.podaj_sopran().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_alt().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_tenor().podaj_swoj_stopien(badana_tonacja)
-        badany_akord.podaj_bas().podaj_swoj_stopien(badana_tonacja)
+        badany_akord.podaj_sopran().podaj_stopien_w_tonacji(badana_tonacja)
+        badany_akord.podaj_alt().podaj_stopien_w_tonacji(badana_tonacja)
+        badany_akord.podaj_tenor().podaj_stopien_w_tonacji(badana_tonacja)
+        badany_akord.podaj_bas().podaj_stopien_w_tonacji(badana_tonacja)
     except blad.BladDzwiekPozaTonacja:
         return True
     return False

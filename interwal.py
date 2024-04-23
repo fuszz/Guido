@@ -61,12 +61,12 @@ class Interwal:
         a Interwał to instancja klasy enum_interwal.Interwal.
         """
 
-        if dzwiek_a.podaj_swoj_kod_midi() > dzwiek_b.podaj_swoj_kod_midi():
+        if dzwiek_a.podaj_kod_midi() > dzwiek_b.podaj_kod_midi():
             dzwiek_a, dzwiek_b = dzwiek_b, dzwiek_a
-        pelnych_oktaw = (dzwiek_b.podaj_swoj_kod_midi() - dzwiek_a.podaj_swoj_kod_midi()) // 12
+        pelnych_oktaw = (dzwiek_b.podaj_kod_midi() - dzwiek_a.podaj_kod_midi()) // 12
 
-        stopien_a = dzwiek_a.podaj_swoj_stopien(badana_tonacja)
-        stopien_b = dzwiek_b.podaj_swoj_stopien(badana_tonacja)
+        stopien_a = dzwiek_a.podaj_stopien_w_tonacji(badana_tonacja)
+        stopien_b = dzwiek_b.podaj_stopien_w_tonacji(badana_tonacja)
 
         symbol = INTERWALY_DUR[stopien_a][stopien_b] if badana_tonacja.czy_dur() else INTERWALY_MOLL[stopien_a][
             stopien_b]

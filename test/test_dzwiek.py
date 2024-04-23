@@ -10,7 +10,7 @@ import blad
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
         d1 = dzwiek.Dzwiek(1, "c")
-        self.assertEqual(d1.podaj_nazwe_dzwieku().value, "c")
+        self.assertEqual(d1.podaj_nazwe().value, "c")
         self.assertEqual(d1.podaj_oktawe(), 1)
 
     def test_konstruktora_2(self):
@@ -44,69 +44,69 @@ class MyTestCase(unittest.TestCase):
 
     def test_podaj_nazwe_dzwieku1(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_nazwe_dzwieku(), enum_nazwy_dzwiekow.NazwyDzwiekow("d"))
+        self.assertEqual(d.podaj_nazwe(), enum_nazwy_dzwiekow.NazwyDzwiekow("d"))
 
     def test_podaj_swoj_stopien_1(self):
         d = dzwiek.Dzwiek(1, 'c')
-        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')), 0)
+        self.assertEqual(d.podaj_stopien_w_tonacji(tonacja.Tonacja.stworz_z_symbolu('C')), 0)
 
     def test_podaj_swoj_stopien_2(self):
         d = dzwiek.Dzwiek(1, 'c#')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')))
+                          lambda: d.podaj_stopien_w_tonacji(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_wzgledny_1(self):
         d = dzwiek.Dzwiek(1, 'c#')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
+                          lambda: d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_wzgledny_2(self):
         d = dzwiek.Dzwiek(1, 'fb')
         self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
+                          lambda: d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
 
     def test_podaj_swoj_kod_3(self):
         d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')), 8)
+        self.assertEqual(d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')), 8)
 
     def test_spojnosci_oktawy_i_kodu_wzglednego_1(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_oktawe(), d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) // 7)
+        self.assertEqual(d.podaj_oktawe(), d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) // 7)
 
     def test_spojnosci_oktawy_i_kodu_wzglednego_2(self):
         d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_swoj_stopien(tonacja.Tonacja.stworz_z_symbolu('C')),
-                         d.podaj_swoj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) % 7)
+        self.assertEqual(d.podaj_stopien_w_tonacji(tonacja.Tonacja.stworz_z_symbolu('C')),
+                         d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) % 7)
 
     def test_kodu_midi_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), d2.podaj_swoj_kod_midi())
+        self.assertEqual(d1.podaj_kod_midi(), d2.podaj_kod_midi())
 
     def test_kodu_bezwzglednego_2(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'db')
-        self.assertNotEqual(d1.podaj_swoj_kod_midi(), d2.podaj_swoj_kod_midi())
+        self.assertNotEqual(d1.podaj_kod_midi(), d2.podaj_kod_midi())
 
     def test_kodu_midi_3(self):
         d1 = dzwiek.Dzwiek(1, 'c')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), 24)
+        self.assertEqual(d1.podaj_kod_midi(), 24)
 
     def test_kodu_midi_4(self):
         d1 = dzwiek.Dzwiek(1, 'c#')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), 25)
+        self.assertEqual(d1.podaj_kod_midi(), 25)
 
     def test_kodu_midi_5(self):
         d1 = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), 26)
+        self.assertEqual(d1.podaj_kod_midi(), 26)
 
     def test_kodu_midi_6(self):
         d1 = dzwiek.Dzwiek(2, 'cb')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), 35)
+        self.assertEqual(d1.podaj_kod_midi(), 35)
 
     def test_kodu_midi_7(self):
         d1 = dzwiek.Dzwiek(2, 'c')
-        self.assertEqual(d1.podaj_swoj_kod_midi(), 36)
+        self.assertEqual(d1.podaj_kod_midi(), 36)
 
 
 if __name__ == '__main__':

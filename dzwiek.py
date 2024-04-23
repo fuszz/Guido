@@ -9,7 +9,7 @@ class Dzwiek:
 
     def __eq__(self, other):
         return (isinstance(self, type(other))
-                and self._nazwa_dzwieku == other.podaj_nazwe_dzwieku()
+                and self._nazwa_dzwieku == other.podaj_nazwe()
                 and self._oktawa_dzwieku == other.podaj_oktawe()
                 )
 
@@ -38,14 +38,14 @@ class Dzwiek:
         """
         return self._oktawa_dzwieku
 
-    def podaj_nazwe_dzwieku(self) -> enum_nazwy_dzwiekow.NazwyDzwiekow:
+    def podaj_nazwe(self) -> enum_nazwy_dzwiekow.NazwyDzwiekow:
         """
         Zwraca nazwę dźwięku jako enum_nazwy_dzwiekow.NazwaDzwieku
         :return: enum_nazwy_dzwiekow.NazwyDzwiekow
         """
         return self._nazwa_dzwieku
 
-    def podaj_swoj_stopien(self, badana_tonacja: tonacja.Tonacja) -> int:
+    def podaj_stopien_w_tonacji(self, badana_tonacja: tonacja.Tonacja) -> int:
         """
         Podaje stopień dźwięku w pewnej tonacji.
         W przypadku nieporawnego dżwięku (względem danej tonacji) podnosi enum_blad.BladDzwiekPozaTonacja
@@ -58,15 +58,15 @@ class Dzwiek:
         else:
             return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 
-    def podaj_swoj_kod_wzgledny(self, badana_tonacja: tonacja.Tonacja) -> int:
+    def podaj_kod_wzgledny(self, badana_tonacja: tonacja.Tonacja) -> int:
         """
         Podaje kod względny dźwięku w tonacji, czyli <nr oktawy>*7+<stopień dźwięku w tonacji>
         :param badana_tonacja: tonacja.Tonacja - tonacja, w której bada się stopień dźwięku
         :return: int - kod 'względny'
         """
-        return self._oktawa_dzwieku * 7 + self.podaj_swoj_stopien(badana_tonacja)
+        return self._oktawa_dzwieku * 7 + self.podaj_stopien_w_tonacji(badana_tonacja)
 
-    def podaj_swoj_kod_midi(self) -> int:
+    def podaj_kod_midi(self) -> int:
         """
         Zwraca kod dźwięku w postaci MIDI.
         Nigdy nie powinno zwrócić błędu, bo każdy poprawny dźwięk ma taki kod.
