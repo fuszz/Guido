@@ -25,37 +25,34 @@ def wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura
 
 def wyswietl_sygn_subdominant_po_dominancie(badana_partytura: Partytura) -> bool:
     print("Subdominanty umieszczone bezpośrednio po dominancie: ", end='')
-    if not spr_w_3.sygn_subdominant_po_dominancie(badana_partytura):
+    wynik = spr_w_3.sygn_subdominant_po_dominancie(badana_partytura)
+    if not wynik:
         print(f"{ow.OK} BRAK {ow.NORMALNY}")
         return True
     else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.sygn_akordow_w_str(spr_w_3.sygn_subdominant_po_dominancie(badana_partytura)),
-              f"{ow.NORMALNY}")
+        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :", ow.sygn_akordow_w_str(wynik), f"{ow.NORMALNY}")
         return False
 
 
 def wyswietl_numery_taktow_gdzie_drugi_przewrot_na_raz(badana_partytura: Partytura) -> bool:
     print("Takty, w których na \"raz\" występuje drugi przewrót akordu: ", end='')
-    if not spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura):
+    wynik = spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura)
+    if not wynik:
         print(f"{ow.OK} BRAK {ow.NORMALNY}")
         return True
     else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.nr_taktow_w_str(spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura)),
-              f"{ow.NORMALNY}")
+        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :", ow.nr_taktow_w_str(wynik), f"{ow.NORMALNY}")
         return False
 
 
 def wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura: Partytura) -> bool:
     print("Takty, do których przez kreskę taktową przetrzymano funkcję ", end='')
-    if not spr_w_3.nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura):
+    wynik = spr_w_3.nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura)
+    if not wynik:
         print(f"{ow.OK} BRAK {ow.NORMALNY}")
         return True
     else:
-        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :",
-              ow.nr_taktow_w_str(spr_w_3.nr_taktu_z_przetrzymana_przez_kreske_taktowa_funkcja(badana_partytura)),
-              f"{ow.NORMALNY}")
+        print(f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :", ow.nr_taktow_w_str(wynik), f"{ow.NORMALNY}")
         return False
 
 

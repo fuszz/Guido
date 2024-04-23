@@ -23,18 +23,18 @@ INTERWALY_MOLL = [['1', '2', '3>', '4', '5', '6>', '7<'],
 class Interwal:
 
     def __eq__(self, other):
-        return (type(self) == type(other) and
+        return (isinstance(other, Interwal) and
                 self._liczba_oktaw == other.podaj_liczbe_oktaw() and
                 self._interwal == other.podaj_nazwe())
 
     def __lt__(self, other):
-        return (type(self) == type(other) and
+        return (isinstance(other, Interwal) and
                 self._liczba_oktaw < other.podaj_liczbe_oktaw() or
                 (self._liczba_oktaw == other.podaj_liczbe_oktaw() and
                  self._interwal < other.podaj_nazwe()))
 
     def __gt__(self, other):
-        return (type(self) == type(other) and
+        return (isinstance(other, Interwal) and
                 self._liczba_oktaw > other.podaj_liczbe_oktaw() or
                 (self._liczba_oktaw == other.podaj_liczbe_oktaw() and
                  self._interwal > other.podaj_nazwe()))
@@ -91,3 +91,6 @@ class Interwal:
                 Interwal.stworz_z_dzwiekow(akord.podaj_alt(), akord.podaj_tenor(), badana_tonacja),
                 Interwal.stworz_z_dzwiekow(akord.podaj_alt(), akord.podaj_bas(), badana_tonacja),
                 Interwal.stworz_z_dzwiekow(akord.podaj_tenor(), akord.podaj_bas(), badana_tonacja)]
+
+    def czy_zwiekszony(self) -> bool:
+        return self._interwal.czy_interwal_zwiekszony()

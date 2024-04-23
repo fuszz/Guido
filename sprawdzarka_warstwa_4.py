@@ -1,6 +1,4 @@
 from akord import Akord
-from dzwiek import Dzwiek
-from enumerations.enum_nazwy_interwalow import NazwaInterwalu
 from funkcja import Funkcja
 from partytura import Partytura
 from interwal import Interwal
@@ -65,8 +63,8 @@ KOLEJNOSC_GLOSOW = ["S", "A", "T", "B"]
 # ===================================================================================================
 
 def id_niesprawdzanych_interwalow(poprzedni_akord: Akord, akord: Akord) -> list[int]:
-    """Zwraca listę indeksów interwałów wg tablicy KOLEJNOSC_INTERWALOW, które nie są sprawdzane pod kątem równoległości,
-    bo przynajmniej jeden z głosów nie poruszył się."""
+    """Zwraca listę indeksów interwałów wg tablicy KOLEJNOSC_INTERWALOW, których nie sprawdzamy pod kątem
+    równoległości, bo przynajmniej jeden z głosów nie poruszył się."""
 
     niesprawdzane_id = []
     if poprzedni_akord.podaj_sopran() == akord.podaj_sopran():
@@ -103,9 +101,12 @@ def sygn_i_glosy_z_rownoleglosciami(partytura: Partytura, nazwa_interwalu: Nazwa
         id_niesprawdzanych = id_niesprawdzanych_interwalow(poprzedni_akord, akord)
         glosy = ""
         for i in range(len(interwaly_poprzedniego_akordu)):
-            if (interwaly_obecnego_akordu[i].podaj_nazwe() == nazwa_interwalu and
-                    interwaly_poprzedniego_akordu[i].podaj_nazwe() == nazwa_interwalu and
-                    i not in id_niesprawdzanych):
+            if (interwaly_obecnego_akordu[i].podaj_nazwe() == Interwal(0, NazwaInterwalu.PRYMA_CZYSTA) and
+                    interwaly_poprzedniego_akordu[i].podaj_nazwe() == Interwal(0, NazwaInterwalu.PRYMA_CZYSTA)):
+                continue
+            elif (interwaly_obecnego_akordu[i].podaj_nazwe() == nazwa_interwalu and
+                  interwaly_poprzedniego_akordu[i].podaj_nazwe() == nazwa_interwalu and
+                  i not in id_niesprawdzanych):
                 glosy += f"{KOLEJNOSC_INTERWALOW_MIEDZY_GLOSAMI[i]} "
         if glosy:
             lista_wynikowa.append((nr_taktu, nr_akordu, glosy))
@@ -161,8 +162,7 @@ def sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(partytura: Partytura) ->
         dzwieki_ob_ak = akord.podaj_krotke_skladnikow()
         wadliwe_glosy = ""
         for i in range(4):
-            if Interwal.stworz_z_dzwiekow(dzwieki_poprz_ak[i], dzwieki_ob_ak[i],
-                                          tonacja).podaj_nazwe().czy_interwal_zwiekszony:
+            if Interwal.stworz_z_dzwiekow(dzwieki_poprz_ak[i], dzwieki_ob_ak[i], tonacja).czy_zwiekszony():
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
         if wadliwe_glosy:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
@@ -230,7 +230,7 @@ def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord, tonacja: Ton
                     dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
         elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_swoj_stopien(tonacja)) ==
-                SkladnikFunkcji.SEPTYMA):
+              SkladnikFunkcji.SEPTYMA):
             if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
                     dzwiek_rozwiazania.podaj_swoj_stopien(tonacja)) == SkladnikFunkcji.TERCJA_WIELKA):
                 return False

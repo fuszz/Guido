@@ -45,6 +45,7 @@ class NazwaInterwalu(Enum):
     def czy_interwal_zwiekszony(self) -> bool:
         """Zwraca True, jeśli dana instancja jest interwałem zwiększonym. W przeciwnym razie zwraca False"""
         if self.value[1] == '<' and self != NazwaInterwalu.SEPTYMA_WIELKA:
+            print("*")
             return True
         else:
             return False
