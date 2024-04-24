@@ -1,12 +1,18 @@
 import obsluga_mscx
+import tkinter as tk
 import obsluga_txt
 import sprawdzarka_warstwa_4 as spr
 import partytura
 import sprawdzarka_warstwa_1
+import wyswietlanie_sprawdzarki_w_1
+import wyswietlanie_sprawdzarki_w_2
+import wyswietlanie_sprawdzarki_w_3
 import wyswietlanie_sprawdzarki_w_4
+SCIEZKA_DO_PLIKU_1 = "przyklady/mscx/Przyklad_2.2.mscx"
 
-SCIEZKA_DO_PLIKU = ('przyklady/txt/partytura_6.txt')
+p = obsluga_mscx.wczytaj_z_pliku_mscx(SCIEZKA_DO_PLIKU_1)
 
-p = obsluga_txt.wczytaj_z_pliku_txt(SCIEZKA_DO_PLIKU)
-
-wyswietlanie_sprawdzarki_w_4.sprawdz_warstwe_4(p)
+print(wyswietlanie_sprawdzarki_w_1.sprawdz_warstwe_1(p))
+print(wyswietlanie_sprawdzarki_w_2.sprawdz_warstwe_2(p))
+print(wyswietlanie_sprawdzarki_w_3.sprawdz_warstwe_3(p))
+print(wyswietlanie_sprawdzarki_w_4.sprawdz_warstwe_4(p))

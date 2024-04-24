@@ -18,7 +18,7 @@ MAPA_TPC = {
     2: 'gbb', 3: 'abb', 4: 'ebb',
     5: 'hbb', 6: 'fb', 7: 'cb',
     8: 'hb', 9: 'db', 10: 'ab',
-    11: 'eb', 12: 'bb', 13: 'f',
+    11: 'eb', 12: 'hb', 13: 'f',
     14: 'c', 15: 'g', 16: 'd',
     17: 'a', 18: 'e', 19: 'h',
     20: 'f#', 21: 'c#', 22: 'g#',
@@ -75,11 +75,9 @@ def info_z_pliku_w_wartosc_nuty(tag_chord: Et.Element) -> enum_wartosci_nut.Wart
     dlugosc: str = str(tag_chord.find('./durationType').text)
     wezel_liczby_kropek: Et.Element = tag_chord.find('./dots')
     liczba_kropek: int = 0 if wezel_liczby_kropek is None else int(wezel_liczby_kropek.text)
-
     if dlugosc not in SLOWNIK_WARTOSCI_NUT.keys() or liczba_kropek > 1:
         raise blad.BladWczytywaniaZPliku("Niepoprawne wartości nut")
-    wartosc_nuty: int = SLOWNIK_WARTOSCI_NUT[dlugosc] + liczba_kropek
-
+    wartosc_nuty: int = SLOWNIK_WARTOSCI_NUT[dlugosc] + (liczba_kropek * 0.5 * SLOWNIK_WARTOSCI_NUT[dlugosc])
     return enum_wartosci_nut.WartosciNut(wartosc_nuty)
 
 

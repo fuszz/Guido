@@ -77,6 +77,7 @@ def sygn_akordow_nietworzacych_funkcji(badana_partytura: Partytura) -> list[(int
 
         except blad.BladStopienPozaFunkcja:
             lista_wynikowa.append((licznik_taktow, licznik_akordow))
+
         licznik_akordow += 1
     return lista_wynikowa
 
@@ -121,7 +122,7 @@ def sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: Partytura) -> l
         wynik_glosow = glosy_akordu_przekraczajace_odleglosci(element, tonacja)
         if wynik_glosow:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wynik_glosow))
-        licznik_taktow += 1
+        licznik_akordow += 1
     return lista_wynikowa
 
 

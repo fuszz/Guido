@@ -50,7 +50,7 @@ def wyswietl_sygn_i_glosy_z_ruchem_o_interwal_zwiekszony(partytura: Partytura) -
 
 def wyswietl_sygn_i_glosy_z_ruchem_o_zbyt_duzy_interwal(partytura: Partytura) -> bool:
     print("Ruch o zbyt duży interwał w połączeniach: ", end='')
-    wynik = spr_w_4.sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(partytura)
+    wynik = spr_w_4.sygn_i_glosy_gdzie_ruch_o_septyme(partytura)
     if not wynik:
         print(f"{ow.OK} BRAK {ow.NORMALNY}")
         return True

@@ -63,9 +63,18 @@ class Funkcja(enum.Enum):
         return type(self) is type(other) and self.name == other.name and self.value == other.value
 
     @classmethod
+    def funkcja_z_listy_stopni_1(cls, stopnie: list[int], czy_dur: bool) -> 'Funkcja':
+        if not ((all(isinstance(stopien, int) and stopien in range(0, 7) for stopien in stopnie)) and isinstance(
+                czy_dur, bool)):
+            raise blad.BladTworzeniaFunkcji("Niepoprawne parametry")
+
+        for funkcja in cls:
+            pass
+
+    @classmethod
     def funkcja_z_listy_stopni(cls, stopnie: list[int], czy_dur: bool) -> 'Funkcja':
         """
-        Tworzy instancję klasy Funkcja z 4-elementowej listy dźwięków akordu i informacji o trybie tonacji.
+        Tworzy instancję klasy Funkcja z 4-elementowej listy stopni dźwięków akordu i informacji o trybie tonacji.
         :param stopnie: list[int]
         :param czy_dur: bool - True, jeśli tonacja durowa, False, kiedy tonacja mollowa.
         :return: Funkcja
@@ -76,10 +85,11 @@ class Funkcja(enum.Enum):
             raise blad.BladTworzeniaFunkcji("Niepoprawne parametry")
 
         mozliwe_funkcje = []
-        for element in cls:
-            stopnie_funkcji = list(filter(lambda x: isinstance(x, int), getattr(Funkcja, element.name).value.values()))
+
+        for funkcja in cls:
+            stopnie_funkcji = list(filter(lambda x: isinstance(x, int), getattr(Funkcja, funkcja.name).value.values()))
             if set(sorted(stopnie)) == set(sorted(stopnie_funkcji)):
-                mozliwe_funkcje.append(element)
+                mozliwe_funkcje.append(funkcja)
         if len(mozliwe_funkcje) == 1:
             return mozliwe_funkcje[0]
         elif len(mozliwe_funkcje) == 2:

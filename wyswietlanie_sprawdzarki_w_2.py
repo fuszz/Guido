@@ -40,7 +40,7 @@ def sprawdz_warstwe_2(badana_partytura: Partytura) -> bool:
     czy_sprawdzenie_poprawne = True
 
     if not wyswietl_sygn_akordow_nietwarzacych_funkcji(badana_partytura):
-        return False
+        czy_sprawdzenie_poprawne = False
 
     if not wyswietl_sygn_akordow_gdzie_glosy_poza_skalami(badana_partytura):
         czy_sprawdzenie_poprawne = False

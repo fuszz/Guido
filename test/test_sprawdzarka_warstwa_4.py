@@ -140,7 +140,7 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
                               Dzwiek(3, "h"),
                               Dzwiek(3, "h"),
                               WartosciNut.CWIERCNUTA))
-        self.assertEqual([(0, 1, "SATB")], spr_w_4.sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(par))
+        self.assertEqual([(0, 1, "SATB")], spr_w_4.sygn_i_glosy_gdzie_ruch_o_septyme(par))
 
     def test_czy_rozwiazanie_dominanty_jest_poprawne_1(self):
         dominanta = Akord(Dzwiek(3, "g"),

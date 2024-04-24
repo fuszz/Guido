@@ -120,7 +120,7 @@ def sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(partytura: Partytura) ->
     return lista_wynikowa
 
 
-def sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal(partytura: Partytura) -> list[(int, int, str)]:
+def sygn_i_glosy_gdzie_ruch_o_septyme(partytura: Partytura) -> list[(int, int, str)]:
     """ Sprawdza, czy w którymś połączeniu głos nie porusza się o zbyt duży interwał. Zwraca listę tupli
         postaci (int, int, str), gdzie pierwsza liczba to numer taktu, druga - numer akordu w takcie tego akordu, a str
         daje info o głosie, w którym miał miejsce niedozwolony ruch. Wskazywany jest akord wadliwie połączony z

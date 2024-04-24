@@ -85,12 +85,10 @@ class Akord:
         :param badana_tonacja: Tonacja
         :return: list[int]
         """
-        return [
-            self._sopran.podaj_stopien_w_tonacji(badana_tonacja),
-            self._alt.podaj_stopien_w_tonacji(badana_tonacja),
-            self._tenor.podaj_stopien_w_tonacji(badana_tonacja),
-            self._bas.podaj_stopien_w_tonacji(badana_tonacja)
-        ]
+        lista_wynikowa = []
+        for dzwiek in self.podaj_krotke_skladnikow():
+            lista_wynikowa.append(dzwiek.podaj_stopien_w_tonacji(badana_tonacja))
+        return lista_wynikowa
 
     def ustal_funkcje(self, badana_tonacja: Tonacja) -> Funkcja:
         """
