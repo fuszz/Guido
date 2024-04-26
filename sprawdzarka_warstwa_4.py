@@ -121,7 +121,7 @@ def sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(partytura: Partytura) ->
 
 
 def sygn_i_glosy_gdzie_ruch_o_septyme(partytura: Partytura) -> list[(int, int, str)]:
-    """ Sprawdza, czy w którymś połączeniu głos nie porusza się o zbyt duży interwał. Zwraca listę tupli
+    """ Sprawdza, czy w którymś połączeniu głos nie porusza się o interwał septymy. Zwraca listę tupli
         postaci (int, int, str), gdzie pierwsza liczba to numer taktu, druga - numer akordu w takcie tego akordu, a str
         daje info o głosie, w którym miał miejsce niedozwolony ruch. Wskazywany jest akord wadliwie połączony z
         poprzednikiem. Liczniki pracują od 0. Pusta lista wynikowa oznacza brak błędu."""
@@ -141,9 +141,8 @@ def sygn_i_glosy_gdzie_ruch_o_septyme(partytura: Partytura) -> list[(int, int, s
         for i in range(4):
             ruch_w_glosie = Interwal.stworz_z_dzwiekow(dzwieki_poprzedniego_akordu[i], dzwieki_obecnego_akordu[i],
                                                        partytura.podaj_tonacje())
-            if ruch_w_glosie.podaj_liczbe_oktaw() > 0 or ruch_w_glosie.podaj_nazwe() > NazwaInterwalu.SEKSTA_WIELKA:
+            if ruch_w_glosie.podaj_nazwe() in [NazwaInterwalu.SEPTYMA_MALA, NazwaInterwalu.SEKSTA_WIELKA]:
                 wadliwe_glosy += KOLEJNOSC_GLOSOW[i]
-
         if wadliwe_glosy:
             lista_wynikowa.append((licznik_taktow, licznik_akordow, wadliwe_glosy))
         licznik_akordow += 1
@@ -178,8 +177,8 @@ def czy_rozwiazanie_d7_jest_poprawne(d7: Akord, rozwiazanie: Akord, tonacja: Ton
             elif (not tonacja.czy_dur() and not Funkcja.MOLL_TONIKA.stopien_tonacji_w_skladnik(
                     dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.PRYMA):
                 return False
-        elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_stopien_w_tonacji(tonacja)) ==
-              SkladnikFunkcji.SEPTYMA):
+        elif (Funkcja.DOMINANTA_SEPTYMOWA.stopien_tonacji_w_skladnik(dzwiek_dominanty.podaj_stopien_w_tonacji(tonacja))
+              == SkladnikFunkcji.SEPTYMA):
             if (tonacja.czy_dur() and not Funkcja.TONIKA.stopien_tonacji_w_skladnik(
                     dzwiek_rozwiazania.podaj_stopien_w_tonacji(tonacja)) == SkladnikFunkcji.TERCJA_WIELKA):
                 return False
@@ -222,7 +221,6 @@ def sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura: Partytura) -> l
     nr_taktu = 0
     nr_akordu = 0
     lista_wyjsciowa: list[(int, int)] = []
-
     poprzedni_akord: Akord = partytura.podaj_liste_akordow()[0]
     czy_poprzednia_dominanta_septymowa: bool = False
     tonacja_partytury = partytura.podaj_tonacje()
@@ -235,12 +233,9 @@ def sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura: Partytura) -> l
 
         if akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.DOMINANTA_SEPTYMOWA:
             czy_poprzednia_dominanta_septymowa = True
-
         elif akord.ustal_funkcje(partytura.podaj_tonacje()) == Funkcja.TONIKA and czy_poprzednia_dominanta_septymowa:
             czy_poprzednia_dominanta_septymowa = False
             czy_rozwiazanie_d7_jest_poprawne(poprzedni_akord, akord, tonacja_partytury)
-
         poprzedni_akord = akord
         nr_akordu += 1
-
     return lista_wyjsciowa

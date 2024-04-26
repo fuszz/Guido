@@ -48,7 +48,7 @@ def wyswietl_sygn_i_glosy_z_ruchem_o_interwal_zwiekszony(partytura: Partytura) -
         return False
 
 
-def wyswietl_sygn_i_glosy_z_ruchem_o_zbyt_duzy_interwal(partytura: Partytura) -> bool:
+def wyswietl_sygn_i_glosy_z_ruchem_o_septyme(partytura: Partytura) -> bool:
     print("Ruch o zbyt duży interwał w połączeniach: ", end='')
     wynik = spr_w_4.sygn_i_glosy_gdzie_ruch_o_septyme(partytura)
     if not wynik:
@@ -91,7 +91,7 @@ def sprawdz_warstwe_4(partytura: Partytura) -> bool:
         czy_sprawdzenie_poprawne = False
     if not wyswietl_sygn_i_glosy_z_ruchem_o_interwal_zwiekszony(partytura):
         czy_sprawdzenie_poprawne = False
-    if not wyswietl_sygn_i_glosy_z_ruchem_o_zbyt_duzy_interwal(partytura):
+    if not wyswietl_sygn_i_glosy_z_ruchem_o_septyme(partytura):
         czy_sprawdzenie_poprawne = False
     if not wyswietl_sygn_niepoprawnych_rozwiazan_dominant(partytura):
         czy_sprawdzenie_poprawne = False
