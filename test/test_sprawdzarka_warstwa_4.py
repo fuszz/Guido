@@ -127,12 +127,12 @@ class TestWarstwy4Sprawdzarki(unittest.TestCase):
         self.assertEqual([(0, 1, "SATB"), (0, 2, "SATB"), (0, 3, "SATB")],
                          spr_w_4.sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(par))
 
-    def test_sygn_i_glosy_gdzie_ruch_o_zbyt_duzy_interwal_1(self):
+    def test_sygn_i_glosy_gdzie_ruch_o_septyme_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
-        par.dodaj_akord(Akord(Dzwiek(1, "f"),
-                              Dzwiek(1, "f"),
-                              Dzwiek(2, "f"),
-                              Dzwiek(2, "f"),
+        par.dodaj_akord(Akord(Dzwiek(1, "c"),
+                              Dzwiek(1, "c"),
+                              Dzwiek(2, "c"),
+                              Dzwiek(2, "c"),
                               WartosciNut.CWIERCNUTA))
 
         par.dodaj_akord(Akord(Dzwiek(2, "h"),
