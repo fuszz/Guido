@@ -7,29 +7,30 @@ def wynik_sygn_akordow_gdzie_glosy_poza_skalami(badana_partytura: Partytura) -> 
     wyjscie = f"Dźwięki głosów poza skalami: "
     wynik = spr_w_2.sygn_i_glosy_akordow_gdzie_glosy_poza_skalami(badana_partytura)
     if not wynik:
-        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}"
+        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}" + '\n'
     else:
-        wyjscie += "{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}"
+        wyjscie += "{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
     return wyjscie
 
 
 def wynik_sygn_akordow_nietwarzacych_funkcji(badana_partytura: Partytura) -> str:
-    wyjscie = "Akordy, które nie tworzą funkcji: "
+    wyjscie = f"Akordy, które nie tworzą funkcji: "
     wynik = spr_w_2.sygn_akordow_nietworzacych_funkcji(badana_partytura)
     if not wynik:
-        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}"
+        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}" + '\n'
     else:
-        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_akordow_w_str(wynik) + f"{ow.NORMALNY}"
+        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_akordow_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
     return wyjscie
 
 
 def wynik_sygnatura_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura: Partytura) -> str:
-    wyjscie = "Akordy, w których przekroczono dopuszczalne odległości między głosami: "
+    wyjscie = f"Akordy, w których przekroczono dopuszczalne odległości między głosami: "
     wynik = spr_w_2.sygn_i_glosy_gdzie_przekroczone_odleglosci(badana_partytura)
     if not wynik:
-        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}"
+        wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}" + '\n'
     else:
-        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :", ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}"
+        print(ow.sygn_i_glosy_w_str(wynik))
+        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w głosach akordów nr :" + ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
     return wyjscie
 
 

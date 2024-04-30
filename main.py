@@ -1,6 +1,12 @@
 import tkinter as tk
 from tkinter import filedialog
 
+import obsluga_txt
+import obsluga_mscx
+import sprawdzanie
+import sprawdzanie as spr
+import os
+
 WYBRANY_PLIK = ""
 WYBRANY_TYP_PLIKU = ""
 
@@ -14,6 +20,7 @@ okno.option_add("*Font", font)
 
 wyniki = tk.Text(okno, height=31, width=59)
 
+KOLORY_ANSI = ["\033[91m", "\033[92m", "\033[93m", "\033[0m"]
 
 def wyswietl_wybrany_plik() -> None:
     global WYBRANY_PLIK
@@ -32,6 +39,20 @@ def wybierz_plik_txt() -> None:
     wyswietl_wybrany_plik()
 
 
+def wyswietl_wynik(tekst) -> None:
+    wyniki.tag_config("[91m", foreground="red")
+    wyniki.tag_config("[92m", foreground="green")
+    wyniki.tag_config("[93m", foreground="orange")
+    wyniki.tag_config("[0m", foreground="black")
+    wyniki.config(state="normal")
+    wyniki.delete('1.0', 'end')
+
+    for slowo in tekst.split("\033"):
+        kolor = slowo.split("m")[0]+"m"
+        wyniki.insert(tk.END, slowo[4:], kolor)
+    wyniki.config(state="disabled")
+
+
 def wybierz_plik_mscx() -> None:
     global WYBRANY_PLIK
     global WYBRANY_TYP_PLIKU
@@ -41,13 +62,39 @@ def wybierz_plik_mscx() -> None:
     wyswietl_wybrany_plik()
 
 
+def wyswietl_popup(tekst: str) -> None:
+    print(tekst)
+
+
+def sprawdzaj_wybrany_plik() -> None:
+    global WYBRANY_PLIK
+    global WYBRANY_TYP_PLIKU
+    print("***")
+    print(WYBRANY_PLIK)
+    print(WYBRANY_TYP_PLIKU)
+
+    if WYBRANY_PLIK == "":
+        wyswietl_popup("Nie podano pliku")
+        return
+    elif not os.path.exists(WYBRANY_PLIK):
+        wyswietl_popup("Podany plik nie istnieje.")
+        return
+    if WYBRANY_PLIK == "TXT":
+        badany_tekst = obsluga_txt.wczytaj_z_pliku_txt(WYBRANY_PLIK)
+    else:
+        badany_tekst = obsluga_mscx.wczytaj_z_pliku_mscx(WYBRANY_PLIK)
+
+    wyswietl_wynik(sprawdzanie.sprawdzaj(badany_tekst))
+    print("***")
+
+
 podaj_plik_txt = tk.Button(okno, text="Plik .txt", command=wybierz_plik_txt, width=33, height=7)
 podaj_plik_mscz = tk.Button(okno, text="Plik .mscz", command=wybierz_plik_mscx, width=33, height=7)
 
-sprawdzaj = tk.Button(okno, text="Sprawdzaj", command=lambda: wyniki.insert(tk.END, "Uruchomiono sprawdzanie\n"),
+sprawdzaj = tk.Button(okno, text="Sprawdzaj", command=sprawdzaj_wybrany_plik,
                       width=33, height=7)
 
-podany_plik = tk.Text(okno, height=2, width=33)
+podany_plik = tk.Text(okno, height=2, width=33,  wrap="word")
 podany_plik.insert(tk.END, "Podaj plik:")
 etykieta_pliku = tk.Label(okno, text="Podany plik:")
 

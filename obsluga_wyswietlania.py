@@ -26,4 +26,4 @@ def sygn_i_glosy_w_str(lista: list[(int, int, str)]) -> str:
     for element in lista[:-1]:
         wyjscie += str(element[0]) + '.' + str(element[1]) + " (" + str(element[2]) + "), "
     wyjscie += str(lista[-1][0]) + '.' + str(lista[-1][1]) + " (" + str(lista[-1][2]) + ")"
-    return wyjscie
+    return str(wyjscie)
