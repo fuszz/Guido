@@ -89,7 +89,7 @@ def sprawdzaj_wybrany_plik() -> None:
 
 
 podaj_plik_txt = tk.Button(okno, text="Plik .txt", command=wybierz_plik_txt, width=33, height=7)
-podaj_plik_mscz = tk.Button(okno, text="Plik .mscz", command=wybierz_plik_mscx, width=33, height=7)
+podaj_plik_mscz = tk.Button(okno, text="Plik .mscx", command=wybierz_plik_mscx, width=33, height=7)
 
 sprawdzaj = tk.Button(okno, text="Sprawdzaj", command=sprawdzaj_wybrany_plik,
                       width=33, height=7)
