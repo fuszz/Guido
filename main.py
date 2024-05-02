@@ -1,10 +1,9 @@
 import tkinter as tk
 from tkinter import filedialog
-
+from tkinter import messagebox
 import obsluga_txt
 import obsluga_mscx
 import sprawdzanie
-import sprawdzanie as spr
 import os
 
 WYBRANY_PLIK = ""
@@ -21,6 +20,7 @@ okno.option_add("*Font", font)
 wyniki = tk.Text(okno, height=31, width=59)
 
 KOLORY_ANSI = ["\033[91m", "\033[92m", "\033[93m", "\033[0m"]
+
 
 def wyswietl_wybrany_plik() -> None:
     global WYBRANY_PLIK
@@ -48,7 +48,7 @@ def wyswietl_wynik(tekst) -> None:
     wyniki.delete('1.0', 'end')
 
     for slowo in tekst.split("\033"):
-        kolor = slowo.split("m")[0]+"m"
+        kolor = slowo.split("m")[0] + "m"
         wyniki.insert(tk.END, slowo[4:], kolor)
     wyniki.config(state="disabled")
 
@@ -69,9 +69,6 @@ def wyswietl_popup(tekst: str) -> None:
 def sprawdzaj_wybrany_plik() -> None:
     global WYBRANY_PLIK
     global WYBRANY_TYP_PLIKU
-    print("***")
-    print(WYBRANY_PLIK)
-    print(WYBRANY_TYP_PLIKU)
 
     if WYBRANY_PLIK == "":
         wyswietl_popup("Nie podano pliku")
@@ -94,7 +91,7 @@ podaj_plik_mscz = tk.Button(okno, text="Plik .mscx", command=wybierz_plik_mscx, 
 sprawdzaj = tk.Button(okno, text="Sprawdzaj", command=sprawdzaj_wybrany_plik,
                       width=33, height=7)
 
-podany_plik = tk.Text(okno, height=2, width=33,  wrap="word")
+podany_plik = tk.Text(okno, height=2, width=33, wrap="word")
 podany_plik.insert(tk.END, "Podaj plik:")
 etykieta_pliku = tk.Label(okno, text="Podany plik:")
 
@@ -107,4 +104,7 @@ sprawdzaj.place(x=450, y=360)
 podany_plik.place(x=450, y=40)
 etykieta_pliku.place(x=450, y=8)
 
-okno.mainloop()
+try:
+    okno.mainloop()
+except Exception as e:
+    messagebox.showinfo("Wystąpił błąd", str(e))
