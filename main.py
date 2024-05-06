@@ -1,10 +1,8 @@
 import tkinter as tk
 from tkinter import filedialog
-
 import obsluga_txt
 import obsluga_mscx
 import sprawdzanie
-import sprawdzanie as spr
 import os
 
 WYBRANY_PLIK = ""
@@ -18,9 +16,10 @@ okno.resizable(False, False)
 font = ("Helvetica", 9)
 okno.option_add("*Font", font)
 
-wyniki = tk.Text(okno, height=31, width=59)
+wyniki = tk.Text(okno, height=31, width=59, state="disabled")
 
 KOLORY_ANSI = ["\033[91m", "\033[92m", "\033[93m", "\033[0m"]
+
 
 def wyswietl_wybrany_plik() -> None:
     global WYBRANY_PLIK
@@ -33,7 +32,10 @@ def wyswietl_wybrany_plik() -> None:
 def wybierz_plik_txt() -> None:
     global WYBRANY_PLIK
     global WYBRANY_TYP_PLIKU
+    wyczysc_wynik()
     sciezka_txt = filedialog.askopenfilename(filetypes=[('Text file', '*.txt')])
+    if sciezka_txt == "":
+        return
     WYBRANY_PLIK = sciezka_txt
     WYBRANY_TYP_PLIKU = "TXT"
     wyswietl_wybrany_plik()
@@ -48,15 +50,24 @@ def wyswietl_wynik(tekst) -> None:
     wyniki.delete('1.0', 'end')
 
     for slowo in tekst.split("\033"):
-        kolor = slowo.split("m")[0]+"m"
+        kolor = slowo.split("m")[0] + "m"
         wyniki.insert(tk.END, slowo[4:], kolor)
+    wyniki.config(state="disabled")
+
+
+def wyczysc_wynik() -> None:
+    wyniki.config(state="normal")
+    wyniki.delete('1.0', 'end')
     wyniki.config(state="disabled")
 
 
 def wybierz_plik_mscx() -> None:
     global WYBRANY_PLIK
     global WYBRANY_TYP_PLIKU
+    wyczysc_wynik()
     sciezka_mscx = filedialog.askopenfilename(filetypes=[('Musescore uncompressed file', '*.mscx')])
+    if sciezka_mscx == "":
+        return
     WYBRANY_PLIK = sciezka_mscx
     WYBRANY_TYP_PLIKU = "MSCX"
     wyswietl_wybrany_plik()
@@ -94,11 +105,9 @@ podaj_plik_mscz = tk.Button(okno, text="Plik .mscx", command=wybierz_plik_mscx, 
 sprawdzaj = tk.Button(okno, text="Sprawdzaj", command=sprawdzaj_wybrany_plik,
                       width=33, height=7)
 
-podany_plik = tk.Text(okno, height=2, width=33,  wrap="word")
+podany_plik = tk.Text(okno, height=2, width=33, wrap="word")
 podany_plik.insert(tk.END, "Podaj plik:")
 etykieta_pliku = tk.Label(okno, text="Podany plik:")
-
-wyniki.insert(tk.END, "To jest przykładowy tekst w widgecie tekst.\nMa sprawdzić, czy widget działa poprawnie")
 
 wyniki.place(x=10, y=10)
 podaj_plik_txt.place(x=450, y=230)
