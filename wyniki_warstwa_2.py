@@ -9,7 +9,7 @@ def wynik_sygn_akordow_gdzie_glosy_poza_skalami(badana_partytura: Partytura) -> 
     if not wynik:
         wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}" + '\n'
     else:
-        wyjscie += "{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
+        wyjscie += "{ow.BLAD} WYSTĘPUJĄ w akordach nr :" + ow.sygn_i_glosy_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
     return wyjscie
 
 
@@ -19,7 +19,7 @@ def wynik_sygn_akordow_nietwarzacych_funkcji(badana_partytura: Partytura) -> str
     if not wynik:
         wyjscie += f"{ow.OK} BRAK {ow.NORMALNY}" + '\n'
     else:
-        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :", ow.sygn_akordow_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
+        wyjscie += f"{ow.BLAD} WYSTĘPUJĄ w akordach nr :" + ow.sygn_akordow_w_str(wynik) + f"{ow.NORMALNY}" + '\n'
     return wyjscie
 
 

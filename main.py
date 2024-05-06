@@ -1,5 +1,6 @@
 import tkinter as tk
 from tkinter import filedialog
+from tkinter import messagebox
 import obsluga_txt
 import obsluga_mscx
 import sprawdzanie
@@ -74,15 +75,12 @@ def wybierz_plik_mscx() -> None:
 
 
 def wyswietl_popup(tekst: str) -> None:
-    print(tekst)
+    messagebox.showinfo("Guido v1.0", tekst)
 
 
 def sprawdzaj_wybrany_plik() -> None:
     global WYBRANY_PLIK
     global WYBRANY_TYP_PLIKU
-    print("***")
-    print(WYBRANY_PLIK)
-    print(WYBRANY_TYP_PLIKU)
 
     if WYBRANY_PLIK == "":
         wyswietl_popup("Nie podano pliku")
@@ -90,13 +88,19 @@ def sprawdzaj_wybrany_plik() -> None:
     elif not os.path.exists(WYBRANY_PLIK):
         wyswietl_popup("Podany plik nie istnieje.")
         return
-    if WYBRANY_PLIK == "TXT":
-        badany_tekst = obsluga_txt.wczytaj_z_pliku_txt(WYBRANY_PLIK)
+    if WYBRANY_TYP_PLIKU == "TXT":
+        try:
+            badany_tekst = obsluga_txt.wczytaj_z_pliku_txt(WYBRANY_PLIK)
+        except Exception as ext:
+            wyswietl_popup(str(ext))
+            return
     else:
-        badany_tekst = obsluga_mscx.wczytaj_z_pliku_mscx(WYBRANY_PLIK)
-
+        try:
+            badany_tekst = obsluga_mscx.wczytaj_z_pliku_mscx(WYBRANY_PLIK)
+        except Exception as ext:
+            wyswietl_popup(str(ext))
+            return
     wyswietl_wynik(sprawdzanie.sprawdzaj(badany_tekst))
-    print("***")
 
 
 podaj_plik_txt = tk.Button(okno, text="Plik .txt", command=wybierz_plik_txt, width=33, height=7)
@@ -116,4 +120,7 @@ sprawdzaj.place(x=450, y=360)
 podany_plik.place(x=450, y=40)
 etykieta_pliku.place(x=450, y=8)
 
-okno.mainloop()
+try:
+    okno.mainloop()
+except Exception as e:
+    wyswietl_popup(str(e))
