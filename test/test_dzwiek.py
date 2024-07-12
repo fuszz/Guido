@@ -55,29 +55,6 @@ class MyTestCase(unittest.TestCase):
         self.assertRaises(blad.BladDzwiekPozaTonacja,
                           lambda: d.podaj_stopien_w_tonacji(tonacja.Tonacja.stworz_z_symbolu('C')))
 
-    def test_podaj_swoj_kod_wzgledny_1(self):
-        d = dzwiek.Dzwiek(1, 'c#')
-        self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
-
-    def test_podaj_swoj_kod_wzgledny_2(self):
-        d = dzwiek.Dzwiek(1, 'fb')
-        self.assertRaises(blad.BladDzwiekPozaTonacja,
-                          lambda: d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')))
-
-    def test_podaj_swoj_kod_3(self):
-        d = dzwiek.Dzwiek(1, 'd')
-        self.assertEqual(d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')), 8)
-
-    def test_spojnosci_oktawy_i_kodu_wzglednego_1(self):
-        d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_oktawe(), d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) // 7)
-
-    def test_spojnosci_oktawy_i_kodu_wzglednego_2(self):
-        d = dzwiek.Dzwiek(2, 'd')
-        self.assertEqual(d.podaj_stopien_w_tonacji(tonacja.Tonacja.stworz_z_symbolu('C')),
-                         d.podaj_kod_wzgledny(tonacja.Tonacja.stworz_z_symbolu('C')) % 7)
-
     def test_kodu_midi_1(self):
         d1 = dzwiek.Dzwiek(1, 'c##')
         d2 = dzwiek.Dzwiek(1, 'd')

@@ -58,14 +58,6 @@ class Dzwiek:
         else:
             return dzwieki_badanej_tonacji.index(self._nazwa_dzwieku.value)
 
-    def podaj_kod_wzgledny(self, badana_tonacja: tonacja.Tonacja) -> int:
-        """
-        Podaje kod względny dźwięku w tonacji, czyli <nr oktawy>*7+<stopień dźwięku w tonacji>
-        :param badana_tonacja: tonacja.Tonacja - tonacja, w której bada się stopień dźwięku
-        :return: int - kod 'względny'
-        """
-        return self._oktawa_dzwieku * 7 + self.podaj_stopien_w_tonacji(badana_tonacja)
-
     def podaj_kod_midi(self) -> int:
         """
         Zwraca kod dźwięku w postaci MIDI.

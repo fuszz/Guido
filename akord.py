@@ -36,8 +36,8 @@ class Akord:
             raise blad.BladTworzeniaAkordu("Sprawdź, czy tworzysz akord z poprawnych składników")
 
         self._dlugosc: WartosciNut = wartosc_akordu
-        self._alt: Dzwiek = nowy_alt
         self._sopran: Dzwiek = nowy_sopran
+        self._alt: Dzwiek = nowy_alt
         self._tenor: Dzwiek = nowy_tenor
         self._bas: Dzwiek = nowy_bas
 
