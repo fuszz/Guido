@@ -3,8 +3,6 @@ import tonacja
 from enumerations import enum_kody_midi, enum_nazwy_dzwiekow
 
 
-# Napisane docstringi
-
 class Dzwiek:
 
     def __eq__(self, other):
