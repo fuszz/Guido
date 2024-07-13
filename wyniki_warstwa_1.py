@@ -51,5 +51,5 @@ def wyniki_warstwy_1(badana_partytura: Partytura) -> str:
     wynik = f""
     wynik += f"{wynik_czy_liczba_taktow_jest_poprawna(badana_partytura)} \n"
     wynik += f"{wynik_nr_taktow_z_nieodpowiednimi_dlugosciami(badana_partytura)} \n"
-    wynik += f"{wynik_sygn_akordow_z_dzwiekami_obcymi(badana_partytura)} \n"
+    wynik += f"{wynik_sygn_akordow_z_dzwiekami_obcymi(badana_partytura)} \n \n"
     return wynik

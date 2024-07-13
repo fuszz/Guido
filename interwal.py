@@ -74,16 +74,16 @@ class Interwal:
 
     def __str__(self) -> str:
         return str(str(self._liczba_oktaw) + ", " + str(self._interwal.name))
-
+# ## Prawdopodobnie niepotrzebne
     def czy_oktawa_czysta(self) -> bool:
         return self._interwal == NazwaInterwalu.PRYMA_CZYSTA and self._liczba_oktaw > 0
 
     def czy_kwinta_czysta(self) -> bool:
         return self._interwal == NazwaInterwalu.KWINTA_CZYSTA
-
+# ## ...
     @classmethod
     def podaj_interwaly_w_akordzie(cls, akord: Akord, badana_tonacja) -> list['Interwal']:
-        """Zwraca krotkę interwałów (klasa Interwal) pomiędzy głosami w następującej kolejności: 
+        """Zwraca listę interwałów (klasa Interwal) pomiędzy głosami w następującej kolejności:
         S-A, S-T, S-B, A-T, A-B, T-B."""
         return [Interwal.stworz_z_dzwiekow(akord.podaj_sopran(), akord.podaj_alt(), badana_tonacja),
                 Interwal.stworz_z_dzwiekow(akord.podaj_sopran(), akord.podaj_tenor(), badana_tonacja),

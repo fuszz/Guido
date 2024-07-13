@@ -46,7 +46,7 @@ class TestWarstwy3Sprawdzarki(unittest.TestCase):
                     WartosciNut.CWIERCNUTA)
         par.dodaj_akord(akd)
         par.zakoncz_takt()
-        self.assertEqual(True, spr_w_3.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(par))
+        self.assertEqual(True, spr_w_3.czy_ostatni_akord_nie_w_drugim_przewrocie(par))
 
     def test_czy_ostateczne_rozwiazanie_nie_jest_w_drugim_przewrocie_2(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 4)
@@ -57,7 +57,7 @@ class TestWarstwy3Sprawdzarki(unittest.TestCase):
                     WartosciNut.CWIERCNUTA)
         par.dodaj_akord(akd)
         par.zakoncz_takt()
-        self.assertEqual(False, spr_w_3.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(par))
+        self.assertEqual(False, spr_w_3.czy_ostatni_akord_nie_w_drugim_przewrocie(par))
 
     def test_sygn_subdominant_po_dominancie_1(self):
         par = Partytura(Tonacja.C_DUR, Metrum.TRZY_CZWARTE, 2)

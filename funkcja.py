@@ -63,15 +63,6 @@ class Funkcja(enum.Enum):
         return type(self) is type(other) and self.name == other.name and self.value == other.value
 
     @classmethod
-    def funkcja_z_listy_stopni_1(cls, stopnie: list[int], czy_dur: bool) -> 'Funkcja':
-        if not ((all(isinstance(stopien, int) and stopien in range(0, 7) for stopien in stopnie)) and isinstance(
-                czy_dur, bool)):
-            raise blad.BladTworzeniaFunkcji("Niepoprawne parametry")
-
-        for funkcja in cls:
-            pass
-
-    @classmethod
     def funkcja_z_listy_stopni(cls, stopnie: list[int], czy_dur: bool) -> 'Funkcja':
         """
         Tworzy instancję klasy Funkcja z 4-elementowej listy stopni dźwięków akordu i informacji o trybie tonacji.

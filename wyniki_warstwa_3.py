@@ -14,7 +14,7 @@ def wyswietl_czy_pierwsza_i_ostatnia_tonika(badana_partytura: Partytura) -> str:
 
 def wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: Partytura):
     wynik = "Ostateczne rozwiązanie w drugim przewrocie"
-    if spr_w_3.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura):
+    if spr_w_3.czy_ostatni_akord_nie_w_drugim_przewrocie(badana_partytura):
         wynik += f"{ow.OK} NIE {ow.NORMALNY}"
     else:
         wynik += f"{ow.BLAD} TAK {ow.NORMALNY}"
@@ -52,23 +52,28 @@ def wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura: Partytura) -> s
 
 
 def wyniki_warstwy_3(badana_partytura: Partytura) -> str:
-    wynik = wyswietl_czy_pierwsza_i_ostatnia_tonika(badana_partytura) + '\n'
-    wynik += wyswietl_sygn_subdominant_po_dominancie(badana_partytura) + '\n'
-    wynik += wyswietl_numery_taktow_gdzie_drugi_przewrot_na_raz(badana_partytura) + '\n'
-    wynik += wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura) + '\n'
-    wynik += wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura) + '\n'
+    wynik = f"{wyswietl_czy_pierwsza_i_ostatnia_tonika(badana_partytura)} \n"
+    wynik += f"{wyswietl_sygn_subdominant_po_dominancie(badana_partytura)} \n"
+    wynik += f"{wyswietl_numery_taktow_gdzie_drugi_przewrot_na_raz(badana_partytura)} \n"
+    wynik += f"{wyswietl_czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura)} \n"
+    wynik += f"{wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura)} \n \n"
     return wynik
 
 
 def poprawnosc_warstwy_3(badana_partytura: Partytura) -> bool:
     if not spr_w_3.czy_pierwsza_i_ostatnia_tonika(badana_partytura):
+        print(1)
         return False
-    if spr_w_3.sygn_subdominant_po_dominancie(badana_partytura):
+    if not spr_w_3.sygn_subdominant_po_dominancie(badana_partytura)  == []:
+        print(2)
         return False
-    if spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura):
+    if not spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura)  == []:
+        print(3)
         return False
-    if not spr_w_3.czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura):
+    if not spr_w_3.czy_ostatni_akord_nie_w_drugim_przewrocie(badana_partytura):
+        print(4)
         return False
-    if wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura):
+    if wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura)  == []:
+        print(5)
         return False
     return True

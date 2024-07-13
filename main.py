@@ -17,7 +17,7 @@ okno.resizable(False, False)
 font = ("Helvetica", 9)
 okno.option_add("*Font", font)
 
-wyniki = tk.Text(okno, height=31, width=59, state="disabled")
+wyniki = tk.Text(okno, height=31, width=59, state="disabled", wrap="word")
 
 KOLORY_ANSI = ["\033[91m", "\033[92m", "\033[93m", "\033[0m"]
 

@@ -22,7 +22,7 @@ def czy_pierwsza_i_ostatnia_tonika(badana_partytura: partytura.Partytura) -> boo
     return True
 
 
-def czy_ostateczne_rozwiazanie_nie_w_drugim_przewrocie(badana_partytura: partytura.Partytura) -> bool:
+def czy_ostatni_akord_nie_w_drugim_przewrocie(badana_partytura: partytura.Partytura) -> bool:
     """Sprawdza, czy ostateczne rozwiązanie (ostatnia tonika w partyturze) jest w innym niż drugi przewrocie. Jeśli tak,
     zwraca True. W przeciwnym razie zwraca False. Funkcja przyjmuje, że ostatni akord to zawsze przedostatni
     element listy akordów"""
