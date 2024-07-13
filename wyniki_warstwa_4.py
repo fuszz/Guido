@@ -80,19 +80,19 @@ def wynik_sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura: Partytura
 
 
 def poprawnosc_warstwy_4(partytura: Partytura) -> bool:
-    if not wynik_sygn_i_glosy_akordow_z_kwintami_rownoleglymi(partytura):
+    if not spr_w_4.sygn_i_glosy_z_rownoleglosciami(partytura, NazwaInterwalu.KWINTA_CZYSTA) == []:
         return False
-    if not wynik_sygn_i_glosy_akordow_z_oktawami_rownoleglymi(partytura):
+    if not spr_w_4.sygn_i_glosy_z_rownoleglosciami(partytura, NazwaInterwalu.PRYMA_CZYSTA) == []:
         return False
-    if not wynik_sygn_akordow_gdzie_ruch_glosow_w_jednym_kierunku(partytura):
+    if not spr_w_4.sygn_gdzie_ruch_glosow_w_tym_samym_kierunku(partytura) == []:
         return False
-    if not wynik_sygn_i_glosy_z_ruchem_o_interwal_zwiekszony(partytura):
+    if not spr_w_4.sygn_i_glosy_gdzie_ruch_glosu_o_interwal_zwiekszony(partytura) == []:
         return False
-    if not wynik_sygn_i_glosy_z_ruchem_o_septyme(partytura):
+    if not spr_w_4.sygn_i_glosy_gdzie_ruch_o_septyme(partytura) == []:
         return False
-    if not wynik_sygn_niepoprawnych_rozwiazan_dominant(partytura):
+    if not spr_w_4.sygn_niepoprawnych_rozwiazan_dominant(partytura):
         return False
-    if not wynik_sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura):
+    if not spr_w_4.sygn_niepoprawnych_rozwiazan_dominant_septymowych(partytura) == []:
         return False
     return True
 

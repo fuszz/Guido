@@ -62,18 +62,13 @@ def wyniki_warstwy_3(badana_partytura: Partytura) -> str:
 
 def poprawnosc_warstwy_3(badana_partytura: Partytura) -> bool:
     if not spr_w_3.czy_pierwsza_i_ostatnia_tonika(badana_partytura):
-        print(1)
         return False
-    if not spr_w_3.sygn_subdominant_po_dominancie(badana_partytura)  == []:
-        print(2)
+    if not spr_w_3.sygn_subdominant_po_dominancie(badana_partytura) == []:
         return False
-    if not spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura)  == []:
-        print(3)
+    if not spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura) == []:
         return False
     if not spr_w_3.czy_ostatni_akord_nie_w_drugim_przewrocie(badana_partytura):
-        print(4)
         return False
-    if wyswietl_nr_taktu_z_ta_sama_funkcja_na_raz(badana_partytura)  == []:
-        print(5)
+    if not spr_w_3.nr_taktu_gdzie_drugi_przewrot_na_raz(badana_partytura) == []:
         return False
     return True
