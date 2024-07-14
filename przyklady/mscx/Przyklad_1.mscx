@@ -2,7 +2,7 @@
 <museScore version="4.20">
   <programVersion>4.2.1</programVersion>
   <programRevision>d757433</programRevision>
-  <LastEID>187</LastEID>
+  <LastEID>213</LastEID>
   <Score>
     <Division>480</Division>
     <showInvisible>1</showInvisible>
@@ -11,6 +11,7 @@
     <showMargins>0</showMargins>
     <open>1</open>
     <metaTag name="arranger"></metaTag>
+    <metaTag name="audioComUrl"></metaTag>
     <metaTag name="composer">Composer / arranger</metaTag>
     <metaTag name="copyright"></metaTag>
     <metaTag name="creationDate">2024-04-24</metaTag>
@@ -19,6 +20,7 @@
     <metaTag name="movementTitle"></metaTag>
     <metaTag name="platform">Microsoft Windows</metaTag>
     <metaTag name="source"></metaTag>
+    <metaTag name="sourceRevisionId"></metaTag>
     <metaTag name="subtitle">Subtitle</metaTag>
     <metaTag name="translator"></metaTag>
     <metaTag name="workNumber"></metaTag>
@@ -565,6 +567,10 @@
             <eid>390842024051</eid>
             <dots>1</dots>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>807453851688</eid>
+              <text>T</text>
+              </Lyrics>
             <Note>
               <eid>395136991252</eid>
               <pitch>56</pitch>
@@ -574,6 +580,10 @@
           <Chord>
             <eid>399431958643</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>811748818984</eid>
+              <text>S</text>
+              </Lyrics>
             <Note>
               <eid>403726925844</eid>
               <pitch>49</pitch>
@@ -616,6 +626,10 @@
           <Chord>
             <eid>420906795123</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>816043786280</eid>
+              <text>D</text>
+              </Lyrics>
             <Note>
               <eid>425201762324</eid>
               <pitch>51</pitch>
@@ -625,6 +639,15 @@
           <Chord>
             <eid>644245094515</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>820338753576</eid>
+              <text>T</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>824633720872</eid>
+              <text>3</text>
+              </Lyrics>
             <Note>
               <eid>648540061716</eid>
               <pitch>48</pitch>
@@ -634,6 +657,15 @@
           <Chord>
             <eid>652835029107</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>828928688168</eid>
+              <text>D</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>833223655464</eid>
+              <text>5</text>
+              </Lyrics>
             <Note>
               <eid>657129996308</eid>
               <pitch>46</pitch>
@@ -676,6 +708,10 @@
           <Chord>
             <eid>687194767475</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>837518622760</eid>
+              <text>T</text>
+              </Lyrics>
             <Note>
               <eid>691489734676</eid>
               <pitch>44</pitch>
@@ -685,6 +721,15 @@
           <Chord>
             <eid>695784702067</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>841813590056</eid>
+              <text>..</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>846108557352</eid>
+              <text>3</text>
+              </Lyrics>
             <Note>
               <eid>700079669268</eid>
               <pitch>48</pitch>
@@ -694,6 +739,10 @@
           <Chord>
             <eid>704374636659</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>850403524648</eid>
+              <text>S</text>
+              </Lyrics>
             <Note>
               <eid>708669603860</eid>
               <pitch>49</pitch>
@@ -727,6 +776,10 @@
           <Chord>
             <eid>730144440435</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>854698491944</eid>
+              <text>T</text>
+              </Lyrics>
             <Note>
               <eid>734439407636</eid>
               <pitch>44</pitch>
@@ -736,6 +789,10 @@
           <Chord>
             <eid>738734375027</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>858993459240</eid>
+              <text>D</text>
+              </Lyrics>
             <Note>
               <eid>743029342228</eid>
               <pitch>51</pitch>
@@ -771,6 +828,15 @@
             <eid>764504178803</eid>
             <dots>1</dots>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>863288426536</eid>
+              <text>T</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>867583393832</eid>
+              <text>3</text>
+              </Lyrics>
             <Note>
               <eid>768799146004</eid>
               <pitch>48</pitch>
@@ -780,6 +846,15 @@
           <Chord>
             <eid>773094113395</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>871878361128</eid>
+              <text>D</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>876173328424</eid>
+              <text>3</text>
+              </Lyrics>
             <Note>
               <eid>777389080596</eid>
               <pitch>55</pitch>
@@ -822,6 +897,10 @@
           <Chord>
             <eid>794568949875</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>880468295720</eid>
+              <text>T</text>
+              </Lyrics>
             <Note>
               <eid>798863917076</eid>
               <pitch>56</pitch>
@@ -831,6 +910,10 @@
           <Chord>
             <eid>910533066867</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>884763263016</eid>
+              <text>..</text>
+              </Lyrics>
             <Note>
               <eid>914828034068</eid>
               <pitch>44</pitch>
@@ -840,6 +923,15 @@
           <Chord>
             <eid>919123001459</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>889058230312</eid>
+              <text>..</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>893353197608</eid>
+              <text>5</text>
+              </Lyrics>
             <Note>
               <eid>923417968660</eid>
               <pitch>48</pitch>
@@ -882,6 +974,10 @@
           <Chord>
             <eid>953482739827</eid>
             <durationType>half</durationType>
+            <Lyrics>
+              <eid>897648164904</eid>
+              <text>S</text>
+              </Lyrics>
             <Note>
               <eid>957777707028</eid>
               <pitch>49</pitch>
@@ -891,6 +987,15 @@
           <Chord>
             <eid>962072674419</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>901943132200</eid>
+              <text>D</text>
+              </Lyrics>
+            <Lyrics>
+              <no>1</no>
+              <eid>906238099496</eid>
+              <text>5</text>
+              </Lyrics>
             <Note>
               <eid>966367641620</eid>
               <pitch>55</pitch>
@@ -900,6 +1005,10 @@
           <Chord>
             <eid>970662609011</eid>
             <durationType>quarter</durationType>
+            <Lyrics>
+              <eid>910533066792</eid>
+              <text>..</text>
+              </Lyrics>
             <Note>
               <eid>974957576212</eid>
               <pitch>51</pitch>
@@ -924,6 +1033,10 @@
           <Chord>
             <eid>987842478195</eid>
             <durationType>whole</durationType>
+            <Lyrics>
+              <eid>914828034088</eid>
+              <text>T</text>
+              </Lyrics>
             <Note>
               <eid>992137445396</eid>
               <pitch>44</pitch>
