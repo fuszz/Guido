@@ -2,8 +2,6 @@ import blad
 import enum
 
 
-# CZY TA KLASA NIE POWINNA BYĆ W ZASADZIE ENUMEM???
-
 class Tonacja(enum.Enum):
     # Tonacje durowe
 

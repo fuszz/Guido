@@ -5,8 +5,6 @@ from enumerations import enum_nazwy_dzwiekow
 import blad
 
 
-# Testy są ok - 14.03.2024
-
 class MyTestCase(unittest.TestCase):
     def test_konstruktora_1(self):
         d1 = dzwiek.Dzwiek(1, "c")

@@ -97,11 +97,3 @@ class Partytura:
         :return: List[Union[akord.Akord, str]]
         """
         return self._lista_akordow
-
-    # Na potrzeby moich testów:
-    def wyswietl_liste_akordow(self):
-        for element in self._lista_akordow:
-            if element == 'T':
-                print("Koniec taktu")
-            else:
-                element.wyswietl_akord()

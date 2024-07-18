@@ -7,8 +7,6 @@ from enumerations import enum_metrum, enum_wartosci_nut
 from typing import TextIO
 
 
-# NIE TYKAĆ!!!
-
 def utworz_partyture(plik: TextIO) -> partytura.Partytura:
     try:
         linia: str = plik.readline().replace('\n', '').replace(' ', '')
@@ -39,8 +37,7 @@ def utworz_partyture(plik: TextIO) -> partytura.Partytura:
 
 
 def wypelnij_partyture_akordami(plik: TextIO, nowa_partytura: partytura.Partytura) -> partytura.Partytura:
-    licznik_linii: int = 4  # Licznik linii umożliwi bardziej szczegółowe informowanie o miejscu wystąpienia błędu
-    #                         Pierwsze 3 linie były poświęcone na nagłówek pliku, zaczynamy od linii 4.
+    licznik_linii: int = 4
 
     for linia in plik:
         linia = linia.replace(' ', '').replace('\n', '')
