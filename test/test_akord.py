@@ -8,8 +8,6 @@ from enumerations import enum_wartosci_nut, enum_przewroty, enum_skladnik_funkcj
 import funkcja
 
 
-# Testy są okej
-
 class TestyKlasyAKord(unittest.TestCase):
     def test_podaj_dlugosc_nuty(self):
         wartosc = enum_wartosci_nut.WartosciNut(6)

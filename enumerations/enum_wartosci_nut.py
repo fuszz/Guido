@@ -2,8 +2,8 @@ import enum
 
 
 class WartosciNut(enum.Enum):
-    """ Typ wyliczeniowy przypisuje poszczególnym wartościom nut liczby naturalne całkowite, które na potrzeby naszego
-    programu będą definiować długość ich trwania."""
+    """ Typ wyliczeniowy przypisuje poszczególnym wartościom nut liczby naturalne, które
+    będą definiować długość ich trwania."""
 
     CALA_NUTA = 8
     POLNUTA_Z_KROPKA = 6

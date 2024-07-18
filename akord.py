@@ -147,14 +147,3 @@ class Akord:
                 self._alt.podaj_kod_midi(),
                 self._tenor.podaj_kod_midi(),
                 self._bas.podaj_kod_midi())
-
-    def wyswietl_akord(self):
-        """ FUNKCJA TESTOWA. DO WYWALENIA."""
-        if self == "T":
-            print("Koniec taktu")
-        else:
-            print(self._sopran.podaj_nazwe(), " ", self._sopran.podaj_oktawe(), '\t',
-                  self._alt.podaj_nazwe(), " ", self._alt.podaj_oktawe(), '\t',
-                  self._tenor.podaj_nazwe(), " ", self._tenor.podaj_oktawe(), '\t',
-                  self._bas.podaj_nazwe(), " ", self._bas.podaj_oktawe(), '\t',
-                  self._dlugosc.name)
