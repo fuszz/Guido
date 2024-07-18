@@ -19,6 +19,7 @@ def nr_taktow_z_nieodpowiednimi_dlugosciami(badana_partytura: partytura.Partytur
     lista_wynikowa = []
     licznik_dlugosci = 0
     licznik_taktow = 0
+    print(badana_partytura.podaj_liste_akordow())
     for element in badana_partytura.podaj_liste_akordow():
         if element == "T":
             if licznik_dlugosci != badana_partytura.podaj_metrum().podaj_sume_wartosc_nut():
